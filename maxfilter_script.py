@@ -63,9 +63,9 @@ for sub in included_subjects:
         # print(headpos_log)
 
         mf_params["logfile"] = tsss_mc_log
-        mf_params["mv_hp"] = headpos_log
+#        mf_params["mv_hp"] = headpos_log
         mf = Maxfilter(proj_code)
-        mf.build_maxfilter_cmd(in_file, out_fname, **mf_params)
+        mf.build_maxfilter_cmd(in_name[0], out_fname, **mf_params)
 
-        print(mf.cmd)
+        mf.submit_to_isis(n_jobs=4)
         # subprocess.call([cmd, "4", mf.cmd])
