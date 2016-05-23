@@ -36,7 +36,7 @@ script_dir = proj_folder + '/scripts/'
 
 included_subjects = db.get_subjects()
 # just test with first one!
-included_subjects = included_subjects[6:]
+included_subjects = included_subjects[6:7]
 
 for j, sub in enumerate(included_subjects):
     # this is an example of getting the DICOM files as a list
@@ -65,6 +65,6 @@ for j, sub in enumerate(included_subjects):
         out_fname = maxfiltered_folder + out_name
         
         xscan_cmd = "xscan -f %s -corr 0.95 > %s" % (in_name[0], out_fname)        
-        print(xscan_cmd)l
+        print(xscan_cmd)
 
         subprocess.call([cmd, "4", xscan_cmd])
