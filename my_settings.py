@@ -3,6 +3,9 @@ import socket
 # Setup paths and prepare raw data
 hostname = socket.gethostname()
 
+reject_params = dict(grad=4000e-13,  # T / m (gradiometers)
+                     mag=4e-12  # T (magnetometers)
+                     )
 
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch" \
                 "/mne_analysis_new/"
