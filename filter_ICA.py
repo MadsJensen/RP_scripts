@@ -41,7 +41,7 @@ for condition in conditions:
              overwrite=True)
 
     # ICA Part
-    ica = ICA(n_components=0.95, method='fastica', max_iter=256)
+    ica = ICA(n_components=0.99, method='fastica', max_iter=256)
 
     picks = mne.pick_types(raw.info, meg=True, eeg=False, eog=True, emg=True,
                            stim=False, exclude='bads')
