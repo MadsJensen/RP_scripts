@@ -43,7 +43,7 @@ for condition in conditions:
     # ICA Part
     ica = ICA(n_components=0.95, method='fastica', max_iter=256)
 
-    picks = mne.pick_types(raw.info, meg=True, eeg=True,
+    picks = mne.pick_types(raw.info, meg=True, eeg=False, eog=True, emg=True,
                            stim=False, exclude='bads')
 
     ica.fit(raw, picks=picks, decim=decim, reject=reject_params)
