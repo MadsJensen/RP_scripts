@@ -24,55 +24,62 @@ matplotlib.use('Agg')
 n_jobs = 1
 l_freq, h_freq = 1, 98  # High and low frequency setting for the band pass
 n_freq = 50  # notch filter frequency
-decim = 7  # decim value
+decim = 4  # decim value
 
 
-raw = Raw(maxfiltered_folder + "%s_data_mc_raw_tsss.fif" % subject,
-          preload=True)
-raw.drop_channels(raw.info["bads"])
+for condition in conditions:
+    raw = Raw(maxfiltered_folder + "%s_%s_mc_tsss-raw.fif" % (subject,
+                                                              condition),
+              preload=True)
+    raw.drop_channels(raw.info["bads"])
 
-raw.notch_filter(n_freq, n_jobs=n_jobs)
-raw.filter(l_freq, h_freq, n_jobs=n_jobs)
+    raw.notch_filter(n_freq, n_jobs=n_jobs)
+    raw.filter(l_freq, h_freq, n_jobs=n_jobs)
 
-raw.save(save_folder + "%s_filtered_data_mc_raw_tsss.fif" % subject,
-         overwrite=True)
-
-# ICA Part
-ica = ICA(n_components=0.95, method='fastica', max_iter=256)
-
-picks = mne.pick_types(raw.info, meg=True, eeg=True,
-                       stim=False, exclude='bads')
-
-ica.fit(raw, picks=picks, decim=decim, reject=reject_params)
-
-# maximum number of components to reject
-n_max_eog = 1
-
-##########################################################################
-# 2) identify bad components by analyzing latent sources.
-
-# DETECT EOG BY CORRELATION
-# HORIZONTAL EOG
-eog_epochs = create_eog_epochs(raw, ch_name="EOG001")  # TODO: check EOG
-# channel name
-eog_inds, scores = ica.find_bads_eog(raw)
-fig = ica.plot_scores(scores, exclude=eog_inds,
-                      title=title % ('eog', subject))
-fig.savefig(save_folder + "pics/%s_eog_scores.png" % subject)
-
-fig = ica.plot_components(eog_inds, title=title % ('eog', subject),
-                          colorbar=True)
-fig.savefig(save_folder + "pics/%s_eog_component.png" % subject)
-
-eog_inds = eog_inds[:n_max_eog]
-ica.exclude += eog_inds
-
-del eog_epochs
-
-##########################################################################
-# Apply the solution to Raw, Epochs or Evoked like this:
-raw_ica = ica.apply(raw, copy=False)
-ica.save(save_folder + "%s-ica.fif" % subject)  # save ICA componenets
-# Save raw with ICA removed
-raw_ica.save(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
+    raw.save(save_folder + "%s_%s_filtered_mc_tsss-raw.fif" % (subject,
+                                                               condition),
              overwrite=True)
+
+    # ICA Part
+    ica = ICA(n_components=0.95, method='fastica', max_iter=256)
+
+    picks = mne.pick_types(raw.info, meg=True, eeg=True,
+                           stim=False, exclude='bads')
+
+    ica.fit(raw, picks=picks, decim=decim, reject=reject_params)
+
+    # maximum number of components to reject
+    n_max_eog = 1
+
+    ##########################################################################
+    # 2) identify bad components by analyzing latent sources.
+
+    # DETECT EOG BY CORRELATION
+    # HORIZONTAL EOG
+    eog_epochs = create_eog_epochs(raw, ch_name="EOG001")  # TODO: check EOG
+    # channel name
+    eog_inds, scores = ica.find_bads_eog(raw)
+    fig = ica.plot_scores(scores, exclude=eog_inds,
+                          title=title % ('eog', subject))
+    fig.savefig(save_folder + "pics/%s_%s_eog_scores.png" % (subject,
+                                                             condition))
+
+    fig = ica.plot_components(eog_inds, title=title % ('eog', subject),
+                              colorbar=True)
+    fig.savefig(save_folder + "pics/%s_%s_eog_component.png" % (subject,
+                                                                condition))
+
+    eog_inds = eog_inds[:n_max_eog]
+    ica.exclude += eog_inds
+
+    del eog_epochs
+
+    ##########################################################################
+    # Apply the solution to Raw, Epochs or Evoked like this:
+    raw_ica = ica.apply(raw, copy=False)
+    ica.save(save_folder + "%s_%s-ica.fif" % (subject, condition))  # save ICA
+    # componenets
+    # Save raw with ICA removed
+    raw_ica.save(save_folder + "%s_%s_filtered_ica_mc_raw_tsss-raw.fif" % (
+        subject, condition),
+                 overwrite=True)
