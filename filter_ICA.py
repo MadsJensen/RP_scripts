@@ -39,9 +39,9 @@ for condition in conditions:
              overwrite=True)
 
     # ICA Part
-    ica = ICA(method='fastica', max_iter=256)
+    ica = ICA(n_components=0.99, method='fastica', max_iter=256)
 
-    picks = mne.pick_types(raw.info, meg=True, eeg=False, eog=True, emg=True,
+    picks = mne.pick_types(raw.info, meg=True, eeg=False, eog=False, emg=False,
                            stim=False, exclude='bads')
 
     ica.fit(raw, picks=picks, decim=decim, reject=reject_params)
@@ -54,30 +54,41 @@ for condition in conditions:
 
     # DETECT EOG BY CORRELATION
     # HORIZONTAL EOG
-    eog_epochs = create_eog_epochs(raw, ch_name="EOG001")  # TODO: check EOG
+    title = "ICA: %s for %s"
+
+    eog_epochs = create_eog_epochs(raw, ch_name="EOG002")  # TODO: check EOG
+    eog_average = eog_epochs.average()
     # channel name
     eog_inds, scores = ica.find_bads_eog(raw)
+    
+    eog_inds = eog_inds[:n_max_eog]
+    ica.exclude += eog_inds
+    
     fig = ica.plot_scores(scores, exclude=eog_inds,
                           title=title % ('eog', subject))
     fig.savefig(save_folder + "pics/%s_%s_eog_scores.png" % (subject,
+                                                             condition))
+    fig = ica.plot_sources(eog_average, exclude=eog_inds)
+    fig.savefig(save_folder + "pics/%s_%s_eog_source.png" % (subject,
                                                              condition))
 
     fig = ica.plot_components(eog_inds, title=title % ('eog', subject),
                               colorbar=True)
     fig.savefig(save_folder + "pics/%s_%s_eog_component.png" % (subject,
                                                                 condition))
+    fig = ica.plot_overlay(eog_average, exclude=eog_inds, show=False)                                                                
+    fig.savefig(save_folder + "pics/%s_%s_eog_excluded.png" % (subject,
+                                                                condition))
 
-    eog_inds = eog_inds[:n_max_eog]
-    ica.exclude += eog_inds
 
-    del eog_epochs
+    del eog_epochs, eog_average
 
     ##########################################################################
     # Apply the solution to Raw, Epochs or Evoked like this:
-    raw_ica = ica.apply(raw, copy=False)
+    raw_ica = ica.apply(raw)
     ica.save(save_folder + "%s_%s-ica.fif" % (subject, condition))  # save ICA
     # componenets
     # Save raw with ICA removed
-    raw_ica.save(save_folder + "%s_%s_filtered_ica_mc_raw_tsss-raw.fif" % (
+    raw_ica.save(save_folder + "%s_%s_filtered_ica_mc_tsss-raw.fif" % (
         subject, condition),
                  overwrite=True)
