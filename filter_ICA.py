@@ -5,20 +5,18 @@ Created on Wed Oct  8 14:45:02 2014.
 @author: mje
 """
 import mne
-import socket
-import numpy as np
-import os
 import sys
 
 from mne.io import Raw
-from mne.preprocessing import ICA, create_ecg_epochs, create_eog_epochs
+from mne.preprocessing import ICA,  create_eog_epochs
+
+import matplotlib
+matplotlib.use('Agg')
 
 from my_settings import *
 
 subject = sys.argv[1]
 
-import matplotlib
-matplotlib.use('Agg')
 
 # SETTINGS
 n_jobs = 1
