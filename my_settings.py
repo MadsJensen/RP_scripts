@@ -7,7 +7,7 @@ reject_params = dict(grad=4000e-13,  # T / m (gradiometers)
                      mag=4e-12  # T (magnetometers)
                      )
 
-conditions = ["classic", "plan", "interput"]
+conditions = ["classic", "plan", "interupt"]
 
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch" \
                 "/mne_analysis_new/"
