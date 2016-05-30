@@ -23,6 +23,10 @@ avg_cls = epo_cls.average()
 avg_pln = epo_pln.average()
 avg_int = epo_int.average()
 
+avg_cls.save(epochs_folder + "%s_classic-ave.fif" % subject)
+avg_pln.save(epochs_folder + "%s_plan-ave.fif" % subject)
+avg_int.save(epochs_folder + "%s_interupt-ave.fif" % subject)
+
 
 fig = avg_cls.plot_joint(title="classic")
 fig[0].savefig(epochs_folder + "pics/%s_classic_avg_grad.png" % subject)
