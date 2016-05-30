@@ -22,7 +22,6 @@ for condition in conditions:
     else:
         event_id = {'press': 1}
 
-    
     # Setup for reading the raw data
     picks = mne.pick_types(raw.info, meg=True, eeg=False,
                            stim=True, eog=True, exclude='bads')
