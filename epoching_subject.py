@@ -10,14 +10,21 @@ subject = sys.argv[1]
 
 # SETTINGS
 tmin, tmax = -4, 1
-event_id = {'press': 1}
 
 for condition in conditions:
     raw = mne.io.Raw(save_folder + "%s_%s_filtered_ica_mc_tsss-raw.fif"
                      % (subject, condition))
     events = mne.find_events(raw)
+
+    if condition is "interupt":
+        event_id = {'press': 1,
+                    "about_to_press": 2}
+    else:
+        event_id = {'press': 1}
+
+    
     # Setup for reading the raw data
-    picks = mne.pick_types(raw.info, meg=False, eeg=True,
+    picks = mne.pick_types(raw.info, meg=True, eeg=False,
                            stim=True, eog=True, exclude='bads')
     # Read epochs
     epochs = mne.Epochs(raw, events, event_id, tmin, tmax, picks=picks,
