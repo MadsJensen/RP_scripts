@@ -3,6 +3,8 @@
 """
 import mne
 import sys
+import matplotlib
+matplotlib.use('Agg')
 
 from my_settings import *
 
