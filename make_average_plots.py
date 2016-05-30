@@ -24,11 +24,14 @@ avg_pln = epo_pln.average()
 avg_int = epo_int.average()
 
 
-fig = avg_cls.crop(tmin=-.5, tmax=0).plot_joint(title="classic")
-fig.savefig(epochs_folder + "pics/%s_classic_avg.png" % subject)
+fig = avg_cls.plot_joint(title="classic")
+fig[0].savefig(epochs_folder + "pics/%s_classic_avg_grad.png" % subject)
+fig[1].savefig(epochs_folder + "pics/%s_classic_avg_mag.png" % subject)
 
-avg_pln.crop(tmin=-.5, tmax=0).plot_joint(title="plan")
-fig.savefig(epochs_folder + "pics/%s_plan_avg.png" % subject)
+avg_pln.plot_joint(title="plan")
+fig[0].savefig(epochs_folder + "pics/%s_plan_avg_grad.png" % subject)
+fig[1].savefig(epochs_folder + "pics/%s_plan_avg_mag.png" % subject)
 
-avg_int.crop(tmin=-.5, tmax=0).plot_joint(title="interupt")
-fig.savefig(epochs_folder + "pics/%s_interupt_avg.png" % subject)
+avg_int.plot_joint(title="interupt")
+fig[0].savefig(epochs_folder + "pics/%s_interupt_avg_grad.png" % subject)
+fig[1].savefig(epochs_folder + "pics/%s_interupt_avg_mag.png" % subject)
