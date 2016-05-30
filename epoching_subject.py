@@ -30,5 +30,11 @@ for condition in conditions:
     epochs = mne.Epochs(raw, events, event_id, tmin, tmax, picks=picks,
                         baseline=(None, -3.5), reject=reject_params,
                         preload=True)
+
+    epochs.drop_bad(reject=reject_params)
+    fig = epochs.plot_drop_log(subject=subject, show=False)
+    fig.savefig(epochs_folder + "pics/%s_%s_drop_log.png" % (subject,
+                                                             condition))
+
     # Save epochs
     epochs.save(epochs_folder + "%s_%s-epo.fif" % (subject, condition))
