@@ -1,5 +1,8 @@
 
-cd $SUBJECTS_DIR/$1/bem
+
+source ~/.bashrc
+
+cd /scratch2/MINDLAB2011_24-MEG-readiness/fs_subjects_dir/$1/bem
 
 mris_convert head_bem_12962V.fs head_bem_12962V.stl
 mris_convert innerskull_bem_12962V.fs innerskull_bem_12962V.stl
