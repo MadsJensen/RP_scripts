@@ -1,12 +1,15 @@
 from __future__ import print_function
 import mne
 import subprocess
+import sys
+import os
 
 from my_settings import * 
 
 subject = sys.argv[1]
 
 cmd = "/usr/local/common/meeg-cfin/configurations/bin/submit_to_isis"
+os.environ["SUBJECTS_DIR"] = subjects_dir
 
 # make source space
 src = mne.setup_source_space(subject, spacing='oct6',
