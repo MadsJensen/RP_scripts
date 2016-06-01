@@ -12,7 +12,7 @@ conditions = ["classic", "plan", "interupt"]
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch" \
                 "/mne_analysis_new/"
 
-subjects_dir = "/projects/MINDLAB2011_24-MEG-readiness/scratch/mri/"
+subjects_dir = "/projects/MINDLAB2011_24-MEG-readiness/scratch/fs_subjects_dir/"
 save_folder = data_path + "filter_ica_data/"
 maxfiltered_folder = data_path + "maxfiltered_data/"
 epochs_folder = data_path + "epoched_data/"
