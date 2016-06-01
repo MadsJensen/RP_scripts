@@ -1,6 +1,9 @@
+#!/bin/bash
+#$ -S /bin/bash
 
-
-source ~/.bashrc
+export SIMNIBSDIR=/volatile/mje/Toolboxes/simnibs2/
+# export SIMNIBSDIR=/usr/local/common/simnibs
+source $SIMNIBSDIR/simnibs_conf.sh
 
 cd /scratch2/MINDLAB2011_24-MEG-readiness/fs_subjects_dir/$1/bem
 
