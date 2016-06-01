@@ -1,12 +1,13 @@
 import mne
 import sys
+import glob
 
 from my_settings import *
 
 subject = sys.argv[1]
 trans = mne_folder + "%s-trans.fif" % subject
-bem = subjects_dir + "%s/bem/%s-8192-8192-8182-bem-sol.fif" % (subject,
-                                                               subject)
+bem = glob.glob(subjects_dir + "%s/bem/%s-*-bem-sol.fif" % (subject,
+                                                               subject))[0]
 src = mne_folder + "%s-oct-6-src.fif" % subject
 
 
