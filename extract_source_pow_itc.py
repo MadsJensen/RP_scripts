@@ -31,7 +31,7 @@ for condition in conditions:
 
     freqs = np.arange(6, 90, 3)  # define frequencies of interest
     label = labels[52]
-    n_cycles = frequencies / 3.  # different number of cycle per frequency
+    n_cycles = freqs / 3.  # different number of cycle per frequency
 
     power, itc = source_induced_power(epochs, inv, freqs,
                                       label, method=method,
