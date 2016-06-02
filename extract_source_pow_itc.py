@@ -25,8 +25,8 @@ labels = mne.read_labels_from_annot(subject=subject, parc="PALS_B12_Brodmann",
 for condition in conditions:
     inv = read_inverse_operator(mne_folder + "%s_%s-inv.fif" % (subject,
                                                                 condition))
-    epochs = mne.read_epochs(epochs_folder + "%s_%s_-epo.fif" % (subject,
-                                                                 condition))
+    epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
+                                                                condition))
     epochs.resample(500, n_jobs=4)
 
     freqs = np.arange(6, 90, 3)  # define frequencies of interest
