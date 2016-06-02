@@ -19,4 +19,4 @@ epochs_folder = data_path + "epoched_data/"
 tf_folder = data_path + "tf_data/"
 mne_folder = data_path + "minimum_norm/"
 log_folder = data_path + "log_files/"
-
+source_folder = data_path + "source_data"
