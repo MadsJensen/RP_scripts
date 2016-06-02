@@ -18,22 +18,22 @@ for condition in conditions:
     inv = read_inverse_operator(mne_folder + "%s_%s-inv.fif" % (subject,
                                                                 condition))
     epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
-                                                                 condition))
+                                                                condition))
     epochs.resample(500)
-                                                                 
+
     stcs = apply_inverse_epochs(epochs, inv, lambda2, method=method,
                                 pick_ori=None)
-    ts = [mne.extract_label_time_course(stc, labels, inv["src"], 
+    ts = [mne.extract_label_time_course(stc, labels, inv["src"],
                                         mode="pca_flip")
-                                        for stc in stcs]
+          for stc in stcs]
 
-    for h, tc in enumerate(ts): 
+    for h, tc in enumerate(ts):
         for j, t in enumerate(tc):
             t *= np.sign(t[np.argmax(np.abs(t))])
             tc[j, :] = t
         ts[h] = tc
-    
-    ts = np.asarray(ts)    
+
+    ts = np.asarray(ts)
     stc.save(source_folder + "%s_%s_epo" % (subject, condition))
-    np.save(source_folder + "ave_ts/%s_%s_ts.npy" % (subject, condition),
+    np.save(source_folder + "ave_ts/%s_%s_ts-epo.npy" % (subject, condition),
             ts)
