@@ -40,7 +40,9 @@ for condition in conditions:
                                       baseline_mode='zscore',
                                       n_jobs=1, pca=True)
 
-    np.save(source_folder + "%s_%s_source-pow.npy" % (subject, condition),
+    np.save(source_folder + "source_TF/%s_%s_source-pow.npy" % (subject,
+                                                                condition),
             power)
-    np.save(source_folder + "%s_%s_source-itc.npy" % (subject, condition),
+    np.save(source_folder + "source_TF/%s_%s_source-itc.npy" % (subject,
+                                                                condition),
             itc)
