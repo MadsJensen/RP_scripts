@@ -24,7 +24,7 @@ for condition in conditions:
 
     cov.save(mne_folder + "%s_%s-cov.fif" % (subject, condition))
 
-    
+
     evoked = epochs["press"].average()
     fig = evoked.plot_white(cov)
     fig.savefig(mne_folder + "plots_cov/%s_%s_cov.png" % (subject, condition))
