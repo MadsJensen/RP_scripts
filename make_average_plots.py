@@ -34,14 +34,14 @@ fig = avg_cls.plot_joint(title="classic")
 fig[0].savefig(epochs_folder + "pics/%s_classic_avg_grad.png" % subject)
 fig[1].savefig(epochs_folder + "pics/%s_classic_avg_mag.png" % subject)
 
-avg_pln.plot_joint(title="plan")
+fig = avg_pln.plot_joint(title="plan")
 fig[0].savefig(epochs_folder + "pics/%s_plan_avg_grad.png" % subject)
 fig[1].savefig(epochs_folder + "pics/%s_plan_avg_mag.png" % subject)
 
-avg_int_press.plot_joint(title="interupt: press")
+fig = avg_int_press.plot_joint(title="interupt: press")
 fig[0].savefig(epochs_folder + "pics/%s_interupt_avg_grad.png" % subject)
 fig[1].savefig(epochs_folder + "pics/%s_interupt_avg_mag.png" % subject)
 
-avg_int_cued.plot_joint(title="interupt: cued")
+fig = avg_int_cued.plot_joint(title="interupt: cued")
 fig[0].savefig(epochs_folder + "pics/%s_interupt_cued_avg_grad.png" % subject)
 fig[1].savefig(epochs_folder + "pics/%s_interupt_cued_avg_mag.png" % subject)
