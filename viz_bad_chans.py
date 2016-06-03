@@ -8,11 +8,11 @@ Created on Fri May 27 16:21:58 2016
 %reset -f
 
 import mne
-# from my_settings import *
+from my_settings import *
 
-maxfiltered_folder = '/home/mje/mnt/hyades/scratch2/MINDLAB2011_24-MEG-readiness/mne_analysis_new/maxfiltered_data/'
+# maxfiltered_folder = '/home/mje/mnt/hyades/scratch2/MINDLAB2011_24-MEG-readiness/mne_analysis_new/maxfiltered_data/'
 
-subject = "0020"
+subject = "0008"
 condition = "classic"
 
 raw = mne.io.Raw(maxfiltered_folder + "%s_%s_mc_tsss-raw.fif" % (subject,
