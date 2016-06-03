@@ -8,10 +8,10 @@ Created on Fri May 27 15:53:42 2016
 import mne
 import sys
 
+from my_settings import *
 import matplotlib
 matplotlib.use('Agg')
 
-from my_settings import *
 
 subject = sys.argv[1]
 
