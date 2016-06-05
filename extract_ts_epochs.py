@@ -9,9 +9,10 @@ subject = sys.argv[1]
 
 method = "dSPM"
 snr = 1.
-lambda2 = 1. / snr ** 2
+lambda2 = 1. / snr**2
 
-labels = mne.read_labels_from_annot(subject=subject, parc="PALS_B12_Brodmann",
+labels = mne.read_labels_from_annot(subject=subject,
+                                    parc="PALS_B12_Brodmann",
                                     regexp="Brodmann")
 
 for condition in conditions:
@@ -21,11 +22,15 @@ for condition in conditions:
                                                                 condition))
     epochs.resample(500)
 
-    stcs = apply_inverse_epochs(epochs, inv, lambda2, method=method,
+    stcs = apply_inverse_epochs(epochs,
+                                inv,
+                                lambda2,
+                                method=method,
                                 pick_ori=None)
-    ts = [mne.extract_label_time_course(stc, labels, inv["src"],
-                                        mode="pca_flip")
-          for stc in stcs]
+    ts = [mne.extract_label_time_course(stc,
+                                        labels,
+                                        inv["src"],
+                                        mode="pca_flip") for stc in stcs]
 
     for h, tc in enumerate(ts):
         for j, t in enumerate(tc):
