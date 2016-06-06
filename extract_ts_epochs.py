@@ -7,7 +7,7 @@ from my_settings import *
 
 subject = sys.argv[1]
 
-method = "dSPM"
+method = "MNE"
 snr = 1.
 lambda2 = 1. / snr**2
 
