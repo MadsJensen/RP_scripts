@@ -7,7 +7,7 @@ from my_settings import *
 
 subject = sys.argv[1]
 
-method = "MNE"
+method = "dSPM"
 snr = 3.
 lambda2 = 1. / snr ** 2
 
@@ -20,12 +20,12 @@ for condition in conditions:
     evoked = mne.read_evokeds(epochs_folder + "%s_%s-ave.fif" % (subject,
                                                                  condition))[0]
 
-    stc = apply_inverse(evoked, inv, lambda2, method=method, pick_ori=None)
+    stc = apply_inverse(evoked, inv, lambda2, method=method, pick_ori="normal")
     ts = mne.extract_label_time_course(stc, labels, inv["src"],
                                        mode="mean_flip")
-    for j, t in enumerate(ts):
-        t *= np.sign(t[np.argmax(np.abs(t))])
-        ts[j, :] = t
+    # for j, t in enumerate(ts):
+    #     t *= np.sign(t[np.argmax(np.abs(t))])
+    #     ts[j, :] = t
 
     stc.save(source_folder + "%s_%s_ave" % (subject, condition))
     np.save(source_folder + "ave_ts/%s_%s_ts.npy" % (subject, condition),

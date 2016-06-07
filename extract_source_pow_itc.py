@@ -23,14 +23,13 @@ labels = mne.read_labels_from_annot(subject=subject, parc="PALS_B12_Brodmann",
 
 
 for condition in conditions:
-    power_lbl = np.empty([len(labels,), len(freqs), 2501])
-    itc_lbl = np.empty([len(labels,), len(freqs), 2501])
-    
     inv = read_inverse_operator(mne_folder + "%s_%s-inv.fif" % (subject,
                                                                 condition))
     epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
                                                                 condition))
     epochs.resample(500, n_jobs=1)
+    power_lbl = np.empty([len(labels,), len(freqs), len(epochs.times)])
+    itc_lbl = np.empty([len(labels,), len(freqs), len(epochs.times)])
     
     for j, label in enumerate(labels):  
         power, itc = source_induced_power(epochs, inv, freqs,
