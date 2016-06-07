@@ -5,19 +5,26 @@ import glob
 from my_settings import *
 
 subject = sys.argv[1]
+
 trans = mne_folder + "%s-trans.fif" % subject
-bem = glob.glob(subjects_dir + "%s/bem/%s-*-bem-sol.fif" % (subject,
-                                                            subject))[0]
+bem = glob.glob(subjects_dir + "%s/bem/%s-*-bem-sol.fif" % (subject, subject))[
+    0]
 src = mne_folder + "%s-oct-6-src.fif" % subject
 
-
 for condition in conditions:
-    raw_fname = maxfiltered_folder + "%s_%s_mc_tsss-raw.fif" % (subject,
-                                                                condition)
+    raw_fname = maxfiltered_folder + "%s_%s_filtered_ica_mc_tsss-raw.fif" % (
+        subject, condition)
 
-    fwd = mne.make_forward_solution(raw_fname, trans=trans, src=src, bem=bem,
-                                    fname=None, meg=True, eeg=False,
-                                    mindist=5.0, n_jobs=1)
-    mne.write_forward_solution(mne_folder + "%s_%s-fwd.fif" % (subject,
-                                                               condition),
-                               fwd, overwrite=True)
+    fwd = mne.make_forward_solution(raw_fname,
+                                    trans=trans,
+                                    src=src,
+                                    bem=bem,
+                                    fname=None,
+                                    meg=True,
+                                    eeg=False,
+                                    mindist=5.0,
+                                    n_jobs=1)
+    mne.write_forward_solution(mne_folder + "%s_%s-fwd.fif" %
+                               (subject, condition),
+                               fwd,
+                               overwrite=True)

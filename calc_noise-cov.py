@@ -1,4 +1,4 @@
-"""Epoch a raw data set.
+"""Calculate noice covariance matrix from baseline.
 
 """
 import mne
@@ -16,11 +16,12 @@ for condition in conditions:
     epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
                                                                 condition))
 
-    cov = mne.compute_covariance(epochs["press"], tmax=-3.5,
-                                     method="factor_analysis")
+    cov = mne.compute_covariance(epochs["press"],
+                                 tmin=None,
+                                 tmax=-3.5,
+                                 method="factor_analysis")
 
     cov.save(mne_folder + "%s_%s-cov.fif" % (subject, condition))
-
 
     evoked = epochs["press"].average()
     fig = evoked.plot_white(cov)
