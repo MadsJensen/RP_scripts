@@ -29,8 +29,8 @@ for condition in conditions:
     epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
                                                                 condition))
     # epochs.resample(500, n_jobs=1)
-    power_lbl = np.empty([len(labels, ), len(freqs), len(epochs.times)])
-    itc_lbl = np.empty([len(labels, ), len(freqs), len(epochs.times)])
+    power_lbl = np.empty([len(labels, ), len(freqs), len(epochs.times[::2])])
+    itc_lbl = np.empty([len(labels, ), len(freqs), len(epochs.times[::2])])
 
     for j, label in enumerate(labels):
         print("\n****************************")

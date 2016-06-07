@@ -24,6 +24,7 @@ for condition in conditions:
                                     eeg=False,
                                     mindist=5.0,
                                     n_jobs=1)
+
     mne.write_forward_solution(mne_folder + "%s_%s-fwd.fif" %
                                (subject, condition),
                                fwd,
