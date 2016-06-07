@@ -7,7 +7,7 @@ from my_settings import *
 subject = sys.argv[1]
 trans = mne_folder + "%s-trans.fif" % subject
 bem = glob.glob(subjects_dir + "%s/bem/%s-*-bem-sol.fif" % (subject,
-                                                               subject))[0]
+                                                            subject))[0]
 src = mne_folder + "%s-oct-6-src.fif" % subject
 
 

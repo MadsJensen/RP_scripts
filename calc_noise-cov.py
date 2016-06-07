@@ -16,11 +16,8 @@ for condition in conditions:
     epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
                                                                 condition))
 
-    if condition is "interupt":
-        cov = mne.compute_covariance(epochs["press"], tmax=-3.5,
-                                     method='shrunk')
-    else:
-        cov = mne.compute_covariance(epochs, tmax=-3.5, method='shrunk')
+    cov = mne.compute_covariance(epochs["press"], tmax=-3.5,
+                                     method="factor_analysis")
 
     cov.save(mne_folder + "%s_%s-cov.fif" % (subject, condition))
 

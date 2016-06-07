@@ -7,7 +7,7 @@ from my_settings import *
 
 subject = sys.argv[1]
 
-method = "dSPM"
+method = "MNE"
 snr = 3.
 lambda2 = 1. / snr ** 2
 
@@ -22,7 +22,7 @@ for condition in conditions:
 
     stc = apply_inverse(evoked, inv, lambda2, method=method, pick_ori=None)
     ts = mne.extract_label_time_course(stc, labels, inv["src"],
-                                       mode="pca_flip")
+                                       mode="mean_flip")
     for j, t in enumerate(ts):
         t *= np.sign(t[np.argmax(np.abs(t))])
         ts[j, :] = t
