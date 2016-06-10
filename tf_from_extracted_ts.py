@@ -16,11 +16,15 @@ for condition in conditions:
                                                               condition))
 
     tfr_all = np.empty(
-        [ts.shape[0], ts.shape[1], frequencies.shape, ts.shape[2]])
+        [ts.shape[0], ts.shape[1], frequencies.shape[0], ts.shape[2]],
+        dtype="complex128")
     for j, t in enumerate(ts):
-        tfr = cwt_morlet(ts,
+        tfr = cwt_morlet(t,
                          sfreq=sfreq,
-                         frequencies=frequencies,
+                         freqs=frequencies,
                          use_fft=True,
                          n_cycles=n_cycles)
         tfr_all[j] = tfr
+    np.save(source_folder + "source_TF/%s_%s_tfr-extract.npy" % (subject,
+                                                                 condition),
+                                                                 tfr_all)
