@@ -29,4 +29,4 @@ for condition in conditions:
         result[band] = ht_data
 
     np.save(source_folder + "hilbert_data/%s_%s_ht-epo.npy" %
-        (subject, condition), result)
+            (subject, condition), result)
