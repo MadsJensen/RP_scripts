@@ -9,6 +9,12 @@ reject_params = dict(grad=4000e-13,  # T / m (gradiometers)
 
 conditions = ["classic", "plan", "interupt"]
 
+bands = {"alpha": [8, 12],
+         "beta": [13, 25],
+         "gamme_low": [30, 48],
+         "gammma_high": [52, 90]}
+
+
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch" \
                 "/mne_analysis_new/"
 
