@@ -43,12 +43,11 @@ for band in bands.keys():
 
     cluster_results = []
 
-    for label_nr, label in enumerate(labels):
-        data_1 = cls_all[:, label_nr, :]
-        data_2 = int_all[:, label_nr, :]
-
+    for j in range(len(cls_all)):
+        data_1 = pln_all[:, j, :]
+        data_2 = int_all[:, j, :]
+        
         # Compute statistic
-
         T_obs, clusters, cluster_p_values, H0 = \
             permutation_cluster_test([data_1, data_2],
                                      n_permutations=10000, tail=0, n_jobs=1)
