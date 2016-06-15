@@ -27,6 +27,10 @@ for band in bands.keys():
     pln_all = []
     int_all = []
 
+    corr_cls = []
+    corr_pln = []
+    corr_int = []
+    
     ht_cls_bs = mne.baseline.rescale(
         np.abs(ht_cls[band])**2,
         times,
