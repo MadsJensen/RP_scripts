@@ -23,37 +23,27 @@ results_pln = {}
 results_int = {}
 
 for band in bands.keys():
-    cls_all = []
-    pln_all = []
-    int_all = []
-
     corr_cls = []
     corr_pln = []
     corr_int = []
-    
+
     ht_cls_bs = mne.baseline.rescale(
         np.abs(ht_cls[band])**2,
         times,
         baseline=(-3.8, -3.3),
         mode="zscore")
+
     ht_pln_bs = mne.baseline.rescale(
         np.abs(ht_pln[band])**2,
         times,
         baseline=(-3.8, -3.3),
         mode="zscore")
     ht_int_bs = mne.baseline.rescale(
+
         np.abs(ht_pln[band])**2,
         times,
         baseline=(-3.8, -3.3),
         mode="zscore")
-
-    cls_all += [ht_cls_bs.mean(axis=0)]
-    pln_all += [ht_pln_bs.mean(axis=0)]
-    int_all += [ht_int_bs.mean(axis=0)]
-
-    cls_all = np.asarray(cls_all)
-    pln_all = np.asarray(pln_all)
-    int_all = np.asarray(int_all)
 
     for ts in ht_cls_bs:
         nits = TimeSeries(ts[:, 1250:1750],
