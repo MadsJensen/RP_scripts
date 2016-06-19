@@ -39,7 +39,6 @@ for band in bands.keys():
         baseline=(-3.8, -3.3),
         mode="zscore")
     ht_int_bs = mne.baseline.rescale(
-
         np.abs(ht_pln[band])**2,
         times,
         baseline=(-3.8, -3.3),
@@ -63,13 +62,9 @@ for band in bands.keys():
 
         corr_int += [CorrelationAnalyzer(nits)]
 
-    corr_cls = np.asarray([c.corrcoef for c in corr_cls])
-    corr_pln = np.asarray([c.corrcoef for c in corr_pln])
-    corr_int = np.asarray([c.corrcoef for c in corr_int])
-
-    results_cls[band] = corr_cls
-    results_pln[band] = corr_pln
-    results_int[band] = corr_int
+    results_cls[band] = np.asarray([c.corrcoef for c in corr_cls])
+    results_pln[band] = np.asarray([c.corrcoef for c in corr_pln])
+    results_int[band] = np.asarray([c.corrcoef for c in corr_int])
 
 np.save(source_folder + "graph_data/%s_classic_pow_pln.npy" % subject,
         results_cls)

@@ -36,7 +36,7 @@ for condition in conditions:
         print("\n****************************")
         print("Working on: %s" % label.name)
         print("****************************\n")
-        
+
         power, itc = source_induced_power(epochs,
                                           inv,
                                           freqs,
