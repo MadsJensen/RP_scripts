@@ -52,11 +52,11 @@ for band in bands:
                         cv=cv,
                         verbose=2,
                         n_jobs=6)
-    grid.fit(X2, y)
+    grid.fit(X, y
 
     ada_cv = grid.best_estimator_
 
-    scores = cross_val_score(ada_cv, X2, y, cv=cv, scoring="roc_auc")
+    scores = cross_val_score(ada_cv, X, y, cv=cv, scoring="roc_auc")
 
     results_all["%s_scores" % band] = scores
     results_all["%s_best_est" % band] = ada_cv
