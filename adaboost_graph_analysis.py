@@ -10,53 +10,55 @@ from my_settings import *
 subjects = ["0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
             "0017", "0018", "0019", "0020", "0021", "0022"]
 
-for subject in subjects:
-    cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
-                  subject).item()
-    pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
-                  subject).item()
-
-results_all = {}
-
 for band in bands:
-    results_cls = []
-    results_pln = []
-    results_cls.append(cls[band].mean(axis=0))
-    results_pln.append(pln[band].mean(axis=0))
+    for subject in subjects:
+        cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
+                      subject).item()
+        pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
+                      subject).item()
 
-    idx = np.tril_indices_from(results_cls[0], k=-1)
+        results_all = {}
 
-    data_cls = []
-    data_pln = []
+        results_cls = []
+        results_pln = []
+        results_cls.append(cls[band].mean(axis=0))
+        results_pln.append(pln[band].mean(axis=0))
 
-    for j in range(len(results_cls)):
-        data_cls += [results_cls[j][idx]]
-        data_pln += [results_pln[j][idx]]
+        idx = np.tril_indices_from(results_cls[0], k=-1)
 
-    data_cls = np.asarray(data_cls)
-    data_pln = np.asarray(data_pln)
+        data_cls = []
+        data_pln = []
 
-    X = np.vstack([data_cls, data_pln])
-    y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
+        for j in range(len(results_cls)):
+            data_cls += [results_cls[j][idx]]
+            data_pln += [results_pln[j][idx]]
 
-    cv = StratifiedKFold(y, n_folds=10)
-    llo = LeaveOneOut(len(y))
+        data_cls = np.asarray(data_cls)
+        data_pln = np.asarray(data_pln)
 
-    ada = AdaBoostClassifier()
+        X = np.vstack([data_cls, data_pln])
+        y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-    adaboost_params = {"n_estimators": np.arange(20, 500, 20),
-                       "learning_rate": np.arange(0.1, 1.1, 0.1)}
+        cv = StratifiedKFold(y, n_folds=10)
+        llo = LeaveOneOut(len(y))
 
-    grid = GridSearchCV(ada,
-                        param_grid=adaboost_params,
-                        cv=cv,
-                        verbose=2,
-                        n_jobs=6)
-    grid.fit(X, y
+        ada = AdaBoostClassifier()
 
-    ada_cv = grid.best_estimator_
+        adaboost_params = {"n_estimators": np.arange(20, 500, 20),
+                           "learning_rate": np.arange(0.1, 1.1, 0.1)}
 
-    scores = cross_val_score(ada_cv, X, y, cv=cv, scoring="roc_auc")
+        grid = GridSearchCV(ada,
+                            param_grid=adaboost_params,
+                            cv=cv,
+                            verbose=2,
+                            n_jobs=6)
+        grid.fit(X, y)
 
-    results_all["%s_scores" % band] = scores
-    results_all["%s_best_est" % band] = ada_cv
+        ada_cv = grid.best_estimator_
+
+        scores = cross_val_score(ada_cv, X, y, cv=cv, scoring="roc_auc")
+
+        results_all["%s_scores" % band] = scores
+        results_all["%s_best_est" % band] = ada_cv
+
+np.save(source_folder + "graph_data/adaboost_reuslt.npy")
