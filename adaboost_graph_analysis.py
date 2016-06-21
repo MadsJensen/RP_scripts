@@ -11,16 +11,17 @@ subjects = ["0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
             "0017", "0018", "0019", "0020", "0021", "0022"]
 
 for band in bands:
+    results_all = {}
+    results_cls = []
+    results_pln = []
+
     for subject in subjects:
         cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
                       subject).item()
         pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
                       subject).item()
 
-        results_all = {}
 
-        results_cls = []
-        results_pln = []
         results_cls.append(cls[band].mean(axis=0))
         results_pln.append(pln[band].mean(axis=0))
 
@@ -39,8 +40,8 @@ for band in bands:
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-    cv = StratifiedKFold(y, n_folds=10)
-    llo = LeaveOneOut(len(y))
+    cv = StratifiedKFold(y, n_folds=7, shuffle=True)
+    
 
     ada = AdaBoostClassifier()
 
@@ -61,4 +62,4 @@ for band in bands:
     results_all["%s_scores" % band] = scores
     results_all["%s_best_est" % band] = ada_cv
 
-np.save(source_folder + "graph_data/adaboost_reuslt.npy")
+np.save(source_folder + "graph_data/adaboost_result.npy")
