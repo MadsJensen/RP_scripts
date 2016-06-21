@@ -24,41 +24,41 @@ for band in bands:
         results_cls.append(cls[band].mean(axis=0))
         results_pln.append(pln[band].mean(axis=0))
 
-        idx = np.tril_indices_from(results_cls[0], k=-1)
+    idx = np.tril_indices_from(results_cls[0], k=-1)
 
-        data_cls = []
-        data_pln = []
+    data_cls = []
+    data_pln = []
 
-        for j in range(len(results_cls)):
-            data_cls += [results_cls[j][idx]]
-            data_pln += [results_pln[j][idx]]
+    for j in range(len(results_cls)):
+        data_cls += [results_cls[j][idx]]
+        data_pln += [results_pln[j][idx]]
 
-        data_cls = np.asarray(data_cls)
-        data_pln = np.asarray(data_pln)
+    data_cls = np.asarray(data_cls)
+    data_pln = np.asarray(data_pln)
 
-        X = np.vstack([data_cls, data_pln])
-        y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
+    X = np.vstack([data_cls, data_pln])
+    y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-        cv = StratifiedKFold(y, n_folds=10)
-        llo = LeaveOneOut(len(y))
+    cv = StratifiedKFold(y, n_folds=10)
+    llo = LeaveOneOut(len(y))
 
-        ada = AdaBoostClassifier()
+    ada = AdaBoostClassifier()
 
-        adaboost_params = {"n_estimators": np.arange(20, 500, 20),
-                           "learning_rate": np.arange(0.1, 1.1, 0.1)}
+    adaboost_params = {"n_estimators": np.arange(20, 500, 20),
+                       "learning_rate": np.arange(0.1, 1.1, 0.1)}
 
-        grid = GridSearchCV(ada,
-                            param_grid=adaboost_params,
-                            cv=cv,
-                            verbose=2,
-                            n_jobs=6)
-        grid.fit(X, y)
+    grid = GridSearchCV(ada,
+                        param_grid=adaboost_params,
+                        cv=cv,
+                        verbose=2,
+                        n_jobs=6)
+    grid.fit(X, y)
 
-        ada_cv = grid.best_estimator_
+    ada_cv = grid.best_estimator_
 
-        scores = cross_val_score(ada_cv, X, y, cv=cv, scoring="roc_auc")
+    scores = cross_val_score(ada_cv, X, y, cv=cv, scoring="roc_auc")
 
-        results_all["%s_scores" % band] = scores
-        results_all["%s_best_est" % band] = ada_cv
+    results_all["%s_scores" % band] = scores
+    results_all["%s_best_est" % band] = ada_cv
 
 np.save(source_folder + "graph_data/adaboost_reuslt.npy")
