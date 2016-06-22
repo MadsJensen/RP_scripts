@@ -64,4 +64,4 @@ for k, band in enumerate(bands.keys()):
     joblib.dump(ada_cv,
                 source_folder + "graph_data/pagerank_ada_%s.plk" % band)
 
-np.save(source_folder + "graph_data/pagerank_scores_all.npy")
+np.save(source_folder + "graph_data/pagerank_scores_all.npy", scores_all)
