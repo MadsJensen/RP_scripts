@@ -54,7 +54,7 @@ for band in bands.keys():
                         cv_params,
                         scoring='accuracy',
                         cv=cv,
-                        n_jobs=1,
+                        n_jobs=6,
                         verbose=1)
     grid.fit(X, y)
     ada_cv = grid.best_estimator_
