@@ -16,9 +16,10 @@ pln_all = []
 scores_all = np.empty([4, 10])
 
 for subject in subjects:
-    cls = np.load("%s_classic_pow_pln.npy" % subject).item()
+    cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
+                  subject).item()
 
-    pln = np.load("%s_plan_pow_pln.npy" % subject).item()
+    pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" % subject).item()
 
     cls_all.append(cls)
     pln_all.append(pln)
