@@ -19,7 +19,8 @@ for subject in subjects:
     cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
                   subject).item()
 
-    pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" % subject).item()
+    pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
+                  subject).item()
 
     cls_all.append(cls)
     pln_all.append(pln)
@@ -35,10 +36,6 @@ for band in bands.keys():
         tmp = pln_all[j][band]
         data_pln.append(np.asarray([bct.centrality.pagerank_centrality(
             g, d=0.85) for g in tmp]).mean(axis=0))
-
-    cls_data = [bct.centrality.pagerank_centrality(g["beta"], d=0.85)
-                for g in cls]
-    pln_data = [bct.centrality.pagerank_centrality(g, d=0.85) for g in pln]
 
     data_cls = np.asarray(data_cls)
     data_pln = np.asarray(data_pln)
