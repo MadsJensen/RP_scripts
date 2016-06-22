@@ -25,7 +25,7 @@ for subject in subjects:
     cls_all.append(cls)
     pln_all.append(pln)
 
-for band in bands.keys():
+for k, band in enumerate(bands.keys()):
     data_cls = []
     for j in range(len(cls_all)):
         tmp = cls_all[j][band]
@@ -58,7 +58,7 @@ for band in bands.keys():
     ada_cv = grid.best_estimator_
 
     scores = cross_val_score(ada_cv, X, y, cv=cv)
-    scores_all[j, :] = scores
+    scores_all[k, :] = scores
 
     # save the classifier
     joblib.dump(ada_cv, source_folder + "graph_data/pagerank_ada_%.plk" % band)
