@@ -11,8 +11,8 @@ conditions = ["classic", "plan", "interupt"]
 
 bands = {"alpha": [8, 12],
          "beta": [13, 25],
-         "gamme_low": [30, 48],
-         "gammma_high": [52, 90]}
+         "gamma_low": [30, 48],
+         "gamma_high": [52, 90]}
 
 
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch" \
