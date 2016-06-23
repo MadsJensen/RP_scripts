@@ -3,9 +3,10 @@ import bct
 from sklearn.externals import joblib
 from my_settings import *
 
-from sklearn.ensemble import AdaBoostClassifier
 from sklearn.cross_validation import (StratifiedShuffleSplit, cross_val_score)
 from sklearn.grid_search import GridSearchCV
+
+import xgboost as xgb
 
 subjects = ["0008", "0009", "0010", "0012", "0014", "0015", "0016",
             "0017", "0018", "0019", "0020", "0021", "0022"]
@@ -29,13 +30,13 @@ for k, band in enumerate(bands.keys()):
     data_cls = []
     for j in range(len(cls_all)):
         tmp = cls_all[j][band]
-        data_cls.append(np.asarray([bct.efficiency_wei(g)
-        for g in tmp]).mean(axis=0))
+        data_cls.append(np.asarray([bct.centrality.pagerank_centrality(
+            g, d=0.85) for g in tmp]).mean(axis=0))
     data_pln = []
     for j in range(len(pln_all)):
         tmp = pln_all[j][band]
-        data_pln.append(np.asarray([bct.efficiency_wei(g)
-        for g in tmp]).mean(axis=0))
+        data_pln.append(np.asarray([bct.centrality.pagerank_centrality(
+            g, d=0.85) for g in tmp]).mean(axis=0))
 
     data_cls = np.asarray(data_cls)
     data_pln = np.asarray(data_pln)
@@ -46,22 +47,23 @@ for k, band in enumerate(bands.keys()):
     cv = StratifiedShuffleSplit(y, test_size=0.1)
 
     cv_params = {"learning_rate": np.arange(0.1, 1.1, 0.1),
-                 'n_estimators': np.arange(1, 80, 2)}
+                 "max_depth": [1,2,3,4,5,6,7]}
 
-    grid = GridSearchCV(AdaBoostClassifier(),
+    grid = GridSearchCV(xgb.XGBClassifier(n_estimators=500),
                         cv_params,
                         scoring='accuracy',
                         cv=cv,
-                        n_jobs=4,
+                        n_jobs=1,
                         verbose=1)
     grid.fit(X, y)
-    ada_cv = grid.best_estimator_
+    xgb_cv = grid.best_estimator_
 
-    scores = cross_val_score(ada_cv, X, y, cv=cv)
+    scores = cross_val_score(xgb_cv, X, y, cv=cv)
     scores_all[k, :] = scores
 
     # save the classifier
-    joblib.dump(ada_cv,
-                source_folder + "graph_data/transitivity_ada_%s.plk" % band)
+    joblib.dump(
+        xgb_cv,
+        source_folder + "graph_data/sk_models/pagerank_xgb_%s.plk" % band)
 
-np.save(source_folder + "graph_data/transitivity_scores_all.npy", scores_all)
+np.save(source_folder + "graph_data/pagerank_scores_all_xgb.npy", scores_all)

@@ -43,9 +43,9 @@ for band in bands.keys():
 
     cluster_results = []
 
-    for j in range(len(cls_all)):
-        data_1 = pln_all[:, j, :]
-        data_2 = int_all[:, j, :]
+    for j in range(cls_all.shape[1]):
+        data_1 = cls_all[:, j, :]
+        data_2 = pln_all[:, j, :]
 
         # Compute statistic
 

@@ -7,8 +7,8 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.cross_validation import (StratifiedShuffleSplit, cross_val_score)
 from sklearn.grid_search import GridSearchCV
 
-subjects = ["0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
-            "0017", "0018", "0019", "0020", "0022"]
+subjects = ["0008", "0009", "0010", "0012", "0014", "0015", "0016",
+            "0017", "0018", "0019", "0020", "0021", "0022"]
 
 cls_all = []
 pln_all = []
@@ -52,7 +52,7 @@ for k, band in enumerate(bands.keys()):
                         cv_params,
                         scoring='accuracy',
                         cv=cv,
-                        n_jobs=6,
+                        n_jobs=4,
                         verbose=1)
     grid.fit(X, y)
     ada_cv = grid.best_estimator_

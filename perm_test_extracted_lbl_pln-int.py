@@ -43,7 +43,7 @@ for band in bands.keys():
 
     cluster_results = []
 
-    for j in range(len(pln_all)):
+    for j in range(pln_all.shape[1]):
         data_1 = pln_all[:, j, :]
         data_2 = int_all[:, j, :]
 

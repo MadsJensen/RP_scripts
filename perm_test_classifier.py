@@ -8,8 +8,8 @@ from sklearn.cross_validation import (StratifiedShuffleSplit, cross_val_score,
                                       permutation_test_score)
 from sklearn.grid_search import GridSearchCV
 
-subjects = ["0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
-            "0017", "0018", "0019", "0020", "0022"]
+subjects = ["0008", "0009", "0010", "0012", "0014", "0015", "0016",
+            "0017", "0018", "0019", "0020", "0021", "0022"]
 
 cls_all = []
 pln_all = []
@@ -54,7 +54,7 @@ for k, band in enumerate(bands.keys()):
     score, perm_scores, pval = permutation_test_score(
         model, X, y, cv=cv, n_permutations=2000, n_jobs=4)
 
-    results = {"score": score,
+    result = {"score": score,
                "perm_scores": perm_scores,
                "pval": pval}
-    results_all[band: results]
+    results_all[band] = result
