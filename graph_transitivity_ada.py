@@ -61,8 +61,7 @@ for k, band in enumerate(bands.keys()):
     scores_all[k, :] = scores
 
     # save the classifier
-    joblib.dump(
-        ada_cv,
-        source_folder + "graph_data/sk_models/pagerank_ada_%s.plk" % band)
+    joblib.dump(ada_cv,
+                source_folder + "graph_data/pagerank_ada_%s.plk" % band)
 
 np.save(source_folder + "graph_data/pagerank_scores_all.npy", scores_all)
