@@ -19,10 +19,10 @@ scores_all = np.empty([4, 10])
 results_all = {}
 
 for subject in subjects:
-    cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
+    cls = np.load(source_folder + "graph_data/%s_classic_pow_pre.npy" %
                   subject).item()
 
-    pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
+    pln = np.load(source_folder + "graph_data/%s_plan_pow_pre.npy" %
                   subject).item()
 
     cls_all.append(cls)
@@ -49,7 +49,7 @@ for k, band in enumerate(bands.keys()):
     cv = StratifiedShuffleSplit(y, test_size=0.1)
 
     model = joblib.load(source_folder +
-                        "graph_data/sk_models/pagerank_ada_%s.plk" % band)
+                        "graph_data/sk_models/pagerank_ada_pre_%s.plk" % band)
 
     score, perm_scores, pval = permutation_test_score(model,
                                                       X,
@@ -61,4 +61,4 @@ for k, band in enumerate(bands.keys()):
     result = {"score": score, "perm_scores": perm_scores, "pval": pval}
     results_all[band] = result
 
-np.save(source_folder + "graph_data/perm_test_pagerank.npy", results_all)
+np.save(source_folder + "graph_data/perm_test_pagerank_pre.npy", results_all)

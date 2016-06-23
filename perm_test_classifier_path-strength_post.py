@@ -19,10 +19,10 @@ scores_all = np.empty([4, 10])
 results_all = {}
 
 for subject in subjects:
-    cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
+    cls = np.load(source_folder + "graph_data/%s_classic_pow_pre.npy" %
                   subject).item()
 
-    pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
+    pln = np.load(source_folder + "graph_data/%s_plan_pow_pre.npy" %
                   subject).item()
 
     cls_all.append(cls)
@@ -32,14 +32,13 @@ for k, band in enumerate(bands.keys()):
     data_cls = []
     for j in range(len(cls_all)):
         tmp = cls_all[j][band]
-        data_cls.append(np.asarray([bct.centrality.pagerank_centrality(
-            g, d=0.85) for g in tmp]).mean(axis=0))
+        data_cls.append(np.asarray([bct.strengths_und(g)
+                                    for g in tmp]).mean(axis=0))
     data_pln = []
     for j in range(len(pln_all)):
         tmp = pln_all[j][band]
-        data_pln.append(np.asarray([bct.centrality.pagerank_centrality(
-            g, d=0.85) for g in tmp]).mean(axis=0))
-
+        data_pln.append(np.asarray([bct.strengths_und(g)
+                                    for g in tmp]).mean(axis=0))
     data_cls = np.asarray(data_cls)
     data_pln = np.asarray(data_pln)
 
@@ -49,7 +48,8 @@ for k, band in enumerate(bands.keys()):
     cv = StratifiedShuffleSplit(y, test_size=0.1)
 
     model = joblib.load(source_folder +
-                        "graph_data/sk_models/pagerank_ada_%s.plk" % band)
+                        "graph_data/sk_models/path-strength_ada_pre_%s.plk" %
+                        band)
 
     score, perm_scores, pval = permutation_test_score(model,
                                                       X,
@@ -61,4 +61,5 @@ for k, band in enumerate(bands.keys()):
     result = {"score": score, "perm_scores": perm_scores, "pval": pval}
     results_all[band] = result
 
-np.save(source_folder + "graph_data/perm_test_pagerank.npy", results_all)
+np.save(source_folder + "graph_data/perm_test_path-strength_post.npy",
+        results_all)
