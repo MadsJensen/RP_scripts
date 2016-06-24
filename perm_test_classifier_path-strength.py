@@ -45,7 +45,7 @@ for k, band in enumerate(bands.keys()):
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-    cv = StratifiedShuffleSplit(y, test_size=0.1)
+    cv = StratifiedShuffleSplit(y, test_size=0.2)
 
     model = joblib.load(source_folder +
                         "graph_data/sk_models/path-strength_ada_%s.plk" % band)
@@ -58,4 +58,4 @@ for k, band in enumerate(bands.keys()):
                "pval": pval}
     results_all[band] = result
 
-np.save(source_folder + "graph_data/perm_test_path-strength.npy", results_all)
+np.save(source_folder + "graph_data/perm_test_path-strength_pln.npy", results_all)
