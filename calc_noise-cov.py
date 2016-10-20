@@ -19,7 +19,7 @@ for condition in conditions:
     cov = mne.compute_covariance(epochs["press"],
                                  tmin=None,
                                  tmax=-3.5,
-                                 method="factor_analysis")
+                                 method="shrunk")
 
     cov.save(mne_folder + "%s_%s-cov.fif" % (subject, condition))
 

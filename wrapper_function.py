@@ -23,10 +23,9 @@ subjects = ["0008", "0009", "0010", "0012", "0013",
 
 if len(sys.argv) == 3:
     cpu_number = sys.argv[2]
-else:
-    cpu_number = 4
 
 
 for subject in subjects:
-    submit_cmd = "python %s %s" % (sys.argv[1], subject)
-    subprocess.call([cmd, "%s" % cpu_number, submit_cmd])
+    submit_cmd = 'submit_to_cluster \"python %s\"' % (sys.argv[1])
+    print(submit_cmd.split())
+    subprocess.Popen(submit_cmd.split())
