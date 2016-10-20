@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-from my_settings import *
+from my_settings import (conditions, source_folder, bands)
 
 sfreq = 1000
 
