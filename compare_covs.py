@@ -11,9 +11,7 @@ from my_settings import *
 
 reject = dict(
     grad=4000e-13,  # T / m (gradiometers)
-    mag=4e-12,  # T (magnetometers)
-    eeg=180e-6  #
-)
+    mag=4e-12)  # T (magnetometers)
 
 subject = sys.argv[1]
 
@@ -33,4 +31,4 @@ for condition in conditions:
     evoked = epochs.average()
     fig = evoked.plot_white(cov, show=False)
     fig.suptitle("subject: %s" % subject)
-    fig.savefig(mne_folder + "plots_cov/sub_%s.png" % subject)
+    fig.savefig(mne_folder + "plots_cov/sub_%s_%s.png" % (subject, condition))
