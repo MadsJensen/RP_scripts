@@ -38,3 +38,4 @@ for condition in conditions:
     stc.save(source_folder + "%s_%s_epo" % (subject, condition))
     np.save(source_folder + "ave_ts/%s_%s_ts-epo.npy" % (subject, condition),
             ts)
+    del epochs, stcs, ts
