@@ -4,7 +4,7 @@ from sklearn.externals import joblib
 from my_settings import *
 
 from sklearn.ensemble import AdaBoostClassifier
-from sklearn.cross_validation import (StratifiedShuffleSplit, cross_val_score,
+from sklearn.cross_validation import (StratifiedKFold, cross_val_score,
                                       permutation_test_score)
 from sklearn.grid_search import GridSearchCV
 
@@ -19,10 +19,10 @@ scores_all = np.empty([4, 10])
 results_all = {}
 
 for subject in subjects:
-    cls = np.load(source_folder + "graph_data/%s_classic_pow_pre.npy" %
+    cls = np.load(source_folder + "graph_data/%s_classic_pow_post.npy" %
                   subject).item()
 
-    pln = np.load(source_folder + "graph_data/%s_plan_pow_pre.npy" %
+    pln = np.load(source_folder + "graph_data/%s_plan_pow_post.npy" %
                   subject).item()
 
     cls_all.append(cls)
@@ -45,17 +45,17 @@ for k, band in enumerate(bands.keys()):
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-    cv = StratifiedShuffleSplit(y, test_size=0.1)
-
+    cv = StratifiedKFold(y, n_folds=6, shuffle=True)
+    
     model = joblib.load(source_folder +
-                        "graph_data/sk_models/path-strength_ada_pre_%s.plk" %
+                        "graph_data/sk_models/path-strength_ada_post_%s.plk" %
                         band)
 
     score, perm_scores, pval = permutation_test_score(model,
                                                       X,
                                                       y,
                                                       cv=cv,
-                                                      n_permutations=2000,
+                                                      n_permutations=5000,
                                                       n_jobs=4)
 
     result = {"score": score, "perm_scores": perm_scores, "pval": pval}

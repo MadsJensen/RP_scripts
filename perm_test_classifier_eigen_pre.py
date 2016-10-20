@@ -32,24 +32,24 @@ for k, band in enumerate(bands.keys()):
     data_cls = []
     for j in range(len(cls_all)):
         tmp = cls_all[j][band]
-        data_cls.append(np.asarray([bct.centrality.pagerank_centrality(
-            g, d=0.85) for g in tmp]).mean(axis=0))
+        data_cls.append(np.asarray([bct.strengths_und(g)
+                                    for g in tmp]).mean(axis=0))
     data_pln = []
     for j in range(len(pln_all)):
         tmp = pln_all[j][band]
-        data_pln.append(np.asarray([bct.centrality.pagerank_centrality(
-            g, d=0.85) for g in tmp]).mean(axis=0))
-
+        data_pln.append(np.asarray([bct.strengths_und(g)
+                                    for g in tmp]).mean(axis=0))
     data_cls = np.asarray(data_cls)
     data_pln = np.asarray(data_pln)
 
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-    cv = StratifiedKfolds(y, n_folds=6, shuffle=True)
+    cv = StratifiedKFold(y, n_folds=6, shuffle=True)
 
     model = joblib.load(source_folder +
-                        "graph_data/sk_models/pagerank_ada_pre_%s.plk" % band)
+                        "graph_data/sk_models/eigen_ada_pre_%s.plk" %
+                        band)
 
     score, perm_scores, pval = permutation_test_score(model,
                                                       X,
@@ -61,4 +61,5 @@ for k, band in enumerate(bands.keys()):
     result = {"score": score, "perm_scores": perm_scores, "pval": pval}
     results_all[band] = result
 
-np.save(source_folder + "graph_data/perm_test_pagerank_post.npy", results_all)
+np.save(source_folder + "graph_data/perm_test_eigen_pre.npy",
+        results_all)

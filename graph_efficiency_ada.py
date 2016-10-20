@@ -63,6 +63,6 @@ for k, band in enumerate(bands.keys()):
     # save the classifier
     joblib.dump(
         ada_cv,
-        source_folder + "graph_data/sk_models/efficiency_ada_%s.plk" % band)
+        source_folder + "graph_data/sk_models/efficiency_ada_%s_pln.plk" % band)
 
-np.save(source_folder + "graph_data/efficiency_scores_all.npy", scores_all)
+np.save(source_folder + "graph_data/efficiency_scores_all_pln.npy", scores_all)

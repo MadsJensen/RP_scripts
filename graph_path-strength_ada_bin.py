@@ -24,6 +24,19 @@ for subject in subjects:
     cls_all.append(cls)
     pln_all.append(pln)
 
+
+cls_all_2 = np.asarray(cls_all)
+pln_all_2 = np.asarray(pln_all)
+
+full_matrix = np.concatenate([cls_all_2, pln_all_2], axis=0)
+
+threshold = np.median(full_matrix[np.nonzero(full_matrix)]) + \
+        np.std(full_matrix[np.nonzero(full_matrix)])
+
+data_cls_bin = cls_all > threshold
+data_pln_bin = pln_all > threshold
+
+
 for k, band in enumerate(bands.keys()):
     data_cls = []
     for j in range(len(cls_all)):
@@ -38,6 +51,15 @@ for k, band in enumerate(bands.keys()):
 
     data_cls = np.asarray(data_cls)
     data_pln = np.asarray(data_pln)
+
+    full_matrix = np.concatenate([data_cls, data_pln], axis=0)
+
+    threshold = np.median(full_matrix[np.nonzero(full_matrix)]) + \
+        np.std(full_matrix[np.nonzero(full_matrix)])
+
+    data_cls_bin = data_cls > threshold
+    data_pln_bin = data_pln > threshold
+
 
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])

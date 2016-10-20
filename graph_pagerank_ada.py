@@ -4,7 +4,7 @@ from sklearn.externals import joblib
 from my_settings import *
 
 from sklearn.ensemble import AdaBoostClassifier
-from sklearn.cross_validation import (StratifiedShuffleSplit, cross_val_score)
+from sklearn.cross_validation import (StratifiedKFold, cross_val_score)
 from sklearn.grid_search import GridSearchCV
 
 subjects = ["0008", "0009", "0010", "0012", "0014", "0015", "0016",
@@ -13,7 +13,7 @@ subjects = ["0008", "0009", "0010", "0012", "0014", "0015", "0016",
 cls_all = []
 pln_all = []
 
-scores_all = np.empty([4, 10])
+scores_all = np.empty([4, 6])
 
 for subject in subjects:
     cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
@@ -43,7 +43,7 @@ for k, band in enumerate(bands.keys()):
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-    cv = StratifiedShuffleSplit(y, test_size=0.1)
+    cv = StratifiedKFold(y, n_folds=6, shuffle=True)
 
     cv_params = {"learning_rate": np.arange(0.1, 1.1, 0.1),
                  'n_estimators': np.arange(1, 80, 2)}
@@ -63,6 +63,6 @@ for k, band in enumerate(bands.keys()):
     # save the classifier
     joblib.dump(
         ada_cv,
-        source_folder + "graph_data/sk_models/pagerank_ada_%s.plk" % band)
+        source_folder + "graph_data/sk_models/pagerank_ada_pln_%s.plk" % band)
 
-np.save(source_folder + "graph_data/pagerank_scores_all.npy", scores_all)
+np.save(source_folder + "graph_data/pagerank_scores_all_pln.npy", scores_all)

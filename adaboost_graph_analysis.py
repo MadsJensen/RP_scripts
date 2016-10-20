@@ -10,7 +10,7 @@ from my_settings import *
 subjects = ["0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
             "0017", "0018", "0019", "0020", "0021", "0022"]
 
-for band in bands:
+for band in bands.keys():
     results_all = {}
     results_cls = []
     results_pln = []
@@ -62,4 +62,4 @@ for band in bands:
     results_all["%s_scores" % band] = scores
     results_all["%s_best_est" % band] = ada_cv
 
-np.save(source_folder + "graph_data/adaboost_result.npy")
+np.save(source_folder + "graph_data/adaboost_result.npy", results_all )

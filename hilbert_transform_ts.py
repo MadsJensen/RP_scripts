@@ -13,7 +13,7 @@ import sys
 
 from my_settings import *
 
-sfreq = 500
+sfreq = 1000
 
 subject = sys.argv[1]
 
