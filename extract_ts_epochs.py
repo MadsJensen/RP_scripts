@@ -25,14 +25,14 @@ for condition in conditions:
         epochs["press"], inv, lambda2, method=method, pick_ori=None)
     ts = [
         mne.extract_label_time_course(
-            stc, labels, inv["src"], mode="pca_flip") for stc in stcs
+            stc, labels, inv["src"], mode="mean_flip") for stc in stcs
     ]
 
-    for h, tc in enumerate(ts):
-        for j, t in enumerate(tc):
-            t *= np.sign(t[np.argmax(np.abs(t))])
-            tc[j, :] = t
-        ts[h] = tc
+    # for h, tc in enumerate(ts):
+    #     for j, t in enumerate(tc):
+    #         t *= np.sign(t[np.argmax(np.abs(t))])
+    #         tc[j, :] = t
+    #     ts[h] = tc
 
     ts = np.asarray(ts)
     stc.save(source_folder + "%s_%s_epo" % (subject, condition))
