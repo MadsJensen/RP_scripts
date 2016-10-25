@@ -6,7 +6,7 @@ do
     
     OUTPUT=/projects/MINDLAB2011_24-MEG-readiness/scripts/RP_scripts/highmem_logs/log_${sub}.txt
     SCRIPT=/projects/MINDLAB2011_24-MEG-readiness/scripts/RP_scripts/highmem_scripts/script_${sub}.sh
-
+    SCRIPT_PATH=/projects/MINDLAB2011_24-MEG-readiness/scripts/RP_scripts
 
 cat <<EOF > ${SCRIPT}
 #!/bin/bash
@@ -16,12 +16,12 @@ export TERM vt100
 PATH=$PATH:/usr/local/mni/bin:/usr/local/cfin/bin:. 
 # Setup freesurfer
 
-python $1 ${sub}
+python $SCRIPT_PATH/$1 ${sub}
 
 EOF
 # Make the new script executable
     chmod u+x ${SCRIPT}
     
-    qsub -q highmem.q -l h_vmem=$2 ${SCRIPT}
+    # qsub -q highmem.q -l h_vmem=$2 ${SCRIPT}
 
 done 
