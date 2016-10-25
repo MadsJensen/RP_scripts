@@ -6,7 +6,7 @@ if [ $# == 2 ]
         eval submit_to_cluster -q $2 \"python $1 $sub\"
     done
     
-if [ $# == 3 ]
+elif [ $# == 3 ]
   then
     for sub in $(<subjects.txt)
     do
