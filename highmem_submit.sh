@@ -16,12 +16,13 @@ export TERM vt100
 PATH=$PATH:/usr/local/mni/bin:/usr/local/cfin/bin:. 
 # Setup freesurfer
 
-python $SCRIPT_PATH/$1 ${sub}
+python $SCRIPT_PATH/$1 ${sub} >>  $OUTPUT 2>&1 
+
 
 EOF
 # Make the new script executable
     chmod u+x ${SCRIPT}
     
-    # qsub -q highmem.q -l h_vmem=$2 ${SCRIPT}
+    qsub -q highmem.q -l h_vmem=$2 ${SCRIPT}
 
 done 
