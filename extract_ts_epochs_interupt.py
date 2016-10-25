@@ -3,7 +3,7 @@ import numpy as np
 import mne
 from mne.minimum_norm import read_inverse_operator, apply_inverse_epochs
 
-from my_settings import (mne_folder, epochs_folder, source_folder, conditions)
+from my_settings import (mne_folder, epochs_folder, source_folder)
 
 subject = sys.argv[1]
 
@@ -16,10 +16,10 @@ labels = mne.read_labels_from_annot(
 
 condition = "interupt"
 
-inv = read_inverse_operator(mne_folder + "%s_%s-inv.fif" % (subject,
-                                                            condition))
-epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
-                                                            condition))
+inv = read_inverse_operator(mne_folder + "%s_%s-inv.fif" % (subject, condition
+                                                            ))
+epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject, condition
+                                                            ))
 # epochs.resample(500)
 
 stcs = apply_inverse_epochs(
@@ -37,5 +37,4 @@ ts = [
 
 ts = np.asarray(ts)
 stc.save(source_folder + "%s_%s_epo" % (subject, condition))
-np.save(source_folder + "ave_ts/%s_%s_ts-epo.npy" % (subject, condition),
-        ts)
+np.save(source_folder + "ave_ts/%s_%s_ts-epo.npy" % (subject, condition), ts)
