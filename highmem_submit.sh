@@ -17,8 +17,9 @@ export TERM vt100
 PATH=$PATH:/usr/local/mni/bin:/usr/local/cfin/bin:. 
 # Setup freesurfer
 
-python $SCRIPT_PATH/$1 ${sub} >>  $OUTPUT 2>&1 
 export SUBJECTS_DIR=$SUBJECTS_DIR
+python $SCRIPT_PATH/$1 ${sub} >>  $OUTPUT 2>&1 
+
 
 EOF
 # Make the new script executable
