@@ -61,7 +61,7 @@ for k, band in enumerate(bands.keys()):
         cv_params,
         scoring='accuracy',
         cv=cv,
-        n_jobs=4,
+        n_jobs=1,
         verbose=1)
     grid.fit(X, y)
     ada_cv = grid.best_estimator_
