@@ -1,12 +1,11 @@
 import numpy as np
 import bct
-# from sklearn.externals import joblib
-from my_settings import *
+from sklearn.externals import joblib
+from my_settings import (bands, source_folder)
 
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.cross_validation import (StratifiedKFold, cross_val_score)
 from sklearn.grid_search import GridSearchCV
-from mne.externals.h5io import write_hdf5
 
 subjects = [
     "0008", "0009", "0010", "0012", "0014", "0015", "0016", "0017", "0018",
@@ -71,8 +70,8 @@ for k, band in enumerate(bands.keys()):
     scores_all[k, :] = scores
 
     # save the classifier
-    write_hdf5(  # joblib.dump(
+    joblib.dump(
         ada_cv,
-        source_folder + "graph_data/sk_models/pagerank_ada_pre_%s.h5" % band)
+        source_folder + "graph_data/sk_models/pagerank_ada_pre_%s.plk" % band)
 
 np.save(source_folder + "graph_data/pagerank_scores_all_pre.npy", scores_all)
