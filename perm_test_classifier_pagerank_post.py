@@ -52,7 +52,8 @@ for k, band in enumerate(bands.keys()):
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-    cv = StratifiedKfolds(y, n_folds=6, shuffle=True)
+
+    cv = StratifiedKFold(y, n_folds=6, shuffle=True)
 
     model = joblib.load(source_folder +
                         "graph_data/sk_models/pagerank_ada_pre_%s.plk" % band)
