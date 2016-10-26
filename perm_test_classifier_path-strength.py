@@ -54,7 +54,7 @@ for k, band in enumerate(bands.keys()):
                         band)
 
     score, perm_scores, pval = permutation_test_score(
-        model, X, y, cv=cv, n_permutations=10000, n_jobs=1)
+        model, X, y, cv=cv, n_permutations=10000, n_jobs=1, verbose=2)
 
     result = {"score": score, "perm_scores": perm_scores, "pval": pval}
     results_all[band] = result
