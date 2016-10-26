@@ -1,8 +1,5 @@
 
-
-files = perm_test_classifier*
-
-for file in files
+for file in perm_test_classifier*
 do
-    echo $file
+    eval submit_to_cluster -q all.q \"python $file\"
 done
