@@ -15,23 +15,32 @@ subjects = [
 ]
 bands = ["alpha", "beta", "gamma_low", "gamma_high"]
 
-labels = mne.read_labels_from_annot(subject="0008",
-                                    parc="PALS_B12_Brodmann",
-                                    regexp="Brodmann",
-                                    subjects_dir=subjects_dir)
-
+labels = mne.read_labels_from_annot(
+    subject="0008",
+    parc="PALS_B12_Brodmann",
+    regexp="Brodmann",
+    subjects_dir=subjects_dir)
 
 cls_pow_all = np.zeros([len(subjects), len(labels), len(times)])
 
 for j, subject in enumerate(subjects):
     cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
                   subject).item()
-    for band in bands[:1]:
-        cls_band = cls[band]
-        cls_pow = np.mean(np.abs(cls_band)**2, axis=0)
-        cls_pow_all[j, :, :] = cls_pow
 
-# ht_pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
-#                  subject).item()
-# ht_int = np.load(source_folder + "hilbert_data/%s_interupt_ht-epo.npy" %
-#                  subject).item()
+    for band in bands[:1]:
+        cls_bs = mne.baseline.rescale(
+            np.abs(cls[band])**2, times, baseline=(-3.8, -3.3), mode="zscore")
+        cls_pow_all[j, :, :] = cls_bs.mean(axis=0)
+
+        for k, label in enumerate(labels):
+            fig = matplotlib.title("condition: cls, label: %s" % (label.name))
+            fig = matplotlib.plot(times, cls_pow_all[:, k, :].T)
+
+            fig.savefig(source_folder +
+                        "hilbert_data/plots/%s_classic_avg_grad.png" % (
+                            label.name, subject))
+
+    # ht_pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
+    #                  subject).item()
+    # ht_int = np.load(source_folder + "hilbert_data/%s_interupt_ht-epo.npy" %
+    #                  subject).item()
