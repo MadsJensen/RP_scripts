@@ -68,6 +68,7 @@ logs
 # random tmp files and PCL files
 *\#*
 *.pcl
+*.qsub
 
 #dirs
 results
