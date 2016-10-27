@@ -1,10 +1,14 @@
 import numpy as np
 import mne
-
+import os
 from my_settings import (source_folder, subjects_dir)
 
 import matplotlib
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+
+os.chdir("/projects/MINDLAB2011_24-MEG-readiness/scripts/RP_scripts")
 
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
@@ -32,14 +36,15 @@ for j, subject in enumerate(subjects):
             np.abs(cls[band])**2, times, baseline=(-3.8, -3.3), mode="zscore")
         cls_pow_all[j, :, :] = cls_bs.mean(axis=0)
 
-        for k, label in enumerate(labels):
-            fig = matplotlib.title("condition: cls, label: %s" % (label.name))
-            fig = matplotlib.plot(times, cls_pow_all[:, k, :].T)
+        for k, label in enumerate(labels[:1]):
+            fig = plt.figure()
+            fig = plt.title("condition: cls, label: %s" % (label.name))
+            fig = plt.plot(times, cls_pow_all[:, k, :].T)
 
             fig.savefig(source_folder +
                         "hilbert_data/plots/%s_classic_avg_grad.png" % (
                             label.name, subject))
-
+                            
     # ht_pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
     #                  subject).item()
     # ht_int = np.load(source_folder + "hilbert_data/%s_interupt_ht-epo.npy" %
