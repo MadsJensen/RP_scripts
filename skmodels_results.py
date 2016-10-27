@@ -19,7 +19,8 @@ labels = mne.read_labels_from_annot(subject="0008",
                                     subjects_dir=subjects_dir)
 
 conditions = ["pln", "pre", "post"]
-measures =  ["eigen", "pagerank", "path-strength"]
+# measures =  ["eigen", "pagerank", "path-strength"]
+measures =  ["pagerank"]
 bands = ["alpha", "beta", "gamma_low", "gamma_high"]
 
 column_keys = ["condition", "measure", "band", "scores", 
@@ -32,7 +33,7 @@ for cond in conditions:
         scores = np.load(source_folder + "graph_data/%s_scores_all_ada_%s.npy" % (measure, cond))
         for j, band in enumerate(bands):  
             model = joblib.load(source_folder +
-                      "graph_data/sk_models/%s_ada_%s.plk" % (measure, band))
+                      "graph_data/sk_models/%s_ada_%s_%s.plk" % (measure, condition, band))
             row = pd.DataFrame([{"condition": cond,
                                  "measure": measure,
                                  "band": band,
@@ -42,7 +43,7 @@ for cond in conditions:
                                  "feature_importance": model.feature_importances_}])
             results = results.append(row, ignore_index=True)
 
-results[["condition", "measure", "band", "mean_score"]].sort("mean_score")    
+results[["condition", "measure", "band", "mean_score", "std"]].sort("mean_score")    
 
 for condit  
 for j in range(len(results.feature_importance)):
