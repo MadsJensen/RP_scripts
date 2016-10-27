@@ -21,14 +21,15 @@ labels = mne.read_labels_from_annot(subject="0008",
                                     subjects_dir=subjects_dir)
 
 
-cls_pow = np.zeros([len(subjects), len(labels), len(times)])
+cls_pow_all = np.zeros([len(subjects), len(labels), len(times)])
 
-for subject in subjects:
-    for band in bands:
-        cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
-                      subject).item()
-        cls = cls[band]
-        cls_pow = np.mean(np.abs(cls)**2, axis=0)
+for j, subject in enumerate(subjects):
+    cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
+                  subject).item()
+    for band in bands[:1]:
+        cls_band = cls[band]
+        cls_pow = np.mean(np.abs(cls_band)**2, axis=0)
+        cls_pow_all[j, :, :] = cls_pow
 
 # ht_pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
 #                  subject).item()
