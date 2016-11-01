@@ -73,6 +73,8 @@ logs
 #dirs
 results
 data
+highmem_logs
+highmem_scripts
 .directory
 .idea
 .Rproj.user
