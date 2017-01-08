@@ -2,7 +2,7 @@ import sys
 import mne
 from mne.minimum_norm import make_inverse_operator, write_inverse_operator
 
-from my_settings import *
+from my_settings import (mne_folder, epochs_folder)
 
 subject = sys.argv[1]
 
