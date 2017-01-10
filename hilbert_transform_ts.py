@@ -6,9 +6,9 @@ Created on Mon Jun 13 12:50:46 2016
 """
 
 import mne
+from mne.externals import h5io
 from scipy.signal import hilbert
 import numpy as np
-import matplotlib.pyplot as plt
 import sys
 
 from my_settings import (conditions, source_folder, bands)
@@ -28,5 +28,5 @@ for condition in conditions:
         ht_data = hilbert(data)
         result[band] = ht_data
 
-    np.save(source_folder + "hilbert_data/%s_%s_ht-epo.npy" %
+    h5io.write_hdf5(source_folder + "hilbert_data/%s_%s_ht-epo.hf5" %
             (subject, condition), result)
