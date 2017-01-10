@@ -1,7 +1,5 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
 import mne
+from mne.externals import h5io
 from mne.minimum_norm import read_inverse_operator, compute_source_psd_epochs
 import sys
 
@@ -32,6 +30,7 @@ for condition in conditions:
     # Note: By using "return_generator=True" stcs will be a generator object
     # instead of a list. This allows us so to iterate without having to
     # keep everything in memory.
+    epochs.crop(-2.75, -2.35)
     stcs = compute_source_psd_epochs(
         epochs,
         inv,
@@ -42,4 +41,4 @@ for condition in conditions:
         bandwidth=bandwidth,
         return_generator=False)
 
-    
+    h5io.write_hdf5(source_folder + "%s_%s_psd_pre_epo" % (subject, condition))
