@@ -1,7 +1,7 @@
 import mne
-from mne.externals import h5io
 from mne.minimum_norm import read_inverse_operator, compute_source_psd_epochs
 import sys
+import cPickle as pickle
 
 from my_settings import (mne_folder, conditions, source_folder, epochs_folder)
 
@@ -41,4 +41,5 @@ for condition in conditions:
         bandwidth=bandwidth,
         return_generator=False)
 
-    h5io.write_hdf5(source_folder + "%s_%s_psd_pre_epo" % (subject, condition), stcs)
+    pickle.dump(stcs, open(source_folder +
+                "%s_%s_psd_pre_epo.pkl" % (subject, condition), 'wb'))
