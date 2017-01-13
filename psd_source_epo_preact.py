@@ -42,4 +42,4 @@ for condition in conditions:
         return_generator=False)
 
     pickle.dump(stcs, open(source_folder +
-                "%s_%s_psd_pre_epo.pkl" % (subject, condition), 'wb'))
+                "%s_%s_psd_preact_epo.pkl" % (subject, condition), 'wb'))
