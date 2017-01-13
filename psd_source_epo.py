@@ -41,4 +41,4 @@ for condition in conditions:
         bandwidth=bandwidth,
         return_generator=False)
 
-    h5io.write_hdf5(source_folder + "%s_%s_psd_pre_epo" % (subject, condition))
+    h5io.write_hdf5(source_folder + "%s_%s_psd_pre_epo" % (subject, condition), stcs)
