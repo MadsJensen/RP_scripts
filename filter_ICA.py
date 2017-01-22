@@ -32,7 +32,7 @@ for condition in conditions:
     raw.drop_channels(raw.info["bads"])
 
     raw.notch_filter(n_freq, n_jobs=n_jobs)
-    raw.filter(l_freq, h_freq, n_jobs=n_jobs)
+    raw.filter(l_freq, None, n_jobs=n_jobs)
 
     raw.save(save_folder + "%s_%s_filtered_mc_tsss-raw.fif" % (subject,
                                                                condition),
@@ -85,7 +85,7 @@ for condition in conditions:
 
     ##########################################################################
     # Apply the solution to Raw, Epochs or Evoked like this:
-    raw_ica = ica.apply(raw)
+    raw_ica = ica.apply(raw_orig)
     ica.save(save_folder + "%s_%s-ica.fif" % (subject, condition))  # save ICA
     # componenets
     # Save raw with ICA removed
