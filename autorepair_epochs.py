@@ -17,7 +17,7 @@ consensus_percs = np.linspace(0, 1.0, 11)
 
 for condition in conditions[:2]:
     raw = mne.io.Raw(mf_autobad_off_folder + "%s_%s_mc_tsss-raw.fif" % (
-        subject, condition))
+        subject, condition), preload=True)
     raw.filter(1, None)
     raw.notch_filter(50)
     raw.filter(None, 95)
@@ -74,7 +74,8 @@ for condition in conditions[:2]:
     epochs_mag = epochs.copy().pick_types(meg="mag")
 
     ar = LocalAutoRejectCV(
-        n_interpolates, consensus_percs, thresh_func=thresh_func)
+        n_interpolates, consensus_percs, thresh_func=thresh_func, 
+        verbose="tqdm")
 
     epochs_grad_clean = ar.fit_transform(epochs_grad)
     epochs_mag_clean = ar.fit_transform(epochs_mag)
