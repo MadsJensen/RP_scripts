@@ -1,6 +1,7 @@
 import mne
+import numpy as np
 import sys
-from my_settings import (conditions, save_folder, reject_params)
+from my_settings import (conditions, save_folder, reject_params, maxfiltered_folder_)
 
 from mne.utils import check_random_state
 from autoreject import (LocalAutoRejectCV, compute_thresholds,
