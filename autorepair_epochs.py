@@ -46,7 +46,7 @@ for condition in conditions[:2]:
 
     # Setup for reading the raw data
     picks = mne.pick_types(
-        raw.info, meg=True, eeg=False, stim=False, eog=False, exclude='bads')
+        raw.info, meg=True, eeg=False, stim=False, eog=True, exclude='bads')
     # Read epochs
     epochs = mne.Epochs(
         raw,
@@ -73,12 +73,16 @@ for condition in conditions[:2]:
     epochs_grad = epochs.copy().pick_types(meg="grad")
     epochs_mag = epochs.copy().pick_types(meg="mag")
 
-    ar = LocalAutoRejectCV(
+    ar_grad = LocalAutoRejectCV(
         n_interpolates, consensus_percs, thresh_func=thresh_func, 
         verbose="tqdm")
 
-    epochs_grad_clean = ar.fit_transform(epochs_grad)
-    epochs_mag_clean = ar.fit_transform(epochs_mag)
+    ar_mag = LocalAutoRejectCV(
+        n_interpolates, consensus_percs, thresh_func=thresh_func, 
+        verbose="tqdm")
+
+    epochs_grad_clean = ar_grad.fit_transform(epochs_grad)
+    epochs_mag_clean = ar_mag.fit_transform(epochs_mag)
 
     evoked = epochs.average()
     evoked_grad_clean = epochs_grad_clean.average()
