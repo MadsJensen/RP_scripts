@@ -92,17 +92,13 @@ for condition in conditions[:2]:
 
     bads_grads = ar_grad.bad_epochs_idx
     bads_mags = ar_mag.bad_epochs_idx
-    bads_comb = list(set(bads_grads + bads_mags))
+    bads_comb = list(set(list(bads_mags) + list(bads_grads)))
+    bads_comb.sort()
     
     idx = np.ones(len(epochs_clean.get_data()))
     idx[bads_comb] = 0
+    idx = idx.astype(bool)
 
-   ind = np.ones(len(epochs_clean.get_data()))
-
-
-ind[f12] = False
-
-A1 = A[ind,:]
 
 
 
