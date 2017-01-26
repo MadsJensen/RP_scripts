@@ -1,7 +1,7 @@
 import mne
 import numpy as np
 import sys
-from my_settings import (conditions, mf_autobad_off_folder)
+from my_settings import (conditions, mf_autobad_off_folder, epochs_folder)
 # from mne.utils import check_random_state
 from autoreject import (LocalAutoRejectCV, compute_thresholds)
 
@@ -16,8 +16,9 @@ n_interpolates = np.array([1, 4, 32])
 consensus_percs = np.linspace(0, 1.0, 11)
 
 for condition in conditions[:2]:
-    raw = mne.io.Raw(mf_autobad_off_folder + "%s_%s_mc_tsss-raw.fif" % (
-        subject, condition), preload=True)
+    raw = mne.io.Raw(mf_autobad_off_folder + "%s_%s_mc_tsss-raw.fif" %
+                     (subject, condition),
+                     preload=True)
     raw.filter(1, None)
     raw.notch_filter(50)
     raw.filter(None, 95)
@@ -74,11 +75,15 @@ for condition in conditions[:2]:
     epochs_mag = epochs.copy().pick_types(meg="mag")
 
     ar_grad = LocalAutoRejectCV(
-        n_interpolates, consensus_percs, thresh_func=thresh_func, 
+        n_interpolates,
+        consensus_percs,
+        thresh_func=thresh_func,
         verbose="tqdm")
 
     ar_mag = LocalAutoRejectCV(
-        n_interpolates, consensus_percs, thresh_func=thresh_func, 
+        n_interpolates,
+        consensus_percs,
+        thresh_func=thresh_func,
         verbose="tqdm")
 
     epochs_grad_clean = ar_grad.fit_transform(epochs_grad)
@@ -89,21 +94,22 @@ for condition in conditions[:2]:
     evoked_mag_clean = epochs_mag_clean.average()
 
     epochs_clean = epochs.copy()
-    
+
     bads_grads = ar_grad.bad_epochs_idx
     bads_mags = ar_mag.bad_epochs_idx
     bads_comb = list(set(list(bads_mags) + list(bads_grads)))
     bads_comb.sort()
-    
+
     idx = np.zeros(len(epochs_clean.get_data()))
     idx[bads_comb] = 1
     idx = idx.astype(bool)
-    
+
     mag_idx = mne.pick_types(epochs_clean.info, meg="mag")
     grad_idx = mne.pick_types(epochs_clean.info, meg="grad")
-    
+
     epochs_clean.drop(idx)
     epochs_clean._data[:, grad_idx, :] = epochs_grad_clean.get_data()
     epochs_clean._data[:, mag_idx, :] = epochs_mag_clean.get_data()
 
-
+    # Save epochs
+    epochs.save(epochs_folder + "%s_%s_clean-epo.fif" % (subject, condition))
