@@ -46,7 +46,7 @@ for condition in conditions[:2]:
 
     # Setup for reading the raw data
     picks = mne.pick_types(
-        raw.info, meg=True, eeg=False, stim=False, eog=True, exclude='bads')
+        raw.info, meg=True, eeg=False, stim=False, eog=True, exclude=[])
     # Read epochs
     epochs = mne.Epochs(
         raw,
@@ -87,3 +87,16 @@ for condition in conditions[:2]:
     evoked = epochs.average()
     evoked_grad_clean = epochs_grad_clean.average()
     evoked_mag_clean = epochs_mag_clean.average()
+
+    epochs_clean = epochs.copy()
+    
+# comb_list = list_1 + list_2
+# list(set(comb_list))
+
+
+ind = np.ones(len(epochs_clean.get_data()))
+ind[f12] = False
+A1 = A[ind,:]
+
+
+
