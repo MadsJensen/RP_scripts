@@ -89,16 +89,21 @@ for condition in conditions[:2]:
     evoked_mag_clean = epochs_mag_clean.average()
 
     epochs_clean = epochs.copy()
-
+    
     bads_grads = ar_grad.bad_epochs_idx
     bads_mags = ar_mag.bad_epochs_idx
     bads_comb = list(set(list(bads_mags) + list(bads_grads)))
     bads_comb.sort()
     
-    idx = np.ones(len(epochs_clean.get_data()))
-    idx[bads_comb] = 0
+    idx = np.zeros(len(epochs_clean.get_data()))
+    idx[bads_comb] = 1
     idx = idx.astype(bool)
-
-
+    
+    mag_idx = mne.pick_types(epochs_clean.info, meg="mag")
+    grad_idx = mne.pick_types(epochs_clean.info, meg="grad")
+    
+    epochs_clean.drop(idx)
+    epochs_clean._data[:, grad_idx, :] = epochs_grad_clean.get_data()
+    epochs_clean._data[:, mag_idx, :] = epochs_mag_clean.get_data()
 
 
