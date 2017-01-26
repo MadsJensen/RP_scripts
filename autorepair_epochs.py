@@ -89,13 +89,19 @@ for condition in conditions[:2]:
     evoked_mag_clean = epochs_mag_clean.average()
 
     epochs_clean = epochs.copy()
+
+    bads_grads = ar_grad.bad_epochs_idx
+    bads_mags = ar_mag.bad_epochs_idx
+    bads_comb = list(set(bads_grads + bads_mags))
     
-# comb_list = list_1 + list_2
-# list(set(comb_list))
+    idx = np.ones(len(epochs_clean.get_data()))
+    idx[bads_comb] = 0
+
+   ind = np.ones(len(epochs_clean.get_data()))
 
 
-ind = np.ones(len(epochs_clean.get_data()))
 ind[f12] = False
+
 A1 = A[ind,:]
 
 
