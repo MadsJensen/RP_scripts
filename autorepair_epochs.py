@@ -15,7 +15,7 @@ tmin, tmax = -4, 1
 n_interpolates = np.array([1, 4, 32])
 consensus_percs = np.linspace(0, 1.0, 11)
 
-for condition in conditions[:2]:
+for condition in conditions:
     raw = mne.io.Raw(mf_autobad_off_folder + "%s_%s_mc_tsss-raw.fif" %
                      (subject, condition),
                      preload=True)
@@ -61,6 +61,7 @@ for condition in conditions[:2]:
         detrend=0,
         preload=True)
 
+    epochs = epochs["press"]
     #######################################################################
     from functools import partial
     thresh_func = partial(
