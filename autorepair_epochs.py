@@ -101,15 +101,15 @@ for condition in conditions:
     bads_comb = list(set(list(bads_mags) + list(bads_grads)))
     bads_comb.sort()
 
-    comb_drop = np.zeros(len(epochs_clean.get_data()))
-    comb_drop[bads_comb] = 1
-    comb_drop = comb_drop.astype(bool)
+    idx = np.zeros(len(epochs_clean.get_data()))
+    idx[bads_comb] = 1
+    idx = idx.astype(bool)
 
     mag_drops = []
     for i in ar_grad.bad_epochs_idx:
         if i is not ar_mag.bad_epochs_idx:
             mag_drops.append(i)
-
+                
     grad_drops = []
     for i in ar_mag.bad_epochs_idx:
         if i is not ar_grad.bad_epochs_idx:
@@ -117,14 +117,20 @@ for condition in conditions:
 
     epochs_grad_clean.drop(np.asarray(grad_drops))
     epochs_mag_clean.drop(np.asarray(mag_drops))
-
+    
     mag_idx = mne.pick_types(epochs_clean.info, meg="mag")
     grad_idx = mne.pick_types(epochs_clean.info, meg="grad")
 
-    epochs_clean.drop(comb_drop)
+    epochs_clean.drop(idx)
+    for i, j in enumerate(idx):
+        if i == True:
+            epochs_clean.drop_log[j] = ["USER"]
+        
+    epochs_grad_clean.events = epochs_clean.events
+    epochs_mag_clean.events = epochs_clean.events
+    
     epochs_clean._data[:, grad_idx, :] = epochs_grad_clean.get_data()
     epochs_clean._data[:, mag_idx, :] = epochs_mag_clean.get_data()
 
     # Save epochs
-    epochs_clean.save(epochs_folder + "%s_%s_clean-epo.fif" % (subject,
-                                                               condition))
+    epochs_clean.save(epochs_folder + "%s_%s_clean-epo.fif" % (subject, condition))
