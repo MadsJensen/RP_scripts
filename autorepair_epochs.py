@@ -105,19 +105,6 @@ for condition in conditions:
     idx[bads_comb] = 1
     idx = idx.astype(bool)
 
-    mag_drops = []
-    for i in ar_grad.bad_epochs_idx:
-        if i is not ar_mag.bad_epochs_idx:
-            mag_drops.append(i)
-
-    grad_drops = []
-    for i in ar_mag.bad_epochs_idx:
-        if i is not ar_grad.bad_epochs_idx:
-            grad_drops.append(i)
-
-    epochs_grad_clean.drop(np.asarray(grad_drops))
-    epochs_mag_clean.drop(np.asarray(mag_drops))
-
     mag_idx = mne.pick_types(epochs_clean.info, meg="mag")
     grad_idx = mne.pick_types(epochs_clean.info, meg="grad")
 
