@@ -122,6 +122,13 @@ for condition in conditions:
     grad_idx = mne.pick_types(epochs_clean.info, meg="grad")
 
     epochs_clean.drop(idx)
+    for i, j in enumerate(idx):
+        if i == True:
+            epochs_clean.drop_log[j] = ["USER"]
+        
+    epochs_grad_clean.events = epochs_clean.events
+    epochs_mag_clean.events = epochs_clean.events
+    
     epochs_clean._data[:, grad_idx, :] = epochs_grad_clean.get_data()
     epochs_clean._data[:, mag_idx, :] = epochs_mag_clean.get_data()
 
