@@ -101,17 +101,25 @@ for condition in conditions:
     bads_comb = list(set(list(bads_mags) + list(bads_grads)))
     bads_comb.sort()
 
-    idx = np.zeros(len(epochs_clean.get_data()))
-    idx[bads_comb] = 1
-    idx = idx.astype(bool)
+    idx = np.zeros(len(epochs_clean.get_data()), dtype="bool")
+    idx[bads_comb] = True
 
     mag_idx = mne.pick_types(epochs_clean.info, meg="mag")
     grad_idx = mne.pick_types(epochs_clean.info, meg="grad")
 
     epochs_clean.drop(idx)
-    for i, j in enumerate(idx):
-        if i == True:
-            epochs_clean.drop_log[j] = ["USER"]
+
+    k = 0
+    for i,j in enumerate(foo_list):
+        tmp = f3.drop_log[j]
+        print(tmp)
+        print(i)
+        print(j)
+    
+        if not tmp:
+            f3.drop(j-k)
+            k += 1
+                
 
     epochs_grad_clean.events = epochs_clean.events
     epochs_mag_clean.events = epochs_clean.events
