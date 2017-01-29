@@ -46,8 +46,8 @@ for condition in conditions:
     raw.info['projs'] = list()  # remove proj, don't proj while interpolating
 
     # Setup for reading the raw data
-    picks = mne.pick_types(raw.info, meg=True, eeg=False, stim=False,
-                           eog=True, exclude=[])
+    picks = mne.pick_types(
+        raw.info, meg=True, eeg=False, stim=False, eog=True, exclude=[])
     # Read epochs
     epochs = mne.Epochs(
         raw,
@@ -115,7 +115,7 @@ for condition in conditions:
     for i, j in enumerate(bad_idx_comb):
         tmp = epochs_grad_clean.drop_log[j]
         if not tmp:
-            epochs_grad_clean.drop(j-k)
+            epochs_grad_clean.drop(j - k)
             k += 1
 
     # Loop to drop bad epochs not present in the channel type
@@ -124,7 +124,7 @@ for condition in conditions:
     for i, j in enumerate(bad_idx_comb):
         tmp = epochs_mag_clean.drop_log[j]
         if not tmp:
-            epochs_mag_clean.drop(j-k)
+            epochs_mag_clean.drop(j - k)
             k += 1
 
     epochs_grad_clean.events = epochs_clean.events
