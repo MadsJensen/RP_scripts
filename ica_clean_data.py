@@ -45,10 +45,9 @@ for condition in conditions:
     # 2) identify bad components by analyzing latent sources.
 
     # DETECT EOG BY CORRELATION
-    # HORIZONTAL EOG
     title = "ICA: %s for %s"
 
-    # channel name
+    # EOG
     eog_inds, scores = ica.find_bads_eog(epochs)
 
     eog_inds = eog_inds[:n_max_eog]
@@ -57,39 +56,38 @@ for condition in conditions:
     if eog_inds:
         fig = ica.plot_scores(
             scores, exclude=eog_inds, title=title % ('eog', subject))
-        fig.savefig(ica_folder + "plots/%s_%s_eog_scores.png" % (subject, condition
-                                                                ))
+        fig.savefig(ica_folder + "plots/%s_%s_eog_scores.png" % (subject,
+                                                                 condition))
         fig = ica.plot_sources(epochs, exclude=eog_inds)
-        fig.savefig(ica_folder + "plots/%s_%s_eog_source.png" % (subject, condition
-                                                                ))
-        
+        fig.savefig(ica_folder + "plots/%s_%s_eog_source.png" % (subject,
+                                                                 condition))
+
         fig = ica.plot_components(
             eog_inds, title=title % ('eog', subject), colorbar=True)
         fig.savefig(ica_folder + "plots/%s_%s_eog_component.png" % (subject,
-                                                                   condition))
+                                                                    condition))
         fig = ica.plot_overlay(epochs.average(), exclude=eog_inds, show=False)
         fig.savefig(ica_folder + "plots/%s_%s_eog_excluded.png" % (subject,
-                                                                  condition))
+                                                                   condition))
         fig = ica.plot_properties(epochs, picks=eog_inds)
-        fig[0].savefig(ica_folder + "plots/%s_%s_plot_properties.png" % (subject,
-                                                                     condition))
+        fig[0].savefig(ica_folder + "plots/%s_%s_plot_properties.png" % (
+            subject, condition))
 
-    ## ECG
+    # ECG
     ecg_inds, scores = ica.find_bads_ecg(epochs)
     ica.exclude += ecg_inds
 
-    if ecg_inds:    
+    if ecg_inds:
         fig = ica.plot_components(
             ecg_inds, title=title % ('ecg', subject), colorbar=True)
         fig.savefig(ica_folder + "plots/%s_%s_ecg_component.png" % (subject,
-                                                                   condition))
+                                                                    condition))
         fig = ica.plot_overlay(epochs.average(), exclude=ecg_inds, show=False)
         fig.savefig(ica_folder + "plots/%s_%s_ecg_excluded.png" % (subject,
-                                                                  condition))
+                                                                   condition))
         fig = ica.plot_properties(epochs, picks=ecg_inds)
-        fig[0].savefig(ica_folder + "plots/%s_%s_plot_properties.png" % (subject,
-                                                                     condition))
-
+        fig[0].savefig(ica_folder + "plots/%s_%s_plot_properties.png" % (
+            subject, condition))
 
     ##########################################################################
     # Apply the solution to Raw, Epochs or Evoked like this:
@@ -97,6 +95,4 @@ for condition in conditions:
     ica.save(ica_folder + "%s_%s-ica.fif" % (subject, condition))  # save ICA
     # componenets
     # Save raw with ICA removed
-    epochs_ica.save(
-        ica_folder + "%s_%s_ar_ica-epo.fif" %
-        (subject, condition))
+    epochs_ica.save(ica_folder + "%s_%s_ar_ica-epo.fif" % (subject, condition))
