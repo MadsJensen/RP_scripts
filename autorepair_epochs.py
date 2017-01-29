@@ -101,25 +101,31 @@ for condition in conditions:
     bads_comb = list(set(list(bads_mags) + list(bads_grads)))
     bads_comb.sort()
 
-    idx = np.zeros(len(epochs_clean.get_data()), dtype="bool")
-    idx[bads_comb] = True
+    bad_idx_comb = np.zeros(len(epochs_clean.get_data()), dtype="bool")
+    bad_idx_comb[bads_comb] = True
 
     mag_idx = mne.pick_types(epochs_clean.info, meg="mag")
     grad_idx = mne.pick_types(epochs_clean.info, meg="grad")
 
-    epochs_clean.drop(idx)
+    epochs_clean.drop(bad_idx_comb)
 
+    # Loop to drop bad epochs not present in the channel type
+    # k is a counter to keep the index right after dropping epochs
     k = 0
-    for i,j in enumerate(foo_list):
-        tmp = f3.drop_log[j]
-        print(tmp)
-        print(i)
-        print(j)
-    
+    for i, j in enumerate(bad_idx_comb):
+        tmp = epochs_grad_clean.drop_log[j]
         if not tmp:
-            f3.drop(j-k)
+            epochs_grad_clean.drop(j-k)
             k += 1
-                
+
+    # Loop to drop bad epochs not present in the channel type
+    # k is a counter to keep the index right after dropping epochs
+    k = 0
+    for i, j in enumerate(bad_idx_comb):
+        tmp = epochs_mag_clean.drop_log[j]
+        if not tmp:
+            epochs_mag_clean.drop(j-k)
+            k += 1
 
     epochs_grad_clean.events = epochs_clean.events
     epochs_mag_clean.events = epochs_clean.events
