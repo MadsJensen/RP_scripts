@@ -112,7 +112,7 @@ for condition in conditions:
     # Loop to drop bad epochs not present in the channel type
     # k is a counter to keep the index right after dropping epochs
     k = 0
-    for i, j in enumerate(bad_idx_comb):
+    for i, j in enumerate(bads_comb):
         tmp = epochs_grad_clean.drop_log[j]
         if not tmp:
             epochs_grad_clean.drop(j - k)
@@ -121,18 +121,15 @@ for condition in conditions:
     # Loop to drop bad epochs not present in the channel type
     # k is a counter to keep the index right after dropping epochs
     k = 0
-    for i, j in enumerate(bad_idx_comb):
+    for i, j in enumerate(bads_comb):
         tmp = epochs_mag_clean.drop_log[j]
         if not tmp:
             epochs_mag_clean.drop(j - k)
             k += 1
 
-    epochs_grad_clean.events = epochs_clean.events
-    epochs_mag_clean.events = epochs_clean.events
-
     epochs_clean._data[:, grad_idx, :] = epochs_grad_clean.get_data()
     epochs_clean._data[:, mag_idx, :] = epochs_mag_clean.get_data()
 
     # Save epochs
-    epochs_clean.save(epochs_folder + "%s_%s_clean-epo.fif" % (subject,
+    epochs_clean.save(epochs_folder + "%s_%s_ar-epo.fif" % (subject,
                                                                condition))
