@@ -46,8 +46,8 @@ for condition in conditions:
     raw.info['projs'] = list()  # remove proj, don't proj while interpolating
 
     # Setup for reading the raw data
-    picks = mne.pick_types(
-        raw.info, meg=True, eeg=False, stim=False, eog=True, exclude=[])
+    picks = mne.pick_types(raw.info, meg=True, eeg=False, stim=False,
+                           eog=True, exclude=[])
     # Read epochs
     epochs = mne.Epochs(
         raw,
