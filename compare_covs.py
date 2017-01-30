@@ -1,13 +1,10 @@
 import mne
 import sys
 
-from mne import compute_covariance
-
+from my_settings import (epochs_folder, conditions, mne_folder)
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
-from my_settings import *
 
 reject = dict(
     grad=4000e-13,  # T / m (gradiometers)
@@ -16,15 +13,16 @@ reject = dict(
 subject = sys.argv[1]
 
 for condition in conditions:
-    epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject, condition))
+    epochs = mne.read_epochs(epochs_folder + "%s_%s_ar-epo.fif" % (subject,
+                                                                   condition))
     epochs.drop_bad(reject)
 
     # Make noise cov
     cov = mne.compute_covariance(
         epochs,
         method=['empirical', 'shrunk'],
-        tmin=-0.5,
-        tmax=0.0,
+        tmin=None,
+        tmax=-3.5,
         return_estimators=True,
         verbose=True)
 
