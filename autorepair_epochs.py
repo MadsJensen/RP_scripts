@@ -16,7 +16,7 @@ n_interpolates = np.array([1, 4, 32])
 consensus_percs = np.linspace(0, 1.0, 11)
 
 for condition in conditions:
-    raw = mne.io.Raw(mf_autobad_off_folder + "%s_%s_mc_tsss-raw.fif" %
+    raw = mne.io.Raw(ica_folder + "%s_%s_ica-raw.fif" %
                      (subject, condition),
                      preload=True)
     raw.filter(1, None)
@@ -25,11 +25,7 @@ for condition in conditions:
 
     # Setup events
     events = mne.find_events(raw)
-
-    if condition is "interupt":
-        event_id = {'press': 1, "about_to_press": 2}
-    else:
-        event_id = {'press': 1}
+    event_id = {'press': 1}
 
     # And pick MEG channels for repairing. Currently, :mod:`autoreject` can
     # repair only one channel type at a time.
@@ -88,12 +84,7 @@ for condition in conditions:
         verbose="tqdm")
 
     epochs_grad_clean = ar_grad.fit_transform(epochs_grad)
-    epochs_mag_clean = ar_mag.fit_transform(epochs_mag)
-
-    evoked = epochs.average()
-    evoked_grad_clean = epochs_grad_clean.average()
-    evoked_mag_clean = epochs_mag_clean.average()
-
+	
     epochs_clean = epochs.copy()
 
     bads_grads = ar_grad.bad_epochs_idx
