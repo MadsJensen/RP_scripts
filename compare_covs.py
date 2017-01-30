@@ -12,7 +12,7 @@ reject = dict(
 
 subject = sys.argv[1]
 
-for condition in conditions:
+for condition in conditions[:2]:
     epochs = mne.read_epochs(epochs_folder + "%s_%s_ar-epo.fif" % (subject,
                                                                    condition))
     epochs.drop_bad(reject)
@@ -29,4 +29,5 @@ for condition in conditions:
     evoked = epochs.average()
     fig = evoked.plot_white(cov, show=False)
     fig.suptitle("subject: %s" % subject)
-    fig.savefig(mne_folder + "plots_cov/sub_%s_%s.png" % (subject, condition))
+    fig.savefig(mne_folder + "plots_cov/sub_%s_%s_ar-cov.png" % (subject,
+                                                                 condition))
