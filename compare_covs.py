@@ -13,8 +13,8 @@ reject = dict(
 subject = sys.argv[1]
 
 for condition in conditions[:2]:
-    epochs = mne.read_epochs(epochs_folder + "%s_%s_ar-epo.fif" % (subject,
-                                                                   condition))
+    epochs = mne.read_epochs(epochs_folder + "%s_%s_ar_ica-epo.fif" % (
+        subject, condition))
     epochs.drop_bad(reject)
 
     # Make noise cov
