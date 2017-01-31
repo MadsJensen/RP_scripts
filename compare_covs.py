@@ -6,16 +6,16 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-reject = dict(
-    grad=4000e-13,  # T / m (gradiometers)
-    mag=4e-12)  # T (magnetometers)
+# reject = dict(
+#     grad=4000e-13,  # T / m (gradiometers)
+#     mag=4e-12)  # T (magnetometers)
 
 subject = sys.argv[1]
 
 for condition in conditions[:2]:
     epochs = mne.read_epochs(epochs_folder + "%s_%s_ar_ica-epo.fif" % (
         subject, condition))
-    epochs.drop_bad(reject)
+    # epochs.drop_bad(reject)
 
     # Make noise cov
     cov = mne.compute_covariance(
