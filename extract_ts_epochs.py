@@ -15,10 +15,10 @@ labels = mne.read_labels_from_annot(
     subject=subject, parc="PALS_B12_Brodmann", regexp="Brodmann")
 
 for condition in conditions:
-    inv = read_inverse_operator(mne_folder + "%s_%s-inv.fif" % (subject,
-                                                                condition))
-    epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
-                                                                condition))
+    inv = read_inverse_operator(mne_folder + "%s_%s_ar-inv.fif" % (subject,
+                                                                   condition))
+    epochs = mne.read_epochs(epochs_folder + "%s_%s_ar-epo.fif" % (subject,
+                                                                   condition))
     # epochs.resample(500)
 
     stcs = apply_inverse_epochs(
@@ -35,9 +35,9 @@ for condition in conditions:
     #     ts[h] = tc
 
     ts = np.asarray(ts)
-    stc.save(source_folder + "%s_%s_epo" % (subject, condition))
-    np.save(source_folder + "ave_ts/%s_%s_ts-epo.npy" % (subject, condition),
-            ts)
+    # stc.save(source_folder + "%s_%s_ar_epo" % (subject, condition))
+    np.save(source_folder + "ave_ts/%s_%s_ar_ts-epo.npy" %
+            (subject, condition), ts)
     del epochs
     del stcs
     del ts
