@@ -4,9 +4,7 @@ Created on Mon Jun 13 12:50:46 2016
 
 @author: mje
 """
-
 import mne
-from mne.externals import h5io
 from scipy.signal import hilbert
 import numpy as np
 import sys
@@ -24,9 +22,9 @@ for condition in conditions:
                                                               condition))
     for band in bands.keys():
         data = mne.filter.filter_data(ts, sfreq, bands[band][0],
-                                           bands[band][1])
+                                      bands[band][1])
         ht_data = hilbert(data)
         result[band] = ht_data
 
-    h5io.write_hdf5(source_folder + "hilbert_data/%s_%s_ht-epo.hf5" %
-            (subject, condition), result)
+        np.save(source_folder + "hilbert_data/%s_%s_ht-epo.npy" %
+                (subject, condition), result)
