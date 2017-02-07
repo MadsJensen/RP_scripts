@@ -23,7 +23,7 @@ for condition in conditions:
     ts = np.load(source_folder + "ave_ts/%s_%s_ts-epo.npy" % (subject,
                                                               condition))
     for band in bands.keys():
-        data = mne.filter.band_pass_filter(ts, sfreq, bands[band][0],
+        data = mne.filter.filter_data(ts, sfreq, bands[band][0],
                                            bands[band][1])
         ht_data = hilbert(data)
         result[band] = ht_data
