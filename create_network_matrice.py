@@ -1,5 +1,4 @@
 import mne
-from mne.externals import h5io
 import sys
 import numpy as np
 from nitime import TimeSeries
@@ -12,12 +11,12 @@ subject = sys.argv[1]
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 
-ht_cls = + h5io.read_hdf5("hilbert_data/%s_classic_ht-epo.npy" %
-                          subject)
-ht_pln = h5io.read_hdf5(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
-                        subject)
-ht_int = h5io.read_hdf5(source_folder + "hilbert_data/%s_interupt_ht-epo.npy" %
-                        subject)
+ht_cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
+                 subject).item()
+ht_pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
+                 subject).item()
+ht_int = np.load(source_folder + "hilbert_data/%s_interupt_ht-epo.npy" %
+                 subject).item()
 
 results_cls = {}
 results_pln = {}
