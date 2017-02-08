@@ -78,7 +78,7 @@ for toi in tois.keys():
 
     np.save(source_folder + "graph_data/%s_classic_pow_%s.npy" %
             (subject, toi), results_cls)
-    np.save(source_folder + "graph_data/%s_plan_pow_pln.npy" % (subject, toi),
+    np.save(source_folder + "graph_data/%s_plan_pow_%s.npy" % (subject, toi),
             results_pln)
-    np.save(source_folder + "graph_data/%s_interupt_pow_pln.npy" %
+    np.save(source_folder + "graph_data/%s_interupt_pow_%s.npy" %
             (subject, toi), results_int)
