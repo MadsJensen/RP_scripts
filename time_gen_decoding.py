@@ -2,8 +2,12 @@ import sys
 import numpy as np
 import mne
 from mne.decoding import GeneralizationAcrossTime
+from sklearn.externals import joblib
 
-from my_settings import (epochs_folder)
+from my_settings import (epochs_folder, data_path)
+
+import matplotlib
+matplotlib.use('Agg')
 
 subject = sys.argv[1]
 
@@ -20,6 +24,10 @@ epochs_plan.events[:, 2] = 2
 # Equalise channels and epochs, and concatenate epochs
 mne.equalize_channels([epochs_classic, epochs_plan])
 mne.epochs.equalize_epoch_counts([epochs_classic, epochs_plan])
+
+# Dirty hack # TODO: Check this from the Maxfilter side
+epochs_classic.info['dev_head_t'] = epochs_plan.info['dev_head_t']
+
 epochs = mne.concatenate_epochs([epochs_classic, epochs_plan])
 
 # Setup the y vector and GAT
@@ -32,4 +40,11 @@ gat.fit(epochs, y=y)
 
 # Scoring and visualise result
 gat.score(epochs, y=y)
-gat.plot(title="Temporal Generalization (Classic vs planning): left to right")
+
+# Save model
+joblib.dump(gat, data_path + "decode_time_gen/%s_gat.jl" % subject)
+
+fig = gat.plot(
+    title="Temporal Gen (Classic vs planning): left to right sub: %s" %
+    subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix.png" % subject)
