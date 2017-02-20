@@ -16,8 +16,9 @@ n_interpolates = np.array([1, 4, 32])
 consensus_percs = np.linspace(0, 1.0, 11)
 
 for condition in conditions:
-    raw = mne.io.Raw(ica_folder + "%s_%s_ica-raw.fif" % (subject, condition),
-                     preload=True)
+    raw = mne.io.Raw(
+        mf_autobad_off_folder + "%s_%s_mc_tsss-raw.fif" % (subject, condition),
+        preload=True)
     raw.filter(1, None)
     raw.notch_filter(50)
     raw.filter(None, 95)
@@ -83,6 +84,7 @@ for condition in conditions:
         verbose="tqdm")
 
     epochs_grad_clean = ar_grad.fit_transform(epochs_grad)
+    epochs_mag_clean = ar_grad.fit_transform(epochs_mag)
 
     epochs_clean = epochs.copy()
 
