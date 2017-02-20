@@ -12,9 +12,9 @@ matplotlib.use('Agg')
 subject = sys.argv[1]
 
 # Load epochs from both conditions
-epochs_classic = mne.read_epochs(epochs_folder + "%s_classic-epo.fif" % (
+epochs_classic = mne.read_epochs(epochs_folder + "%s_classic_ar-epo.fif" % (
     subject))
-epochs_plan = mne.read_epochs(epochs_folder + "%s_plan-epo.fif" % (subject))
+epochs_plan = mne.read_epochs(epochs_folder + "%s_plan_ar-epo.fif" % (subject))
 
 # Fix the events for the plan epochs so they can be concatenated
 epochs_plan.event_id["press"] = 2
@@ -26,7 +26,7 @@ mne.equalize_channels([epochs_classic, epochs_plan])
 mne.epochs.equalize_epoch_counts([epochs_classic, epochs_plan])
 
 # Dirty hack # TODO: Check this from the Maxfilter side
-epochs_classic.info['dev_head_t'] = epochs_plan.info['dev_head_t']
+# epochs_classic.info['dev_head_t'] = epochs_plan.info['dev_head_t']
 
 epochs = mne.concatenate_epochs([epochs_classic, epochs_plan])
 
@@ -47,9 +47,9 @@ gat.fit(epochs, y=y)
 gat.score(epochs, y=y)
 
 # Save model
-joblib.dump(gat, data_path + "decode_time_gen/%s_gat.jl" % subject)
+joblib.dump(gat, data_path + "decode_time_gen/%s_gat_2.jl" % subject)
 
 fig = gat.plot(
     title="Temporal Gen (Classic vs planning): left to right sub: %s" %
     subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix.png" % subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_2.png" % subject)
