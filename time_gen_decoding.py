@@ -36,7 +36,8 @@ epochs.resample(250)
 # Setup the y vector and GAT
 y = np.concatenate(
     (np.zeros(len(epochs["press"])), np.ones(len(epochs["plan"]))))
-gat = GeneralizationAcrossTime(predict_mode='mean-prediction', n_jobs=1)
+gat = GeneralizationAcrossTime(
+    predict_mode='mean-prediction', scorer="ruc_aoc", n_jobs=1)
 
 # Fit model
 gat.fit(epochs, y=y)
