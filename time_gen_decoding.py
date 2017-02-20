@@ -29,6 +29,7 @@ mne.epochs.equalize_epoch_counts([epochs_classic, epochs_plan])
 epochs_classic.info['dev_head_t'] = epochs_plan.info['dev_head_t']
 
 epochs = mne.concatenate_epochs([epochs_classic, epochs_plan])
+
 # Crop and downsmample to make it faster
 epochs.crop(tmin=-3.5, tmax=0)
 epochs.resample(250)
@@ -37,7 +38,7 @@ epochs.resample(250)
 y = np.concatenate(
     (np.zeros(len(epochs["press"])), np.ones(len(epochs["plan"]))))
 gat = GeneralizationAcrossTime(
-    predict_mode='mean-prediction', scorer="ruc_aoc", n_jobs=1)
+    predict_mode='mean-prediction', scorer="roc_auc", n_jobs=1)
 
 # Fit model
 gat.fit(epochs, y=y)
