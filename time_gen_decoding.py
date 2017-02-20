@@ -30,7 +30,7 @@ epochs_classic.info['dev_head_t'] = epochs_plan.info['dev_head_t']
 
 epochs = mne.concatenate_epochs([epochs_classic, epochs_plan])
 # Crop and downsmample to make it faster
-epochs.crop(tmin=3.5, tmax=0)
+epochs.crop(tmin=-3.5, tmax=0)
 epochs.resample(250)
 
 # Setup the y vector and GAT
