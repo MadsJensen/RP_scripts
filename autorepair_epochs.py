@@ -75,16 +75,16 @@ for condition in conditions:
         n_interpolates,
         consensus_percs,
         thresh_func=thresh_func,
-        verbose="tqdm")
+        verbose="progressbar")
 
     ar_mag = LocalAutoRejectCV(
         n_interpolates,
         consensus_percs,
         thresh_func=thresh_func,
-        verbose="tqdm")
+        verbose="progressbar")
 
     epochs_grad_clean = ar_grad.fit_transform(epochs_grad)
-    epochs_mag_clean = ar_grad.fit_transform(epochs_mag)
+    epochs_mag_clean = ar_mag.fit_transform(epochs_mag)
 
     epochs_clean = epochs.copy()
 
