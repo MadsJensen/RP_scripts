@@ -6,7 +6,7 @@ import mne
 from nitime import TimeSeries
 from nitime.analysis import CorrelationAnalyzer
 
-from my_settings import (bands, source_folder)
+from .my_settings import (bands, source_folder)
 subject = sys.argv[1]
 
 cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
