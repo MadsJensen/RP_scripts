@@ -30,16 +30,16 @@ for k, band in enumerate(bands.keys()):
     for j in range(len(cls_all)):
         tmp = cls_all[j][band]
         data_cls.append(
-            np.asarray(
-                [bct.centrality.pagerank_centrality(
-                    g, d=0.85) for g in tmp]).mean(axis=0))
+            np.asarray([
+                bct.centrality.pagerank_centrality(g, d=0.85) for g in tmp
+            ]).mean(axis=0))
     data_pln = []
     for j in range(len(pln_all)):
         tmp = pln_all[j][band]
         data_pln.append(
-            np.asarray(
-                [bct.centrality.pagerank_centrality(
-                    g, d=0.85) for g in tmp]).mean(axis=0))
+            np.asarray([
+                bct.centrality.pagerank_centrality(g, d=0.85) for g in tmp
+            ]).mean(axis=0))
 
     data_cls = np.asarray(data_cls)
     data_pln = np.asarray(data_pln)
@@ -64,14 +64,15 @@ for k, band in enumerate(bands.keys()):
     grid.fit(X, y)
     ada_cv = grid.best_estimator_
 
-    scores = cross_val_score(ada_cv, X, y,
-                             cv=StratifiedKFold(y, n_folds=7, shuffle=True),
-                                               scoring="accuracy")
+    scores = cross_val_score(
+        ada_cv,
+        X,
+        y,
+        cv=StratifiedKFold(y, n_folds=7, shuffle=True),
+        scoring="accuracy")
     scores_all[k, :] = scores
 
     # save the classifier
-    joblib.dump(
-        ada_cv,
-        "sk_models/pagerank_ada_plan_%s_2.plk" % band)
+    joblib.dump(ada_cv, "sk_models/pagerank_ada_plan_%s_2.plk" % band)
 
 np.save("pagerank_scores_all_plan_2.npy", scores_all)
