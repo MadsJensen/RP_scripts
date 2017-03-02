@@ -49,3 +49,62 @@ grid.fit(X, y)
 ada_cv = grid.best_estimator_
 
 scores = cross_val_score(ada_cv, X, y, cv=cv)
+# Logistic Regression with cross validation for C
+scores = []
+coefs = []
+Cs = []
+LRs = []
+
+for train, test in cv.split(X, y):
+    # clf = LogisticRegression(C=1)
+    clf = LogisticRegressionCV()
+    clf.fit(X[train], y[train])
+    y_pred = clf.predict(X[test])
+
+    scores.append(roc_auc_score(y[test], y_pred))
+    coefs.append(clf.coef_)
+    Cs.append(clf.C_)
+    LRs.append(clf)
+
+lr_mean = LogisticRegression()
+lr_mean.coef_ = np.asarray(coefs).mean(axis=0)
+lr_mean.C = np.asarray(Cs).mean()
+lr_mean.intercept_ = np.asarray([est.intercept_ for est in LRs]).mean()
+
+lr_coef_mean = np.asarray(coefs).mean(axis=0)
+lr_coef_std = np.asarray(coefs).std(axis=0)
+
+cv_scores = cross_val_score(
+    lr_mean, X, y, scoring="roc_auc", cv=StratifiedKFold(9))
+
+score_full_X, perm_scores_full_X, pvalue_full_X = permutation_test_score(
+    lr_mean,
+    X,
+    y,
+    scoring="roc_auc",
+    cv=StratifiedKFold(9),
+    n_permutations=2000,
+    n_jobs=2)
+
+# RandomizedLogisticRegression feature selection
+for i in range(20):
+    rlr = RandomizedLogisticRegression(
+        n_resampling=5000, C=lr_mean.C, selection_threshold=0.6)
+    rlr.fit(X, y)
+    print(sum(rlr.get_support()))
+    
+    
+X_rlr = rlr.transform(X)
+
+cv_scores_rlr = cross_val_score(lr_mean, X_rlr, y, 
+                                scoring="roc_auc", cv=StratifiedKFold(9))
+
+score_rlr, perm_scores_rlr, pvalue_rlr = permutation_test_score(
+    lr_mean,
+    X_rlr,
+    y,
+    scoring="roc_auc",
+    cv=StratifiedKFold(9),
+    n_permutations=2000,
+    n_jobs=2)
+
