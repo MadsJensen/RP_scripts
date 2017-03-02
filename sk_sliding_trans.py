@@ -16,10 +16,10 @@ cls_all = []
 pln_all = []
 
 for subject in subjects:
-    cls = np.load(source_folder + "graph_data/%s_classic_pow_pln.npy" %
+    cls = np.load(source_folder + "graph_data/%s_cls_pow_sliding.npy" %
                   subject).item()
 
-    pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
+    pln = np.load(source_folder + "graph_data/%s_pln_pow_sliding.npy" %
                   subject).item()
 
     cls_all.append(cls["trans_alpha"])
