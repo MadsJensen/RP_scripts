@@ -53,8 +53,8 @@ for subject in subjects:
     pln_tmp.append(pln["pr_gamma_low"])
     pln_tmp.append(pln["pr_gamma_high"])
 
-    cls_all.append(np.asarray(cls_tmp.swapaxes(2, 1).reshape((4 * 82, 98))))
-    pln_all.append(np.asarray(pln_tmp.swapaxes(2, 1).reshape((4 * 82, 98))))
+    cls_all.append(np.asarray(cls_tmp).swapaxes(2, 1).reshape((4 * 82, 98)))
+    pln_all.append(np.asarray(pln_tmp).swapaxes(2, 1).reshape((4 * 82, 98)))
 
 data_cls = np.asarray(cls_all)
 data_pln = np.asarray(pln_all)
