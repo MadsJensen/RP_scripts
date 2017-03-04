@@ -16,7 +16,7 @@ step_size = 25  # size in ms of the step to move window
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 selected_times = times[::step_size]
-
+n_time = sum((selected_times + window_size) <  times[-1])
 
 # Custom scorer function to use predict_proba
 def scorer(y_true, y_pred):
@@ -53,8 +53,8 @@ for subject in subjects:
     pln_tmp.append(pln["pr_gamma_low"])
     pln_tmp.append(pln["pr_gamma_high"])
 
-    cls_all.append(np.asarray(cls_tmp).swapaxes(2, 1).reshape((4 * 82, 98)))
-    pln_all.append(np.asarray(pln_tmp).swapaxes(2, 1).reshape((4 * 82, 98)))
+    cls_all.append(np.asarray(cls_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
+    pln_all.append(np.asarray(pln_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
 
 data_cls = np.asarray(cls_all)
 data_pln = np.asarray(pln_all)
