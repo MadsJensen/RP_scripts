@@ -3,7 +3,7 @@ import bct
 from sklearn.externals import joblib
 from my_settings import (bands, source_folder)
 
-from sklearn.cross_validation import (StratifiedKFold, cross_val_score)
+from sklearn.model_selection import (StratifiedKFold, cross_val_score)
 from sklearn.grid_search import GridSearchCV
 from sklearn.ensemble import AdaBoostClassifier
 
@@ -22,8 +22,20 @@ for subject in subjects:
     pln = np.load(source_folder + "graph_data/%s_pln_pow_sliding.npy" %
                   subject).item()
 
-    cls_all.append(cls["trans_alpha"])
-    pln_all.append(pln["trans_alpha"])
+    cls_tmp = []
+    cls_tmp.append(cls["trans_alpha"])
+    cls_tmp.append(cls["trans_beta"])
+    cls_tmp.append(cls["trans_gamma_low"])
+    cls_tmp.append(cls["trans_gamma_high"])
+
+    pln_tmp = []
+    pln_tmp.append(pln["trans_alpha"])
+    pln_tmp.append(pln["trans_beta"])
+    pln_tmp.append(pln["trans_gamma_low"])
+    pln_tmp.append(pln["trans_gamma_high"])
+
+    cls_all.append(np.asarray(cls_tmp).reshape(-1))
+    pln_all.append(np.asarray(pln_tmp).reshape(-1))
 
 data_cls = np.asarray(cls_all)
 data_pln = np.asarray(pln_all)
@@ -31,7 +43,7 @@ data_pln = np.asarray(pln_all)
 X = np.vstack([data_cls, data_pln])
 y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
-cv = StratifiedKFold(y, n_folds=6, shuffle=True)
+cv = StratifiedKFold(n_splits=7, shuffle=True)
 
 cv_params = {
     "learning_rate": np.arange(0.1, 1.1, 0.1),
@@ -41,7 +53,7 @@ cv_params = {
 grid = GridSearchCV(
     AdaBoostClassifier(),
     cv_params,
-    scoring='accuracy',
+    scoring='roc_auc',
     cv=cv,
     n_jobs=1,
     verbose=1)
@@ -49,21 +61,23 @@ grid.fit(X, y)
 ada_cv = grid.best_estimator_
 
 scores = cross_val_score(ada_cv, X, y, cv=cv)
+
+
 # Logistic Regression with cross validation for C
 scores = []
 coefs = []
 Cs = []
 LRs = []
 
-for train, test in cv.split(X, y):
-    # clf = LogisticRegression(C=1)
-    clf = LogisticRegressionCV()
+for train, test in cv.split(X_slc, y):
+    clf = LogisticRegression(C=1)
+    #clf = LogisticRegressionCV()
     clf.fit(X[train], y[train])
     y_pred = clf.predict(X[test])
 
     scores.append(roc_auc_score(y[test], y_pred))
     coefs.append(clf.coef_)
-    Cs.append(clf.C_)
+    # Cs.append(clf.C_)
     LRs.append(clf)
 
 lr_mean = LogisticRegression()
@@ -75,7 +89,7 @@ lr_coef_mean = np.asarray(coefs).mean(axis=0)
 lr_coef_std = np.asarray(coefs).std(axis=0)
 
 cv_scores = cross_val_score(
-    lr_mean, X, y, scoring="roc_auc", cv=StratifiedKFold(9))
+    lr_mean, X_slc, y, scoring="roc_auc", cv=cv)
 
 score_full_X, perm_scores_full_X, pvalue_full_X = permutation_test_score(
     lr_mean,
@@ -84,12 +98,12 @@ score_full_X, perm_scores_full_X, pvalue_full_X = permutation_test_score(
     scoring="roc_auc",
     cv=StratifiedKFold(9),
     n_permutations=2000,
-    n_jobs=2)
+    n_jobs=1, verbose=2)
 
 # RandomizedLogisticRegression feature selection
 for i in range(20):
     rlr = RandomizedLogisticRegression(
-        n_resampling=5000, C=lr_mean.C, selection_threshold=0.6)
+        n_resampling=5000, C=lr_mean.C, selection_threshold=0.25)
     rlr.fit(X, y)
     print(sum(rlr.get_support()))
     
