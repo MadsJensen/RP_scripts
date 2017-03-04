@@ -1,7 +1,7 @@
 import numpy as np
 import bct
 from sklearn.externals import joblib
-from my_settings import (bands, source_folder)
+from my_settings import (source_folder)
 
 from sklearn.model_selection import (StratifiedKFold, cross_val_score)
 from sklearn.grid_search import GridSearchCV
