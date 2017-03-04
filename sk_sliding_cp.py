@@ -76,7 +76,8 @@ epochs.times = selected_times[:n_time]
 
 # fit model and score
 gat = GeneralizationAcrossTime(
-    scorer=scorer, cv=cv, predict_method='predict_proba')
+    scorer="accuracy", cv=cv, predict_method='predict')
+
 gat.fit(epochs, y=y)
 gat.score(epochs, y=y)
 
@@ -93,4 +94,4 @@ fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_cp.png" % subject)
 fig = gat.plot_diagonal(
     chance=0.5,
     title="Temporal Gen (Classic vs planning): left to right")
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_cp.png" % subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_cp.png" % subject)
