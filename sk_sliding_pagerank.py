@@ -88,3 +88,9 @@ fig = gat.plot(
     title="Temporal Gen (Classic vs planning): left to right sub: %s" %
     subject)
 fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_pr.png" % subject)
+
+fig = gat.plot_diagonal(
+    chance=0.5,
+    cmap="viridis",
+    title="Temporal Gen (Classic vs planning): left to right")
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_pr.png" % subject)
