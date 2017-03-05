@@ -75,5 +75,5 @@ for j, est in enumerate(gat.estimators_):
         "pval": pval
     })
 
-np.save(perm_score_results,
-        data_path + "decode_time_gen/perm_score_results_ge.npy")
+joblib.dump(perm_score_results,
+            data_path + "decode_time_gen/perm_score_results_ge.npy")
