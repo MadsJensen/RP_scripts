@@ -6,16 +6,13 @@ import mne
 from nitime import TimeSeries
 from nitime.analysis import CorrelationAnalyzer
 
-from my_settings import (bands, source_folder)
+from my_settings import (bands, source_folder, window_size, step_size)
 subject = sys.argv[1]
 
 cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
               subject).item()
 pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
               subject).item()
-
-window_size = .200  # size in ms of the window to cal measure
-step_size = 50  # size in ms of the step to move window
 
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
