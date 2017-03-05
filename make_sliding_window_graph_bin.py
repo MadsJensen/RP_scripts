@@ -29,8 +29,8 @@ for k, band in enumerate(bands.keys()):
     pln_bs = mne.baseline.rescale(
         np.abs(pln[band])**2, times, baseline=(-3.8, -3.3), mode="zscore")
 
-    pr_cls = []
-    pr_pln = []
+    deg_cls = []
+    deg_pln = []
     trans_cls = []
     trans_pln = []
     ge_cls = []
@@ -79,31 +79,31 @@ for k, band in enumerate(bands.keys()):
 
             deg_pln_tmp = np.asarray([
                 bct.degrees_und(g)
-                for g in corr_pln_coef
+                for g in data_pln_bin
             ]).mean(axis=0)
 
             trans_cls_tmp = np.asarray(
-                [bct.transitivity_wu(g) for g in corr_cls_coef]).mean(axis=0)
+                [bct.transitivity_bu(g) for g in data_cls_bin]).mean(axis=0)
             trans_pln_tmp = np.asarray(
-                [bct.transitivity_wu(g) for g in corr_pln_coef]).mean(axis=0)
+                [bct.transitivity_bu(g) for g in data_pln_bin]).mean(axis=0)
 
             ge_cls_tmp = np.asarray(
-                [bct.distance.charpath(g)[1] for g in corr_cls_coef]).mean(
+                [bct.distance.charpath(g)[1] for g in data_cls_bin]).mean(
                     axis=0)
             ge_pln_tmp = np.asarray(
-                [bct.distance.charpath(g)[1] for g in corr_pln_coef]).mean(
+                [bct.distance.charpath(g)[1] for g in data_pln_bin]).mean(
                     axis=0)
 
             cp_cls_tmp = np.asarray(
-                [bct.distance.charpath(g)[0] for g in corr_cls_coef]).mean(
+                [bct.distance.charpath(g)[0] for g in data_cls_bin]).mean(
                     axis=0)
             cp_pln_tmp = np.asarray(
-                [bct.distance.charpath(g)[0] for g in corr_pln_coef]).mean(
+                [bct.distance.charpath(g)[0] for g in data_pln_bin]).mean(
                     axis=0)
 
             # Add measure to results list
-            pr_cls.append(pr_cls_tmp)
-            pr_pln.append(pr_pln_tmp)
+            deg_cls.append(deg_cls_tmp)
+            deg_pln.append(deg_pln_tmp)
             trans_cls.append(trans_cls_tmp)
             trans_pln.append(trans_pln_tmp)
             ge_cls.append(ge_cls_tmp)
@@ -111,8 +111,8 @@ for k, band in enumerate(bands.keys()):
             cp_cls.append(cp_cls_tmp)
             cp_pln.append(cp_pln_tmp)
 
-    results_cls["pr_%s" % band] = np.asarray(pr_cls)
-    results_pln["pr_%s" % band] = np.asarray(pr_pln)
+    results_cls["deg_%s" % band] = np.asarray(deg_cls)
+    results_pln["deg_%s" % band] = np.asarray(deg_pln)
     results_cls["trans_%s" % band] = np.asarray(trans_cls)
     results_pln["trans_%s" % band] = np.asarray(trans_pln)
     results_cls["ge_%s" % band] = np.asarray(ge_cls)
