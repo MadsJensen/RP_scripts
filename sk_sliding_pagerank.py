@@ -82,7 +82,7 @@ clf = LogisticRegression(C=0.0001)
 
 # fit model and score
 gat = GeneralizationAcrossTime(
-    clf=clf, scorer=scorer, cv=cv, predict_method="predict_proba")
+    clf=clf, scorer="roc_auc", cv=cv, predict_method="predict")
 gat.fit(epochs, y=y)
 gat.score(epochs, y=y)
 
