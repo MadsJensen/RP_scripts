@@ -5,14 +5,12 @@ from mne.decoding import GeneralizationAcrossTime
 from sklearn.model_selection import (StratifiedKFold)
 from sklearn.metrics import roc_auc_score
 
-from my_settings import (source_folder, data_path)
+from my_settings import (source_folder, data_path, step_size)
 
 import matplotlib
 matplotlib.use('Agg')
 
 # make time points
-window_size = .100  # size in ms of the window to cal measure
-step_size = 25  # size in ms of the step to move window
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 selected_times = times[::step_size]

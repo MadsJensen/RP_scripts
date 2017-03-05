@@ -17,6 +17,8 @@ bands = {
     "gamma_high": [52, 90]
 }
 
+window_size = .200  # size in ms of the window to cal measure
+step_size = 50  # size in ms of the step to move window
 
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch" \
                 "/mne_analysis_new/"

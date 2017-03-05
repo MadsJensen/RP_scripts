@@ -5,18 +5,17 @@ from mne.decoding import GeneralizationAcrossTime
 from sklearn.model_selection import (StratifiedKFold)
 from sklearn.metrics import roc_auc_score
 
-from my_settings import (source_folder, data_path)
+from my_settings import (source_folder, data_path, step_size, window_size)
 
 import matplotlib
 matplotlib.use('Agg')
 
 # make time points
-window_size = .100  # size in ms of the window to cal measure
-step_size = 25  # size in ms of the step to move window
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 selected_times = times[::step_size]
-n_time = sum((selected_times + window_size) <  times[-1])
+n_time = sum((selected_times + window_size) < times[-1])
+
 
 # Custom scorer function to use predict_proba
 def scorer(y_true, y_pred):
@@ -53,8 +52,10 @@ for subject in subjects:
     pln_tmp.append(pln["pr_gamma_low"])
     pln_tmp.append(pln["pr_gamma_high"])
 
-    cls_all.append(np.asarray(cls_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
-    pln_all.append(np.asarray(pln_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
+    cls_all.append(
+        np.asarray(cls_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
+    pln_all.append(
+        np.asarray(pln_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
 
 data_cls = np.asarray(cls_all)
 data_pln = np.asarray(pln_all)
@@ -91,6 +92,5 @@ fig = gat.plot(
 fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_pr.png" % subject)
 
 fig = gat.plot_diagonal(
-    chance=0.5,
-    title="Temporal Gen (Classic vs planning): left to right")
+    chance=0.5, title="Temporal Gen (Classic vs planning): left to right")
 fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_pr.png" % subject)
