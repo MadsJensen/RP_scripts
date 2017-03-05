@@ -69,16 +69,16 @@ for k, band in enumerate(bands.keys()):
             threshold = np.median(full_matrix[np.nonzero(full_matrix)]) + \
                 np.std(full_matrix[np.nonzero(full_matrix)])
 
-            data_cls_bin = cls_bs > threshold
-            data_pln_bin = pln_bs > threshold
+            data_cls_bin = corr_cls_coef > threshold
+            data_pln_bin = corr_pln_coef > threshold
 
-            pr_cls_tmp = np.asarray([
-                bct.centrality.pagerank_centrality(g, d=0.85)
-                for g in corr_cls_coef
+            deg_cls_tmp = np.asarray([
+                bct.degrees_und(g)
+                for g in data_cls_bin
             ]).mean(axis=0)
 
-            pr_pln_tmp = np.asarray([
-                bct.centrality.pagerank_centrality(g, d=0.85)
+            deg_pln_tmp = np.asarray([
+                bct.degrees_und(g)
                 for g in corr_pln_coef
             ]).mean(axis=0)
 
