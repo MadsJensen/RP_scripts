@@ -4,6 +4,7 @@ from mne import create_info, EpochsArray
 from mne.decoding import GeneralizationAcrossTime
 from sklearn.model_selection import (StratifiedKFold)
 from sklearn.metrics import roc_auc_score
+from sklearn.linear_model import LogisticRegression
 
 from my_settings import (source_folder, data_path, step_size)
 
@@ -72,24 +73,24 @@ info = create_info(chan_names, sfreq, chan_types)
 epochs = EpochsArray(data=X, info=info, events=events, verbose=False)
 epochs.times = selected_times[:n_time]
 
+# make classifier
+clf = LogisticRegression(C=0.0001)
+
 # fit model and score
 gat = GeneralizationAcrossTime(
-    scorer="accuracy", cv=cv, predict_method='predict')
+    clf=clf, scorer=scorer, cv=cv, predict_method="predict_proba")
 
 gat.fit(epochs, y=y)
 gat.score(epochs, y=y)
 
 # Save model
-joblib.dump(gat, data_path + "decode_time_gen/%s_gat_cp.jl" % subject)
+joblib.dump(gat, data_path + "decode_time_gen/gat_cp.jl")
 
 # make matrix plot and save it
 fig = gat.plot(
-    cmap="viridis",
-    title="Temporal Gen (Classic vs planning): left to right sub: %s" %
-    subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_cp.png" % subject)
+    cmap="viridis", title="Temporal Gen (Classic vs planning) for CharPath")
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_cp.png")
 
 fig = gat.plot_diagonal(
-    chance=0.5,
-    title="Temporal Gen (Classic vs planning): left to right")
-fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_cp.png" % subject)
+    chance=0.5, title="Temporal Gen (Classic vs planning) for CharPath")
+fig.savefig(data_path + "decode_time_gen/gat_diagonal_cp.png")
