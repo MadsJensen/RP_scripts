@@ -14,8 +14,8 @@ cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
 pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
               subject).item()
 
-window_size = .100  # size in ms of the window to cal measure
-step_size = 25  # size in ms of the step to move window
+window_size = .200  # size in ms of the window to cal measure
+step_size = 50  # size in ms of the step to move window
 
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
