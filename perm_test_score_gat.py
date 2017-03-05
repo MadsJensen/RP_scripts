@@ -9,7 +9,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import (permutation_test_score, StratifiedKFold)
 from sklearn.externals import joblib
 
-from my_settings import (data_path)
+from my_settings import (data_path, source_folder, step_size, window_size)
+
+# make time points
+times = np.arange(-4000, 1001, 1)
+times = times / 1000.
+selected_times = times[::step_size]
+n_time = sum((selected_times + window_size) < times[-1])
 
 # Load data
 subjects = [
