@@ -70,14 +70,12 @@ for j, est in enumerate(gat.estimators_):
         lr_mean.intercept_ = np.asarray([lr.intercept_ for lr in est]).mean()
 
     score, perm_score, pval = permutation_test_score(
-        lr_mean,
-        X[:, :, j],
-         y,
-         cv=cv,
-         scoring="roc_auc",
-         n_permutations=2000)
+        lr_mean, X[:, :, j], y, cv=cv, scoring="roc_auc", n_permutations=2000)
     perm_score_results.append({
         "score": score,
         "perm_score": perm_score,
         "pval": pval
-        })
+    })
+
+np.save(perm_score_results,
+        data_path + "decode_time_gen/perm_score_results_pr.npy")
