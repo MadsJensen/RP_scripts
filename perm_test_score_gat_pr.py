@@ -69,15 +69,15 @@ for j, est in enumerate(gat.estimators_):
             axis=0).squeeze()
         lr_mean.intercept_ = np.asarray([lr.intercept_ for lr in est]).mean()
 
-        score, perm_score, pval = permutation_test_score(
-            lr_mean,
-            X[:, :, j],
-            y,
-            cv=cv,
-            scoring="roc_auc",
-            n_permutations=2000)
-        perm_score_results.append({
-            "score": score,
-            "perm_score": perm_score,
-            "pval": pval
+    score, perm_score, pval = permutation_test_score(
+        lr_mean,
+        X[:, :, j],
+         y,
+         cv=cv,
+         scoring="roc_auc",
+         n_permutations=2000)
+    perm_score_results.append({
+        "score": score,
+        "perm_score": perm_score,
+        "pval": pval
         })
