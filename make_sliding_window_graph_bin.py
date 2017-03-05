@@ -65,12 +65,12 @@ for k, band in enumerate(bands.keys()):
             corr_pln_coef = [d.corrcoef for d in corr_pln]
 
             full_matrix = np.concatenate(
-                [corr_cls_coef, corr_pln_coef], axis=0)
+                [np.abs(corr_cls_coef), np.abs(corr_pln_coef)], axis=0)
             threshold = np.median(full_matrix[np.nonzero(full_matrix)]) + \
                 np.std(full_matrix[np.nonzero(full_matrix)])
 
-            data_cls_bin = corr_cls_coef > threshold
-            data_pln_bin = corr_pln_coef > threshold
+            data_cls_bin = np.abs(corr_cls_coef) > threshold
+            data_pln_bin = np.abs(corr_pln_coef) > threshold
 
             deg_cls_tmp = np.asarray([
                 bct.degrees_und(g)
