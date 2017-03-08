@@ -32,10 +32,10 @@ def scorer(y_true, y_pred):
 cls_all = []
 pln_all = []
 
-cls = np.load(source_folder + "graph_data/%s_cls_pow_sliding.npy" %
+cls = np.load(source_folder + "graph_data/%s_cls_pow_sliding_bin-epo.npy" %
               subject).item()
 
-pln = np.load(source_folder + "graph_data/%s_pln_pow_sliding.npy" %
+pln = np.load(source_folder + "graph_data/%s_pln_pow_sliding_bin-epo.npy" %
               subject).item()
 
 cls_tmp = []
@@ -78,6 +78,8 @@ sfreq = 250
 info = create_info(chan_names, sfreq, chan_types)
 epochs = EpochsArray(data=X, info=info, events=events, verbose=False)
 epochs.times = selected_times[:n_time]
+
+epochs.crop(-3.8, None)
 
 # fit model and score
 gat = GeneralizationAcrossTime(
