@@ -6,16 +6,16 @@ from sklearn.model_selection import (StratifiedKFold)
 from sklearn.metrics import roc_auc_score
 from sklearn.linear_model import LogisticRegression
 
-from my_settings import (source_folder, data_path, step_size)
-
 import matplotlib
 matplotlib.use('Agg')
+
+from my_settings import (data_path, source_folder, step_size, window_size)
 
 # make time points
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 selected_times = times[::step_size]
-
+n_time = sum((selected_times + window_size) < times[-1])
 
 # Custom scorer function to use predict_proba
 def scorer(y_true, y_pred):
@@ -52,8 +52,10 @@ for subject in subjects:
     pln_tmp.append(pln["deg_gamma_low"])
     pln_tmp.append(pln["deg_gamma_high"])
 
-    cls_all.append(np.asarray(cls_tmp))
-    pln_all.append(np.asarray(pln_tmp))
+    cls_all.append(
+        np.asarray(cls_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
+    pln_all.append(
+        np.asarray(pln_tmp).swapaxes(2, 1).reshape((4 * 82, n_time)))
 
 data_cls = np.asarray(cls_all)
 data_pln = np.asarray(pln_all)
@@ -78,20 +80,20 @@ clf = LogisticRegression(C=0.0001)
 
 # fit model and score
 gat = GeneralizationAcrossTime(
-    clf=clf, scorer="roc_auc", cv=cv, predict_method="predict")
+    scorer="roc_auc", cv=cv, predict_method="predict")
 gat.fit(epochs, y=y)
 gat.score(epochs, y=y)
 
 # Save model
-joblib.dump(gat, data_path + "decode_time_degn/gat_deg_bin.jl")
+joblib.dump(gat, data_path + "decode_time_gen/gat_deg_bin.jl")
 
 # make matrix plot and save it
 fig = gat.plot(
     cmap="viridis",
     title="Temporal Degn (Classic vs planning) for Global Eff.")
-fig.savefig(data_path + "decode_time_degn/gat_matrix_deg_bin.png")
+fig.savefig(data_path + "decode_time_gen/gat_matrix_deg_bin.png")
 
 fig = gat.plot_diagonal(
     chance=0.5,
     title="Temporal Degn (Classic vs planning) for Global eff.")
-fig.savefig(data_path + "decode_time_degn/gat_diagonal_deg_bin.png")
+fig.savefig(data_path + "decode_time_gen/gat_diagonal_deg_bin.png")
