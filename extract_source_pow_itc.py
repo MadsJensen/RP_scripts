@@ -8,7 +8,7 @@ import mne
 from mne.minimum_norm import (read_inverse_operator, source_induced_power)
 import numpy as np
 import sys
-from my_settings import *
+from my_settings import (mne_folder, epochs_folder, source_folder, conditions)
 
 subject = sys.argv[1]
 
@@ -16,7 +16,7 @@ subject = sys.argv[1]
 method = "dSPM"
 freqs = np.arange(6, 90, 3)  # define frequencies of interest
 n_cycles = freqs / 3.  # different number of cycle per frequency
-snr = 1.
+snr = 3.
 lambda2 = 1. / snr**2
 
 labels = mne.read_labels_from_annot(subject=subject,
@@ -45,7 +45,7 @@ for condition in conditions:
                                           method=method,
                                           n_cycles=n_cycles,
                                           decim=2,
-                                          pick_ori="normal",
+                                          pick_ori=None,
                                           baseline=(-3.5, -3.2),
                                           baseline_mode='zscore',
                                           n_jobs=1,
@@ -53,7 +53,7 @@ for condition in conditions:
         power_lbl[j] = power.mean(axis=0)
         itc_lbl[j] = itc.mean(axis=0)
 
-    np.save(source_folder + "source_TF/%s_%s_source-pow.npy" %
+    np.save(source_folder + "source_TF/%s_%s_source-pow_snr-3.npy" %
             (subject, condition), power)
-    np.save(source_folder + "source_TF/%s_%s_source-itc.npy" %
+    np.save(source_folder + "source_TF/%s_%s_source-itc_snr-3.npy" %
             (subject, condition), itc)
