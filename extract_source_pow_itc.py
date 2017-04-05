@@ -33,9 +33,9 @@ for condition in conditions:
                                                                 condition))
     epochs.resample(500, n_jobs=1)
     power_lbl = np.empty([len(
-        labels, ), len(freqs), len(epochs.times[::2])])
+        labels, ), len(freqs), len(epochs.times)])
     itc_lbl = np.empty([len(
-        labels, ), len(freqs), len(epochs.times[::2])])
+        labels, ), len(freqs), len(epochs.times)])
 
     for j, label in enumerate(labels):
         print("\n****************************")
