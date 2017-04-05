@@ -50,7 +50,7 @@ for condition in conditions:
             lambda2=lambda2,
             method=method,
             n_cycles=n_cycles,
-            decim=2,
+            decim=1,
             pick_ori=None,
             baseline=(-3.8, -3.4),
             baseline_mode='zscore',
