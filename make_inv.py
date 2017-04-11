@@ -8,7 +8,7 @@ subject = sys.argv[1]
 
 for condition in conditions:
     fwd = mne.read_forward_solution(
-        mne_folder + "%s_%s_ar-fwd.fif" % (subject, condition), surf_ori=True)
+        mne_folder + "%s_%s_ar-fwd.fif" % (subject, condition), surf_ori=False)
     epochs = mne.read_epochs(ica_folder + "%s_%s_ar_ica-epo.fif" % (
         subject, condition))
     cov = mne.read_cov(mne_folder + "%s_%s_ar-cov.fif" % (subject, condition))
