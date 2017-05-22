@@ -45,8 +45,8 @@ for condition in conditions:
         power, itc = source_induced_power(
             epochs,
             inv,
-            freqs,
-            label,
+            freqs=freqs,
+            label=label,
             lambda2=lambda2,
             method=method,
             n_cycles=n_cycles,
@@ -60,6 +60,6 @@ for condition in conditions:
         itc_lbl[j] = itc.mean(axis=0)
 
     np.save(source_folder + "source_TF/%s_%s_source-pow_snr-3.npy" %
-            (subject, condition), power)
+            (subject, condition), power_lbl)
     np.save(source_folder + "source_TF/%s_%s_source-itc_snr-3.npy" %
-            (subject, condition), itc)
+            (subject, condition), itc_lbl)
