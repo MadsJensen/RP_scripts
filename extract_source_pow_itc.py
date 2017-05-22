@@ -45,7 +45,7 @@ for condition in conditions:
         power, itc = source_induced_power(
             epochs,
             inv,
-            freqs=freqs,
+            frequencies=freqs,
             label=label,
             lambda2=lambda2,
             method=method,
