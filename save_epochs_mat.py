@@ -1,0 +1,14 @@
+import sys
+import numpy as np
+import scipy
+
+from my_settings import (source_folder, conditions)
+
+subject = sys.argv[1]
+
+for condition in conditions:
+    data = np.load(source_folder + "ave_ts/%s_%s_ts_DKT_snr-3-epo.npy" %
+                   (subject, condition))
+    scipy.io.savemat(source_folder +
+                     "ave_ts/mat_files/%s_%s_ts_DKT_snr-3-epo.npy" %
+                     (subject, condition), dict(data=data))
