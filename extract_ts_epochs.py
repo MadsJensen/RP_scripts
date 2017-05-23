@@ -8,7 +8,7 @@ from my_settings import (mne_folder, epochs_folder, source_folder, conditions)
 subject = sys.argv[1]
 
 method = "dSPM"
-snr = 1.
+snr = 3.
 lambda2 = 1. / snr**2
 
 # labels = mne.read_labels_from_annot(
@@ -36,7 +36,7 @@ for condition in conditions:
 
     ts = np.asarray(ts)
     # stc.save(source_folder + "%s_%s_ar_epo" % (subject, condition))
-    np.save(source_folder + "ave_ts/%s_%s_ts_DKT-epo.npy" %
+    np.save(source_folder + "ave_ts/%s_%s_ts_DKT_snr-3-epo.npy" %
             (subject, condition), ts)
     del epochs
     del stcs
