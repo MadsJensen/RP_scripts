@@ -11,15 +11,15 @@ method = "dSPM"
 snr = 1.
 lambda2 = 1. / snr**2
 
-labels = mne.read_labels_from_annot(
-    subject=subject, parc="PALS_B12_Brodmann", regexp="Brodmann")
+# labels = mne.read_labels_from_annot(
+#     subject=subject, parc="PALS_B12_Brodmann", regexp="Brodmann")
+labels = mne.read_labels_from_annot(subject, parc="aparc")
 
 for condition in conditions:
-    inv = read_inverse_operator(mne_folder + "%s_%s_ar-inv.fif" % (subject,
-                                                                   condition))
-    epochs = mne.read_epochs(epochs_folder + "%s_%s_ar-epo.fif" % (subject,
-                                                                   condition))
-    # epochs.resample(500)
+    inv = read_inverse_operator(mne_folder + "%s_%s-inv.fif" % (subject,
+                                                                condition))
+    epochs = mne.read_epochs(epochs_folder + "%s_%s-epo.fif" % (subject,
+                                                                condition))
 
     stcs = apply_inverse_epochs(
         epochs["press"], inv, lambda2, method=method, pick_ori=None)
@@ -36,7 +36,7 @@ for condition in conditions:
 
     ts = np.asarray(ts)
     # stc.save(source_folder + "%s_%s_ar_epo" % (subject, condition))
-    np.save(source_folder + "ave_ts/%s_%s_ar_ts-epo.npy" %
+    np.save(source_folder + "ave_ts/%s_%s_ts_DKT-epo.npy" %
             (subject, condition), ts)
     del epochs
     del stcs
