@@ -14,13 +14,13 @@ times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 
 ht_cls = loadmat(source_folder +
-                 "ave_ts/mat_files/%s_classic_ts_DKT_snr-3-epo.mat" %
+                 "ave_ts/mat_files/%s_classic_ts_DKT_snr-3_orth-epo.mat" %
                  subject)["data"]
 ht_pln = loadmat(source_folder +
-                 "ave_ts/mat_files/%s_plan-3-epo.mat" %
+                 "ave_ts/mat_files/%s_plan_ts_DKT_snr-3_orth-epo.mat" %
                  subject)["data"]
 ht_int = loadmat(source_folder +
-                 "ave_ts/mat_files/%s_interupt-3-epo.mat" %
+                 "ave_ts/mat_files/%s_interupt-ts_DKT_snr-3_orth-epo.mat" %
                  subject)["data"]
 
 results_cls = {}

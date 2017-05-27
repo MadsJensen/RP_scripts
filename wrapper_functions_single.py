@@ -8,12 +8,13 @@ Doc string here.
 import sys
 import subprocess
 
-cmd = "/usr/local/common/meeg-cfin/configurations/bin/submit_to_isis"
 
 if len(sys.argv) == 4:
     cpu_number = sys.argv[3]
 else:
-    cpu_number = 4
+    cpu_number = 1
 
-submit_cmd = "python %s %s" % (sys.argv[1], sys.argv[2])
-subprocess.call([cmd, "%s" % cpu_number, submit_cmd])
+submit_cmd = 'submit_to_cluster \"python %s %s\"' % (sys.argv[1], cpu_number)
+print(submit_cmd)
+
+# subprocess.call([cmd, "%s" % cpu_number, submit_cmd])

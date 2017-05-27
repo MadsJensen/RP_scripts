@@ -1,14 +1,15 @@
 import numpy as np
 from sklearn.ensemble import AdaBoostClassifier
-from sklearn.cross_validation import (StratifiedKFold, LeaveOneOut,
-                                      cross_val_score)
+from sklearn.cross_validation import (StratifiedKFold, cross_val_score)
 from sklearn.grid_search import GridSearchCV
 # from sklearn.pipeline import make_pipeline
 
-from my_settings import *
+from my_settings import (bands, source_folder)
 
-subjects = ["0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
-            "0017", "0018", "0019", "0020", "0021", "0022"]
+subjects = [
+    "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016", "0017",
+    "0018", "0019", "0020", "0021", "0022"
+]
 
 for band in bands.keys():
     results_all = {}
@@ -20,7 +21,6 @@ for band in bands.keys():
                       subject).item()
         pln = np.load(source_folder + "graph_data/%s_plan_pow_pln.npy" %
                       subject).item()
-
 
         results_cls.append(cls[band].mean(axis=0))
         results_pln.append(pln[band].mean(axis=0))
@@ -41,18 +41,16 @@ for band in bands.keys():
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
 
     cv = StratifiedKFold(y, n_folds=7, shuffle=True)
-    
 
     ada = AdaBoostClassifier()
 
-    adaboost_params = {"n_estimators": np.arange(20, 500, 20),
-                       "learning_rate": np.arange(0.1, 1.1, 0.1)}
+    adaboost_params = {
+        "n_estimators": np.arange(20, 500, 20),
+        "learning_rate": np.arange(0.1, 1.1, 0.1)
+    }
 
-    grid = GridSearchCV(ada,
-                        param_grid=adaboost_params,
-                        cv=cv,
-                        verbose=2,
-                        n_jobs=6)
+    grid = GridSearchCV(
+        ada, param_grid=adaboost_params, cv=cv, verbose=2, n_jobs=6)
     grid.fit(X, y)
 
     ada_cv = grid.best_estimator_
@@ -62,4 +60,4 @@ for band in bands.keys():
     results_all["%s_scores" % band] = scores
     results_all["%s_best_est" % band] = ada_cv
 
-np.save(source_folder + "graph_data/adaboost_result.npy", results_all )
+np.save(source_folder + "graph_data/adaboost_result.npy", results_all)
