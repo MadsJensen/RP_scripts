@@ -15,13 +15,13 @@ times = times / 1000.
 
 ht_cls = loadmat(source_folder +
                  "ave_ts/mat_files/%s_classic_ts_DKT_snr-3_orth-epo.mat" %
-                 subject)["data"]
+                 subject)["data_org"]
 ht_pln = loadmat(source_folder +
                  "ave_ts/mat_files/%s_plan_ts_DKT_snr-3_orth-epo.mat" %
-                 subject)["data"]
+                 subject)["data_org"]
 ht_int = loadmat(source_folder +
-                 "ave_ts/mat_files/%s_interupt-ts_DKT_snr-3_orth-epo.mat" %
-                 subject)["data"]
+                 "ave_ts/mat_files/%s_interupt_ts_DKT_snr-3_orth-epo.mat" %
+                 subject)["data_org"]
 
 results_cls = {}
 results_pln = {}
