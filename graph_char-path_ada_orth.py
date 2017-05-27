@@ -1,5 +1,6 @@
 import bct
 import numpy as np
+import pandas as pd
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
@@ -24,37 +25,27 @@ for subject in subjects:
     cls_all.append(cls.mean(axis=0))
     pln_all.append(pln.mean(axis=0))
 
-data_cls = np.asarray([bct.charpath(g) for g in cls_all]).mean(axis=0)
-data_pln = np.asarray([bct.charpath(g) for g in pln_all]).mean(axis=0)
+data_cls = [bct.charpath(g) for g in cls_all]
+data_pln = [bct.charpath(g) for g in pln_all]
 
-data_cls = np.asarray(data_cls)
-data_pln = np.asarray(data_pln)
+cls_ge = np.asarray([g[1] for g in data_cls])
+pln_ge = np.asarray([g[1] for g in data_pln])
 
-X = np.vstack([data_cls, data_pln])
-y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
+cls_lambda = np.asarray([g[0] for g in data_cls])
+pln_lambda = np.asarray([g[0] for g in data_pln])
 
-cv = StratifiedKFold(n_splits=6, shuffle=True)
+ge_data = pd.DataFrame()
+ge_data["pln"] = pln_ge
+ge_data["cls"] = cls_ge
 
-cv_params = {
-    "learning_rate": np.arange(0.1, 1.1, 0.1),
-    'n_estimators': np.arange(1, 80, 2)
-}
 
-grid = GridSearchCV(
-    AdaBoostClassifier(),
-    cv_params,
-    scoring='roc_auc',
-    cv=cv,
-    n_jobs=1,
-    verbose=1)
-grid.fit(X, y)
-ada_cv = grid.best_estimator_
+lambda_data = pd.DataFrame()
+lambda_data["pln"] = pln_lambda
+lambda_data["cls"] = cls_lambda
 
-scores = cross_val_score(ada_cv, X, y, cv=cv, scoring="roc_auc")
+cls_dia= np.asarray([g[4] for g in data_cls])
+pln_dia= np.asarray([g[4] for g in data_pln])
 
-# save the classifier
-joblib.dump(ada_cv,
-            source_folder + "graph_data/sk_models/char-path_ada_pln_orth.plk")
-
-np.save(source_folder + "graph_data/char-path_scores_all_pln_orth.npy",
-        scores)
+diadata = pd.DataFrame()
+diadata["pln"] = pln_dia
+diadata["cls"] = cls_dia
