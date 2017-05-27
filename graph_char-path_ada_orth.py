@@ -1,6 +1,5 @@
 import bct
 import numpy as np
-from scipy.io import loadmat
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
@@ -9,8 +8,8 @@ from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
 from my_settings import (source_folder)
 
 subjects = [
-    "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016", "0018",
-    "0019", "0020", "0022"
+    "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
+    "0019", "0020", "0021", "0022"
 ]
 
 cls_all = []
@@ -19,7 +18,7 @@ for subject in subjects:
     cls = np.load(source_folder + "graph_data/%s_classic_corr_pln_orth.npy" %
                   subject)
 
-    pln = np.load(source_folder + "graph_data/%s_plan_corr_pln_orth.npy"  %
+    pln = np.load(source_folder + "graph_data/%s_plan_corr_pln_orth.npy" %
                   subject)
 
     cls_all.append(cls)
