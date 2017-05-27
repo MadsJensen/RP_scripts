@@ -21,8 +21,8 @@ for subject in subjects:
     pln = np.load(source_folder + "graph_data/%s_plan_corr_pln_orth.npy" %
                   subject)
 
-    cls_all.append(cls)
-    pln_all.append(pln)
+    cls_all.append(cls.mean(axis=0))
+    pln_all.append(pln.mean(axis=0))
 
 data_cls = np.asarray([bct.charpath(g) for g in cls_all]).mean(axis=0)
 data_pln = np.asarray([bct.charpath(g) for g in pln_all]).mean(axis=0)
