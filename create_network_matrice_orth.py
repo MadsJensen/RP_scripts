@@ -4,6 +4,7 @@ import mne
 import numpy as np
 from nitime import TimeSeries
 from nitime.analysis import CorrelationAnalyzer
+from scipy.io import loadmat
 
 from my_settings import (source_folder)
 
@@ -12,13 +13,13 @@ subject = sys.argv[1]
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 
-ht_cls = np.load(source_folder +
+ht_cls = loadmat(source_folder +
                  "ave_ts/mat_files/%s_classic_ts_DKT_snr-3-epo.mat" %
                  subject)["data"]
-ht_pln = np.load(source_folder +
+ht_pln = loadmat(source_folder +
                  "ave_ts/mat_files/%s_plan-3-epo.mat" %
                  subject)["data"]
-ht_int = np.load(source_folder +
+ht_int = loadmat(source_folder +
                  "ave_ts/mat_files/%s_interupt-3-epo.mat" %
                  subject)["data"]
 
