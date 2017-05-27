@@ -1,22 +1,26 @@
-import mne
 import sys
+
+import mne
 import numpy as np
 from nitime import TimeSeries
 from nitime.analysis import CorrelationAnalyzer
 
-from my_settings import (source_folder, bands)
+from my_settings import (source_folder)
 
 subject = sys.argv[1]
 
 times = np.arange(-4000, 1001, 1)
 times = times / 1000.
 
-ht_cls = np.load(source_folder + "hilbert_data/%s_classic_ht-epo.npy" %
-                 subject).item()
-ht_pln = np.load(source_folder + "hilbert_data/%s_plan_ht-epo.npy" %
-                 subject).item()
-ht_int = np.load(source_folder + "hilbert_data/%s_interupt_ht-epo.npy" %
-                 subject).item()
+ht_cls = np.load(source_folder +
+                 "ave_ts/mat_files/%s_classic_ts_DKT_snr-3-epo.mat" %
+                 subject)["data"]
+ht_pln = np.load(source_folder +
+                 "ave_ts/mat_files/%s_plan-3-epo.mat" %
+                 subject)["data"]
+ht_int = np.load(source_folder +
+                 "ave_ts/mat_files/%s_interupt-3-epo.mat" %
+                 subject)["data"]
 
 results_cls = {}
 results_pln = {}
@@ -29,56 +33,55 @@ tois = {
 }
 
 for toi in tois.keys():
-    for band in bands.keys():
-        corr_cls = []
-        corr_pln = []
-        corr_int = []
+    corr_cls = []
+    corr_pln = []
+    corr_int = []
 
-        ht_cls_bs = mne.baseline.rescale(
-            np.abs(ht_cls[band])**2,
-            times,
-            baseline=(-3.8, -3.3),
-            mode="zscore")
+    ht_cls_bs = mne.baseline.rescale(
+        ht_cls,
+        times,
+        baseline=(-3.8, -3.3),
+        mode="mean")
 
-        ht_pln_bs = mne.baseline.rescale(
-            np.abs(ht_pln[band])**2,
-            times,
-            baseline=(-3.8, -3.3),
-            mode="zscore")
-        ht_int_bs = mne.baseline.rescale(
-            np.abs(ht_pln[band])**2,
-            times,
-            baseline=(-3.8, -3.3),
-            mode="zscore")
+    ht_pln_bs = mne.baseline.rescale(
+        ht_pln,
+        times,
+        baseline=(-3.8, -3.3),
+        mode="mean")
+    ht_int_bs = mne.baseline.rescale(
+        ht_pln,
+        times,
+        baseline=(-3.8, -3.3),
+        mode="mean")
 
-        for ts in ht_cls_bs:
-            nits = TimeSeries(
-                ts[:, tois[toi][0]:tois[toi][1]],
-                sampling_rate=1000)  # epochs_normal.info["sfreq"])
+    for ts in ht_cls_bs:
+        nits = TimeSeries(
+            ts[:, tois[toi][0]:tois[toi][1]],
+            sampling_rate=1000)  # epochs_normal.info["sfreq"])
 
-            corr_cls += [CorrelationAnalyzer(nits)]
+        corr_cls += [CorrelationAnalyzer(nits)]
 
-        for ts in ht_pln_bs:
-            nits = TimeSeries(
-                ts[:, tois[toi][0]:tois[toi][1]],
-                sampling_rate=1000)  # epochs_normal.info["sfreq"])
+    for ts in ht_pln_bs:
+        nits = TimeSeries(
+            ts[:, tois[toi][0]:tois[toi][1]],
+            sampling_rate=1000)  # epochs_normal.info["sfreq"])
 
-            corr_pln += [CorrelationAnalyzer(nits)]
+        corr_pln += [CorrelationAnalyzer(nits)]
 
-        for ts in ht_int_bs:
-            nits = TimeSeries(
-                ts[:, tois[toi][0]:tois[toi][1]],
-                sampling_rate=1000)  # epochs_normal.info["sfreq"])
+    for ts in ht_int_bs:
+        nits = TimeSeries(
+            ts[:, tois[toi][0]:tois[toi][1]],
+            sampling_rate=1000)  # epochs_normal.info["sfreq"])
 
-            corr_int += [CorrelationAnalyzer(nits)]
+        corr_int += [CorrelationAnalyzer(nits)]
 
-        results_cls[band] = np.asarray([c.corrcoef for c in corr_cls])
-        results_pln[band] = np.asarray([c.corrcoef for c in corr_pln])
-        results_int[band] = np.asarray([c.corrcoef for c in corr_int])
+    results_cls = np.asarray([c.corrcoef for c in corr_cls])
+    results_pln = np.asarray([c.corrcoef for c in corr_pln])
+    results_int = np.asarray([c.corrcoef for c in corr_int])
 
-    np.save(source_folder + "graph_data/%s_classic_pow_%s.npy" %
+    np.save(source_folder + "graph_data/%s_classic_corr_%s_orth.npy" %
             (subject, toi), results_cls)
-    np.save(source_folder + "graph_data/%s_plan_pow_%s.npy" %
+    np.save(source_folder + "graph_data/%s_plan_corr_%s_orth.npy" %
             (subject, toi), results_pln)
-    np.save(source_folder + "graph_data/%s_interupt_pow_%s.npy" %
+    np.save(source_folder + "graph_data/%s_interupt_corr_%s_orth.npy" %
             (subject, toi), results_int)
