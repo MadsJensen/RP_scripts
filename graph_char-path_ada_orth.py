@@ -12,6 +12,8 @@ subjects = [
 ge_data_all = pd.DataFrame()
 lambda_data_all = pd.DataFrame()
 dia_data_all = pd.DataFrame()
+conditions = ["cls " * 12, "pln " * 12]
+conditions = [c.split() for c in conditions]
 
 tois = ["pln", "pre-press", "post-press"]
 
@@ -48,25 +50,22 @@ for toi in tois:
     dia_data = pd.DataFrame()
 
     ge_data["ge"] = cls_ge
-    ge_data["condition"] = "cls"
     ge_data["ge"] = pln_ge
-    ge_data["condition"] = "pln"
     ge_data["measure"] = "ge"
     ge_data["tio"] = toi
+    ge_data["condition"] = conditions
 
     lambda_data["lambda"] = cls_lambda
-    lambda_data["condition"] = "cls"
     lambda_data["lambda"] = pln_lambda
-    lambda_data["condition"] = "pln"
     lambda_data["measure"] = "lambda"
     lambda_data["tio"] = toi
+    lambda_data["condition"] = conditions
 
     dia_data["dia"] = cls_dia
-    dia_data["condition"] = "cls"
     dia_data["dia"] = pln_dia
-    dia_data["condition"] = "pln"
     dia_data["measure"] = "dia"
     dia_data["tio"] = toi
+    dia_data["condition"] = conditions
 
     ge_data_all = ge_data_all.append(ge_data)
     lambda_data_all = lambda_data_all.append(lambda_data)
