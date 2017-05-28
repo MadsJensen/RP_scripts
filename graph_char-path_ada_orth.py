@@ -12,8 +12,29 @@ subjects = [
 ge_data_all = pd.DataFrame()
 lambda_data_all = pd.DataFrame()
 dia_data_all = pd.DataFrame()
-conditions = ["cls " * 12, "pln " * 12]
-conditions = [c.split() for c in conditions]
+conditions =['cls', 'cls',              'cls',
+             'cls',
+             'cls',
+             'cls',
+             'cls',
+             'cls',
+             'cls',
+             'cls',
+             'cls',
+             'cls',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln',
+             'pln']
+
 
 tois = ["pln", "pre-press", "post-press"]
 
