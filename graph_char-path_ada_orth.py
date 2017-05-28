@@ -1,51 +1,78 @@
 import bct
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.externals import joblib
-from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
-                                     cross_val_score)
 
-from my_settings import (source_folder)
+from my_settings import (source_folder, results_path)
 
 subjects = [
     "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
     "0019", "0020", "0021", "0022"
 ]
 
-cls_all = []
-pln_all = []
-for subject in subjects:
-    cls = np.load(source_folder + "graph_data/%s_classic_corr_pln_orth.npy" %
-                  subject)
+ge_data_all = pd.DataFrame()
+lambda_data_all = pd.DataFrame()
+dia_data_all = pd.DataFrame()
 
-    pln = np.load(source_folder + "graph_data/%s_plan_corr_pln_orth.npy" %
-                  subject)
+tois = ["pln", "pre-press", "post-press"]
 
-    cls_all.append(cls.mean(axis=0))
-    pln_all.append(pln.mean(axis=0))
+for toi in tois:
+    cls_all = []
+    pln_all = []
+    for subject in subjects:
+        cls = np.load(source_folder + "graph_data/%s_classic_corr_%s_orth.npy" %
+                      subject, toi)
 
-data_cls = [bct.charpath(g) for g in cls_all]
-data_pln = [bct.charpath(g) for g in pln_all]
+        pln = np.load(source_folder + "graph_data/%s_plan_corr_%s_orth.npy" %
+                      subject, toi)
 
-cls_ge = np.asarray([g[1] for g in data_cls])
-pln_ge = np.asarray([g[1] for g in data_pln])
+        cls_all.append(cls.mean(axis=0))
+        pln_all.append(pln.mean(axis=0))
 
-cls_lambda = np.asarray([g[0] for g in data_cls])
-pln_lambda = np.asarray([g[0] for g in data_pln])
+    data_cls = [bct.charpath(g) for g in cls_all]
+    data_pln = [bct.charpath(g) for g in pln_all]
 
-ge_data = pd.DataFrame()
-ge_data["pln"] = pln_ge
-ge_data["cls"] = cls_ge
+    # calc global efficiency
+    cls_ge = np.asarray([g[1] for g in data_cls])
+    pln_ge = np.asarray([g[1] for g in data_pln])
+
+    # calc lambda
+    cls_lambda = np.asarray([g[0] for g in data_cls])
+    pln_lambda = np.asarray([g[0] for g in data_pln])
+
+    # calc the diameter of the graph
+    cls_dia = np.asarray([g[4] for g in data_cls])
+    pln_dia = np.asarray([g[4] for g in data_pln])
+
+    ge_data = pd.DataFrame()
+    lambda_data = pd.DataFrame()
+    dia_data = pd.DataFrame()
+
+    ge_data["ge"] = cls_ge
+    ge_data["condition"] = "cls"
+    ge_data["ge"] = pln_ge
+    ge_data["condition"] = "pln"
+    ge_data["measure"] = "ge"
+    ge_data["tio"] = toi
+
+    lambda_data["lambda"] = cls_lambda
+    lambda_data["condition"] = "cls"
+    lambda_data["lambda"] = pln_lambda
+    lambda_data["condition"] = "pln"
+    lambda_data["measure"] = "lambda"
+    lambda_data["tio"] = toi
+
+    dia_data["dia"] = cls_dia
+    dia_data["condition"] = "cls"
+    dia_data["dia"] = pln_dia
+    dia_data["condition"] = "pln"
+    dia_data["measure"] = "dia"
+    dia_data["tio"] = toi
+
+    ge_data_all = ge_data_all.append(ge_data)
+    lambda_data_all = lambda_data_all.append(lambda_data)
+    dia_data_all = dia_data_all.append(dia_data)
 
 
-lambda_data = pd.DataFrame()
-lambda_data["pln"] = pln_lambda
-lambda_data["cls"] = cls_lambda
-
-cls_dia= np.asarray([g[4] for g in data_cls])
-pln_dia= np.asarray([g[4] for g in data_pln])
-
-diadata = pd.DataFrame()
-diadata["pln"] = pln_dia
-diadata["cls"] = cls_dia
+ge_data_all.to_csv(results_path + "ge_data_all-tois.csv", index=False)
+lambda_data_all.to_csv(results_path + "lambda_data_all-tois.csv", index=False)
+dia_data_all.to_csv(results_path + "diameter_data_all-tois.csv", index=False)
