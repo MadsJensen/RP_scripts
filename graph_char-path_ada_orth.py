@@ -49,20 +49,17 @@ for toi in tois:
     lambda_data = pd.DataFrame()
     dia_data = pd.DataFrame()
 
-    ge_data["ge"] = cls_ge
-    ge_data["ge"] = pln_ge
+    ge_data["ge"] = np.concatenate((cls_ge, pln_ge))
     ge_data["measure"] = "ge"
     ge_data["tio"] = toi
     ge_data["condition"] = conditions
 
-    lambda_data["lambda"] = cls_lambda
-    lambda_data["lambda"] = pln_lambda
+    lambda_data["lambda"] = np.concatenate((cls_lambda, pln_lambda))
     lambda_data["measure"] = "lambda"
     lambda_data["tio"] = toi
     lambda_data["condition"] = conditions
 
-    dia_data["dia"] = cls_dia
-    dia_data["dia"] = pln_dia
+    dia_data["dia"] = np.concatenate((cls_dia, pln_dia))
     dia_data["measure"] = "dia"
     dia_data["tio"] = toi
     dia_data["condition"] = conditions
