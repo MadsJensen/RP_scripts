@@ -20,10 +20,10 @@ for toi in tois:
     pln_all = []
     for subject in subjects:
         cls = np.load(source_folder + "graph_data/%s_classic_corr_%s_orth.npy" %
-                      subject, toi)
+                      (subject, toi))
 
         pln = np.load(source_folder + "graph_data/%s_plan_corr_%s_orth.npy" %
-                      subject, toi)
+                      (subject, toi))
 
         cls_all.append(cls.mean(axis=0))
         pln_all.append(pln.mean(axis=0))
