@@ -42,7 +42,7 @@ for subject in subjects:
             lambda_data = pd.DataFrame()
             dia_data = pd.DataFrame()
 
-            ge_data["ge"] = ge_data
+            ge_data["ge"] = data_ge
             ge_data["measure"] = "ge"
             ge_data["tio"] = toi
             ge_data["condition"] = condition
