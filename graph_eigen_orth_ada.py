@@ -65,5 +65,5 @@ for toi in tois:
         source_folder + "graph_data/sk_models/eigen_ada_%s_orth.plk" %
         toi)
 
-    np.save(source_folder + "graph_data/eigen_scores_all_ada_%s.npy" % toi,
-            scores_all)
+np.save(source_folder + "graph_data/eigen_scores_all_ada_%s.npy" % toi,
+        scores_all)
