@@ -4,8 +4,9 @@ from sklearn.externals import joblib
 from my_settings import (source_folder)
 
 from sklearn.model_selection import (StratifiedKFold, cross_val_score,
-                                     GridSearchCV)
+                                     permutation_test_score)
 from sklearn.linear_model import LogisticRegressionCV, LogisticRegression
+from sklearn.metrics import roc_auc_score
 
 subjects = [
     "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
@@ -66,7 +67,7 @@ for toi in tois:
     lr_coef_mean = np.asarray(coefs).mean(axis=0)
     lr_coef_std = np.asarray(coefs).std(axis=0)
 
-    cv_scores = cross_val_score(
+    scores_all[toi] = cross_val_score(
         lr_mean, X, y, scoring="roc_auc", cv=StratifiedKFold(n_splits=6,
                                                              shuffle=True))
 
@@ -79,15 +80,13 @@ for toi in tois:
         n_permutations=2000,
         n_jobs=1)
 
-    scores_all[toi] = cross_val_score(ada_cv, X, y, cv=cv,
-                                      scoring="roc_auc")
     scores_perm[toi] = [score_full_X, perm_scores_full_X, pvalue_full_X]
 
     # save the classifier
     joblib.dump(
-        ada_cv,
-        source_folder + "graph_data/sk_models/eigen_ada_%s_orth.plk" %
+        lr_mean,
+        source_folder + "graph_data/sk_models/eigen_LR_%s_orth.plk" %
         toi)
 
-np.save(source_folder + "graph_data/eigen_scores_all_ada_%s.npy" % toi,
+np.save(source_folder + "graph_data/eigen_scores_all_LR.npy",
         scores_all)
