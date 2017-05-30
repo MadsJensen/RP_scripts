@@ -5,7 +5,7 @@ from my_settings import (source_folder)
 
 from sklearn.model_selection import (StratifiedKFold, cross_val_score,
                                      GridSearchCV)
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegressionCV, LogisticRegression
 
 subjects = [
     "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
