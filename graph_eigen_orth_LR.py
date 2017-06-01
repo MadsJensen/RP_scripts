@@ -22,7 +22,7 @@ pln_all = []
 scores_all = dict()
 scores_perm = dict()
 
-for toi in tois:
+for toi in tois[:2]:
     cls_all = []
     pln_all = []
     for subject in subjects:
@@ -155,3 +155,5 @@ for toi in tois:
 
 np.save(source_folder + "graph_data/eigen_scores_all_LR.npy",
         scores_all)
+np.save(source_folder + "graph_data/eigen_perm_scores_all_LR.npy",
+        scores_perm)
