@@ -8,7 +8,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import (StratifiedKFold, cross_val_score,
                                      permutation_test_score)
 
-from my_settings import (source_folder)
+from my_settings import (source_folder, results_folder)
 
 subjects = [
     "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
@@ -153,7 +153,7 @@ for toi in tois[:2]:
     rlr_grid_search_mean.to_csv(
         "graph_data/sk_models/eigen_LR_%s_orth_RLR_scores.csv")
 
-np.save(source_folder + "graph_data/eigen_scores_all_LR.npy",
+np.save(results_folder + "graph_data/eigen_scores_all_LR.npy",
         scores_all)
-np.save(source_folder + "graph_data/eigen_perm_scores_all_LR.npy",
+np.save(results_folder + "graph_data/eigen_perm_scores_all_LR.npy",
         scores_perm)
