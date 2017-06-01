@@ -5,7 +5,7 @@ from my_settings import (source_folder)
 
 from sklearn.model_selection import (StratifiedKFold, cross_val_score,
                                      permutation_test_score)
-from sklearn.linear_model import LogisticRegressionCV, LogisticRegression
+from sklearn.linear_model import (LogisticRegressionCV, LogisticRegression)
 from sklearn.metrics import roc_auc_score
 
 subjects = [
