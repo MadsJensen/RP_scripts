@@ -36,17 +36,15 @@ for toi in tois:
     full_matrix = np.concatenate([cls_all_2, pln_all_2], axis=0)
 
     threshold = np.median(full_matrix[np.nonzero(full_matrix)]) + \
-            np.std(full_matrix[np.nonzero(full_matrix)])
+        np.std(full_matrix[np.nonzero(full_matrix)])
 
     data_cls_bin = cls_all > threshold
     data_pln_bin = pln_all > threshold
 
-    data_cls = []
-    data_cls.append(np.asarray([bct.strengths_und(g)
-                                for g in data_cls_bin]))
-    data_pln = []
-    data_pln.append(np.asarray([bct.strengths_und(g)
-                                for g in data_pln_bin]))
+    data_cls = [np.asarray([bct.strengths_und(g)
+                            for g in data_cls_bin])]
+    data_pln = [np.asarray([bct.strengths_und(g)
+                            for g in data_pln_bin])]
 
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
@@ -71,7 +69,7 @@ for toi in tois:
     # save the classifier
     joblib.dump(
         ada_cv,
-        source_folder + "graph_data/sk_models/path-strength_ada_%s_pln.plk"%
+        source_folder + "graph_data/sk_models/path-strength_ada_%s_pln.plk" %
         toi)
 
 np.save(source_folder + "graph_data/path-strength_scores_all_pln_orth.npy",
