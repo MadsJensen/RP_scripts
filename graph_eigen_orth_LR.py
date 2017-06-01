@@ -22,7 +22,7 @@ pln_all = []
 scores_all = dict()
 scores_perm = dict()
 
-for toi in tois[:2]:
+for toi in tois[:1]:
     cls_all = []
     pln_all = []
     for subject in subjects:
@@ -82,7 +82,7 @@ for toi in tois[:2]:
         y,
         scoring="roc_auc",
         cv=StratifiedKFold(n_splits=6, shuffle=True),
-        n_permutations=2000,
+        n_permutations=200,
         n_jobs=1)
 
     # Save permutation scores
@@ -94,10 +94,10 @@ for toi in tois[:2]:
     rlr_grid_search = pd.DataFrame()
 
     for st in selection_threshold:
-        for i in range(200):
+        for i in range(20):
             print("Working on: %s (%d of 200)" % (st, (i + 1)))
             rlr = RandomizedLogisticRegression(
-                n_resampling=5000, C=lr_mean.C, selection_threshold=st,
+                n_resampling=50, C=lr_mean.C, selection_threshold=st,
                 n_jobs=1)
             rlr.fit(X, y)
             X_rlr = rlr.transform(X)
@@ -123,7 +123,7 @@ for toi in tois[:2]:
         by="st").std()["cv_score"]
 
     rlr = RandomizedLogisticRegression(
-        n_resampling=5000, C=lr_mean.C, selection_threshold=0.65)
+        n_resampling=50, C=lr_mean.C, selection_threshold=0.65)
     rlr.fit(X, y)
     X_rlr = rlr.transform(X)
 
@@ -137,7 +137,7 @@ for toi in tois[:2]:
         y,
         scoring="roc_auc",
         cv=StratifiedKFold(6, shuffle=True),
-        n_permutations=2000,
+        n_permutations=20,
         n_jobs=2)
 
     # save the classifier
@@ -151,7 +151,8 @@ for toi in tois[:2]:
         source_folder + "graph_data/sk_models/eigen_LR_%s_orth_RLR.plk" %
         toi)
     rlr_grid_search_mean.to_csv(
-        "graph_data/sk_models/eigen_LR_%s_orth_RLR_scores.csv")
+        results_folder + "graph_data/eigen_LR_%s_orth_RLR_scores.csv" %
+        toi)
 
 np.save(results_folder + "graph_data/eigen_scores_all_LR.npy",
         scores_all)
