@@ -104,8 +104,7 @@ for toi in tois:
 
             if X_rlr.size:
                 cv_scores_rlr = cross_val_score(
-                    lr_mean, X_rlr, y, scoring="roc_auc", cv=StratifiedKFold(
-                        6, shuffle=True))
+                    lr_mean, X_rlr, y, scoring="roc_auc", cv=cv)
 
                 rlr_tmp = {
                     "st": st,
