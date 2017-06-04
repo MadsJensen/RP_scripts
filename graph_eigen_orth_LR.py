@@ -11,8 +11,8 @@ from sklearn.model_selection import (StratifiedKFold, cross_val_score,
 from my_settings import (source_folder, results_folder)
 
 subjects = [
-    "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
-    "0019", "0020", "0021", "0022"
+    "0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016", "0019",
+    "0020", "0021", "0022"
 ]
 
 tois = ["pln", "pre-press", "post-press"]
@@ -26,8 +26,8 @@ for toi in tois:
     cls_all = []
     pln_all = []
     for subject in subjects:
-        cls = np.load(source_folder + "graph_data/%s_classic_corr_%s_orth.npy" %
-                      (subject, toi))
+        cls = np.load(source_folder + "graph_data/%s_classic_corr_%s_orth.npy"
+                      % (subject, toi))
 
         pln = np.load(source_folder + "graph_data/%s_plan_corr_%s_orth.npy" %
                       (subject, toi))
@@ -35,10 +35,10 @@ for toi in tois:
         cls_all.append(cls.mean(axis=0))
         pln_all.append(pln.mean(axis=0))
 
-        data_cls = np.asarray([bct.eigenvector_centrality_und(g)
-                               for g in cls_all])
-        data_pln = np.asarray([bct.eigenvector_centrality_und(g)
-                               for g in pln_all])
+        data_cls = np.asarray(
+            [bct.eigenvector_centrality_und(g) for g in cls_all])
+        data_pln = np.asarray(
+            [bct.eigenvector_centrality_und(g) for g in pln_all])
 
     X = np.vstack([data_cls, data_pln])
     y = np.concatenate([np.zeros(len(data_cls)), np.ones(len(data_pln))])
@@ -72,8 +72,11 @@ for toi in tois:
 
     # Calc roc auc score from mean model
     scores_all[toi] = cross_val_score(
-        lr_mean, X, y, scoring="roc_auc", cv=StratifiedKFold(n_splits=6,
-                                                              shuffle=True))
+        lr_mean,
+        X,
+        y,
+        scoring="roc_auc",
+        cv=StratifiedKFold(n_splits=6, shuffle=True))
 
     # Test model significiant of mean model w/ permutation test
     score_full_X, perm_scores_full_X, pvalue_full_X = permutation_test_score(
@@ -133,7 +136,10 @@ for toi in tois:
     X_rlr = rlr.transform(X)
 
     cv_scores_rlr = cross_val_score(
-        lr_mean, X_rlr, y, scoring="roc_auc",
+        lr_mean,
+        X_rlr,
+        y,
+        scoring="roc_auc",
         cv=StratifiedKFold(6, shuffle=True))
 
     score_rlr, perm_scores_rlr, pvalue_rlr = permutation_test_score(
@@ -148,18 +154,14 @@ for toi in tois:
     # save the classifier
     joblib.dump(
         lr_mean,
-        source_folder + "graph_data/sk_models/eigen_LR_%s_orth.plk" %
-        toi)
+        source_folder + "graph_data/sk_models/eigen_LR_%s_orth.plk" % toi)
     # save rlr classifier
     joblib.dump(
         rlr,
-        source_folder + "graph_data/sk_models/eigen_LR_%s_orth_RLR.plk" %
-        toi)
+        source_folder + "graph_data/sk_models/eigen_LR_%s_orth_RLR.plk" % toi)
     rlr_grid_search_mean.to_csv(
-        results_folder + "graph_data/eigen_LR_%s_orth_RLR_scores.csv" %
-        toi)
+        results_folder + "graph_data/eigen_LR_%s_orth_RLR_scores.csv" % toi)
 
-np.save(results_folder + "graph_data/eigen_scores_all_LR.npy",
-        scores_all)
+np.save(results_folder + "graph_data/eigen_scores_all_LR.npy", scores_all)
 np.save(results_folder + "graph_data/eigen_perm_scores_all_LR.npy",
         scores_perm)
