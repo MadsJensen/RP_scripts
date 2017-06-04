@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.externals import joblib
 from sklearn.linear_model import (LogisticRegression, LogisticRegressionCV,
                                   RandomizedLogisticRegression)
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import (StratifiedKFold, cross_val_score,
                                      permutation_test_score)
 
@@ -56,7 +56,7 @@ for toi in tois:
         clf.fit(X[train], y[train])
         y_pred = clf.predict(X[test])
 
-        scores.append(accuracy_score(y[test], y_pred))
+        scores.append(roc_auc_score(y[test], y_pred))
         coefs.append(clf.coef_)
         Cs.append(clf.C_)
         LRs.append(clf)
@@ -72,7 +72,7 @@ for toi in tois:
 
     # Calc roc auc score from mean model
     scores_all[toi] = cross_val_score(
-        lr_mean, X, y, scoring="accuracy", cv=StratifiedKFold(n_splits=6,
+        lr_mean, X, y, scoring="roc_auc", cv=StratifiedKFold(n_splits=6,
                                                               shuffle=True))
 
     # Test model significiant of mean model w/ permutation test
@@ -80,7 +80,7 @@ for toi in tois:
         lr_mean,
         X,
         y,
-        scoring="accuracy",
+        scoring="roc_auc",
         cv=StratifiedKFold(n_splits=6, shuffle=True),
         n_permutations=2000,
         n_jobs=1)
@@ -107,7 +107,7 @@ for toi in tois:
 
             if X_rlr.size:
                 cv_scores_rlr = cross_val_score(
-                    lr_mean, X_rlr, y, scoring="accuracy", cv=cv)
+                    lr_mean, X_rlr, y, scoring="roc_auc", cv=cv)
 
                 rlr_tmp = {
                     "st": st,
@@ -133,14 +133,14 @@ for toi in tois:
     X_rlr = rlr.transform(X)
 
     cv_scores_rlr = cross_val_score(
-        lr_mean, X_rlr, y, scoring="accuracy",
+        lr_mean, X_rlr, y, scoring="roc_auc",
         cv=StratifiedKFold(6, shuffle=True))
 
     score_rlr, perm_scores_rlr, pvalue_rlr = permutation_test_score(
         lr_mean,
         X_rlr,
         y,
-        scoring="accuracy",
+        scoring="roc_auc",
         cv=StratifiedKFold(6, shuffle=True),
         n_permutations=2000,
         n_jobs=2)
