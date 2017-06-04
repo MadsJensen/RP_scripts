@@ -94,7 +94,7 @@ for toi in tois:
     rlr_grid_search = pd.DataFrame()
 
     for st in selection_threshold:
-        for i in range(10):
+        for i in range(200):
             print("Working on: %s (%d of 200)" % (st, (i + 1)))
             rlr = RandomizedLogisticRegression(
                 n_resampling=200,
