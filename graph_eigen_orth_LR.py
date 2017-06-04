@@ -21,6 +21,8 @@ pln_all = []
 
 scores_all = dict()
 scores_perm = dict()
+scores_rlr_all = dict()
+scores_rlr_perm = dict()
 
 for toi in tois:
     cls_all = []
@@ -135,7 +137,7 @@ for toi in tois:
     rlr.fit(X, y)
     X_rlr = rlr.transform(X)
 
-    cv_scores_rlr = cross_val_score(
+    scores_rlr_all[toi] = cross_val_score(
         lr_mean,
         X_rlr,
         y,
@@ -149,7 +151,9 @@ for toi in tois:
         scoring="roc_auc",
         cv=StratifiedKFold(6, shuffle=True),
         n_permutations=2000,
-        n_jobs=2)
+        n_jobs=1)
+
+    scores_rlr_perm[toi] = [score_rlr, perm_scores_rlr, pvalue_rlr]
 
     # save the classifier
     joblib.dump(
@@ -162,6 +166,12 @@ for toi in tois:
     rlr_grid_search_mean.to_csv(
         results_folder + "graph_data/eigen_LR_%s_orth_RLR_scores.csv" % toi)
 
+
+# Save results
 np.save(results_folder + "graph_data/eigen_scores_all_LR.npy", scores_all)
 np.save(results_folder + "graph_data/eigen_perm_scores_all_LR.npy",
+        scores_perm)
+
+np.save(results_folder + "graph_data/eigen_scores_all_rlr.npy", scores_all)
+np.save(results_folder + "graph_data/eigen_perm_scores_all_rlr.npy",
         scores_perm)
