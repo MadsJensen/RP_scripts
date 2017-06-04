@@ -125,6 +125,7 @@ for toi in tois:
         by="st").std()["cv_score"]
 
     # take st param from grid search
+    rlr_grid_search_mean["st"] = rlr_grid_search_mean.index
     st = rlr_grid_search_mean.st[rlr_grid_search_mean.cv_score.argmax()]
     rlr = RandomizedLogisticRegression(
         n_resampling=5000, C=lr_mean.C, selection_threshold=st)
