@@ -97,7 +97,10 @@ for toi in tois:
         for i in range(200):
             print("Working on: %s (%d of 200)" % (st, (i + 1)))
             rlr = RandomizedLogisticRegression(
-                n_resampling=5000, C=lr_mean.C, selection_threshold=st,
+                n_resampling=200,
+                C=lr_mean.C,
+                sample_fraction=0.8,
+                selection_threshold=st,
                 n_jobs=1)
             rlr.fit(X, y)
             X_rlr = rlr.transform(X)
