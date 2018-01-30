@@ -50,7 +50,7 @@ for condition in conditions.keys():
         raw.info['bads'] = []
         picks = mne.pick_types(
             raw.info,
-            meg=True,
+            meg="grad",
             eeg=False,
             stim=False,
             eog=False,
@@ -70,8 +70,7 @@ for condition in conditions.keys():
             min_duration=0.004,
             verbose=True)
         # adjust time delay from tubes
-       
-        # TODO:
+
         epochs = mne.Epochs(
             raw,
             events,
@@ -96,8 +95,8 @@ for condition in conditions.keys():
         ar.fit(epochs)
 
         epochs_clean = ar.transform(epochs)
-        epochs_clean.save(beamformer_raw + "%s_%s_%s_ar-epo.fif" %
+        epochs_clean.save(beamformer_raw + "%s_%s_%s_ar_grads-epo.fif" %
                           (subject[:4], condition, band))
         pickle.dump(ar,
-                    open(beamformer_raw + "%s_%s_%s_ar.pkl" %
+                    open(beamformer_raw + "%s_%s_%s_ar_grads.pkl" %
                          (subject[:4], condition, band), "wb"))
