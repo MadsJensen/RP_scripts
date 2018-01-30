@@ -94,6 +94,8 @@ for condition in conditions.keys():
             n_interpolates, consensus_percs, thresh_func=thresh_func)
         ar.fit(epochs)
 
+        epochs.save(beamformer_raw + "%s_%s_%s_grads-epo.fif" %
+                    (subject[:4], condition, band))
         epochs_clean = ar.transform(epochs)
         epochs_clean.save(beamformer_raw + "%s_%s_%s_ar_grads-epo.fif" %
                           (subject[:4], condition, band))
