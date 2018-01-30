@@ -60,7 +60,6 @@ for condition in conditions.keys():
         raw.info['projs'] = list()  # remove proj
 
         raw.resample(500, n_jobs=1)
-        raw.notch_filter(n_freq, fir_design='firwin', n_jobs=n_jobs)
         raw.filter(fmin, None, fir_design='firwin', n_jobs=n_jobs)
         raw.filter(None, fmax, fir_design='firwin', n_jobs=n_jobs)
 
