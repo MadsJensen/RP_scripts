@@ -45,7 +45,7 @@ for condition in conditions.keys():
             subj_id=subject,
             study=study,
             modality="MEG",
-            series=condition[condition])
+            series=conditions[condition])
 
         raw = mne.io.read_raw_fif(series)
         raw.info['bads'] = []
