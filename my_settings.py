@@ -8,14 +8,16 @@ These are general settings to be used in the current project.
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch"
 misc_folder = "/projects/MINDLAB2011_24-MEG-readiness/misc"
 scripts_folder = "/projects/MINDLAB2011_24-MEG-readiness/scripts"
+subjects_dir = data_path + "fs_subjects_dir/"
+trans_dir = data_path + "trans/"
 
-# Folder paths
 # Beamformer folders
 beamformer_raw = data_path + "bf_raw/"
 beamformer_filters = data_path + "bf_filters/"
 beamformer_source = data_path + "bf_source/"
 beamformer_results = data_path + "bf_results/"
 beamformer_mvpa = data_path + "bf_mvpa/"
+
 
 # Misc
 reject_params = dict(
@@ -24,7 +26,7 @@ reject_params = dict(
     eeg=180e-6)
 
 bands = ["Alpha", "Beta", "Gamma_low", "Gamma_high_1", "Gamma_high_2"]
-conditions = {"classic": 1, "planning": 2, "interupt": 3}
+conditions = {"classic": 2, "planning": 4, "interupt": 3}
 
 # Functions
 def get_subjects():
