@@ -23,7 +23,7 @@ study = qr.get_studies(subj_id=subject, modality="MEG")[0]
 
 random_state = 3423534231
 
-n_interpolates = np.array([1, 4, 32])
+n_interpolates = np.array([1, 4, 8, 16, 32])
 consensus_percs = np.linspace(0, 1.0, 11)
 n_jobs = 1
 l_freq, h_freq = 1, 95  # High and low frequency setting for the band pass
