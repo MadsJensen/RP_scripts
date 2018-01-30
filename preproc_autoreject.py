@@ -47,7 +47,7 @@ for condition in conditions.keys():
             modality="MEG",
             series=conditions[condition])
 
-        raw = mne.io.read_raw_fif(series)
+        raw = mne.io.read_raw_fif(series[0])
         raw.info['bads'] = []
         picks = mne.pick_types(
             raw.info,
