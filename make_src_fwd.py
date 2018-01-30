@@ -1,6 +1,5 @@
 import mne
 import sys
-import os.path as op
 from my_settings import (beamformer_raw, beamformer_source, subjects_dir,
                          trans_dir)
 
@@ -10,8 +9,9 @@ epochs = mne.read_epochs(
     beamformer_raw + "%s_planning_Alpha_ar-epo.fif" % subject[:4],
     preload=False)
 
-trans_fname = trans_dir + "%s_planning-trans.fif" % subject
-bem = subjects_dir + "%s/bem/%s-3LBEM-sol.fif" % (subject, subject)
+trans_fname = trans_dir + "%s_planning-trans.fif" % subject[:4]
+bem = subjects_dir + "%s/bem/%s-8192-8192-8192-bem-sol.fif" % (subject[:4],
+                                                               subject[:4])
 # t1_fname = op.join(subjects_dir, subject, 'mri/T1.mgz')  # T1 MRI
 
 # set up a volume source space
