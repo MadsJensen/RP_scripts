@@ -41,7 +41,7 @@ iter_freqs = [('Alpha', 8, 12), ('Beta', 13, 30), ('Gamma_low', 30, 45),
 
 for condition in conditions.keys():
     for band, fmin, fmax in iter_freqs:
-        series = qr.get_series(
+        series = qr.get_files(
             subj_id=subject,
             study=study,
             modality="MEG",
