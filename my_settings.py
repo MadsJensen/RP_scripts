@@ -5,9 +5,9 @@ These are general settings to be used in the current project.
 @email: mads [] cnru.dk
 """
 # Base paths
-data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch"
-misc_folder = "/projects/MINDLAB2011_24-MEG-readiness/misc"
-scripts_folder = "/projects/MINDLAB2011_24-MEG-readiness/scripts"
+data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch/"
+misc_folder = "/projects/MINDLAB2011_24-MEG-readiness/misc/"
+scripts_folder = "/projects/MINDLAB2011_24-MEG-readiness/scripts/"
 subjects_dir = data_path + "fs_subjects_dir/"
 trans_dir = data_path + "trans/"
 
