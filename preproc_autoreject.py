@@ -30,10 +30,9 @@ l_freq, h_freq = 1, 95  # High and low frequency setting for the band pass
 n_freq = 50  # notch filter frequency
 decim = 4  # decim value
 
-event_id = dict(
-    bide=11, gide=21, gidet=22, giden=23, mide=31, midet=32, miden=33, nide=41)
+event_id = {"press": 1}
 
-tmin, tmax = -0.1, 0.9
+tmin, tmax = -3.5, 0.5
 baseline = None  # (-0.1, 0)
 
 iter_freqs = [('Alpha', 8, 12), ('Beta', 13, 30), ('Gamma_low', 30, 45),
@@ -72,11 +71,7 @@ for condition in conditions.keys():
             min_duration=0.004,
             verbose=True)
         # adjust time delay from tubes
-        adjustTimeLineBy = -13.6
-        events[:, 0] = [
-            x - np.round(adjustTimeLineBy * 10**-3 * raw.info['sfreq'])
-            for x in events[:, 0]
-        ]
+       
         # TODO:
         epochs = mne.Epochs(
             raw,
@@ -84,7 +79,7 @@ for condition in conditions.keys():
             event_id,
             tmin,
             tmax,
-            baseline=(None, 0),
+            baseline=(None, -3),
             picks=picks,
             reject=None,
             verbose=False,
