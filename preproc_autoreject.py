@@ -50,7 +50,7 @@ for condition in conditions.keys():
         raw.info['bads'] = []
         picks = mne.pick_types(
             raw.info,
-            meg='grad',
+            meg=True,
             eeg=False,
             stim=False,
             eog=False,
