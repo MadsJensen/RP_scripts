@@ -6,7 +6,7 @@ from my_settings import (beamformer_raw, beamformer_source, subjects_dir,
 subject = sys.argv[1]
 
 epochs = mne.read_epochs(
-    beamformer_raw + "%s_planning_Alpha_ar-epo.fif" % subject[:4],
+    beamformer_raw + "%s_planning_Alpha_ar_grads-epo.fif" % subject[:4],
     preload=False)
 
 trans_fname = trans_dir + "%s_planning-trans.fif" % subject[:4]
