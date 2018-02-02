@@ -18,7 +18,6 @@ bem = subjects_dir + "%s/bem/%s-8192-8192-8192-bem-sol.fif" % (subject[:4],
 src = subjects_dir + "%s/bem/%s-oct-6-src.fif" % (subject[:4], subject[:4])
 
 # make leadfield
-
 for condition in conditions.keys():
     epochs = mne.read_epochs(
         beamformer_raw + "%s_%s_Alpha_ar_grads-epo.fif" %
@@ -39,3 +38,4 @@ for condition in conditions.keys():
         beamformer_source + "%s_%s_cor-fwd.fif" % (subject[:4], condition),
         fwd,
         overwrite=True)
+ 
