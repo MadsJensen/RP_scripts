@@ -26,7 +26,7 @@ for band in bands[1:]:
     time_decod.fit(X, y)
     joblib.dump(
         time_decod,
-        beamformer_mvpa + "source_cls_v_pln_itc_evk_%s_logreg_%s_FS.jbl" %
+        beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_FS.jbl" %
         (band))
 
     scores = cross_val_multiscore(time_decod, X, y, cv=cv)
