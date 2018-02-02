@@ -16,7 +16,7 @@ fwd = mne.read_forward_solution(
 
 for band in bands:
     epochs_cls = mne.read_epochs(
-        beamformer_raw + "%s_classis_%s_ar_grads-epo.fif" % (subject[:4],
+        beamformer_raw + "%s_classic_%s_ar_grads-epo.fif" % (subject[:4],
                                                              band))
     epochs_pln = mne.read_epochs(
         beamformer_raw + "%s_planning_%s_ar_grads-epo.fif" % (subject[:4],
