@@ -10,7 +10,7 @@ misc_folder = "/projects/MINDLAB2011_24-MEG-readiness/misc/"
 scripts_folder = "/projects/MINDLAB2011_24-MEG-readiness/scripts/"
 subjects_dir = data_path + "fs_subjects_dir/"
 trans_dir = data_path + "trans/"
-results_folder = "/projects/MINDLAB2011_24-MEG-readiness/results/"
+results_folder = "/projects/MINDLAB2011_24-MEG-readiness/result/"
 
 
 # Beamformer folders
