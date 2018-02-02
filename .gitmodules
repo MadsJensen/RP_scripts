@@ -1,0 +1,3 @@
+[submodule "std_cfin"]
+	path = std_cfin
+	url = git@github.com:MadsJensen/std_cfin.git
