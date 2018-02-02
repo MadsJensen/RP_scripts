@@ -45,6 +45,9 @@ def get_subjects():
     return subjects
 
 
+subjects = ["0008", "0009", "0010", "0012", "0013", "0014", "0015", "0016",
+            "0017", "0018", "0019", "0020", "0021", "0022"]
+
 # Bands
 iter_freqs = [('Alpha', 8, 12), ('Beta', 13, 30), ('Gamma_low', 30, 45),
               ('Gamma_high_1', 55, 70), ('Gamma_high_2', 70, 90)]
