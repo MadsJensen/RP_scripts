@@ -1,7 +1,6 @@
 import numpy as np
 import mne
-from my_settings import (beamformer_results, beamformer_mvpa, bands,
-                         subjects)
+from my_settings import (beamformer_results, beamformer_mvpa, bands, subjects)
 
 for band in bands[1:]:
     for j, subject in enumerate(subjects):
@@ -28,4 +27,6 @@ for band in bands[1:]:
             y = np.concatenate((y, np.array((0, 1))))
 
     X_y = dict(X=X, y=y)
-    np.save(beamformer_mvpa + "Xy_cls_v_pln_%s.npy" % (band), X_y)
+    np.save(beamformer_mvpa + "X_cls_v_pln_%s.npy" % (band), X)
+
+np.save(beamformer_mvpa + "y_cls_v_pln.npy", y)
