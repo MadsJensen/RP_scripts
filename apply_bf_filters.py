@@ -29,7 +29,7 @@ for band in bands:
 
     for condition in conditions:
         epochs = mne.read_epochs(beamformer_raw + "%s_%s_%s_ar_grads-epo.fif" %
-                                 (subject[:4], band))
+                                 (subject[:4], condition, band))
         epochs.pick_types(meg="grad")
         epochs_hilb = epochs.copy()
         epochs_hilb._data = hilbert(epochs.get_data())
