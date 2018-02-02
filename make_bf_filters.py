@@ -40,5 +40,5 @@ for band in bands:
         weight_norm='nai',
         reg=0.0)
 
-    np.save(beamformer_filters + "%s_optim_%s_bf_filters_cor.npy" %
+    np.save(beamformer_filters + "%s_%s_bf_filters_cor.npy" %
             (subject[:4], band), filters)
