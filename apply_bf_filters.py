@@ -43,3 +43,5 @@ for band in bands:
         stc_dummy.data = itcs[0]
         stc_dummy.save(beamformer_results + "%s_%s_%s_cor" % (subject[:4],
                                                               condition, band))
+
+    del epochs, stcs, stc_dummy

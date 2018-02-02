@@ -4,6 +4,8 @@ These are general settings to be used in the current project.
 @author: mje
 @email: mads [] cnru.dk
 """
+import pandas
+
 # Base paths
 data_path = "/projects/MINDLAB2011_24-MEG-readiness/scratch/"
 misc_folder = "/projects/MINDLAB2011_24-MEG-readiness/misc/"
@@ -29,6 +31,7 @@ reject_params = dict(
 
 bands = ["Alpha", "Beta", "Gamma_low", "Gamma_high_1", "Gamma_high_2"]
 conditions = {"classic": 2, "planning": 4, "interupt": 3}
+
 
 # Functions
 def get_subjects():
