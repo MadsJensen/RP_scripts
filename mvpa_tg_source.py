@@ -25,10 +25,11 @@ for band in bands[1:]:
     time_decod = GeneralizingEstimator(clf, n_jobs=2, scoring='roc_auc')
 
     time_decod.fit(X, y)
-    joblib.dump(time_decod,
-                beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_FS.jbl" %
-                (band))
+    joblib.dump(
+        time_decod,
+        beamformer_mvpa + "source_tg_cls_v_pln_itc_evk_logreg_%s_FS.jbl" %
+        (band))
 
     scores = cross_val_multiscore(time_decod, X, y, cv=cv)
-    np.save(beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_FS.npy" %
+    np.save(beamformer_mvpa + "source_tg_cls_v_pln_itc_evk_logreg_%s_FS.npy" %
             (band), scores)
