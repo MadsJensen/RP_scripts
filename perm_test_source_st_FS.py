@@ -45,7 +45,7 @@ for jj, status in tqdm(enumerate(df_threshold.values)):
             cv=cv,
             n_permutations=2000,
             scoring="roc_auc",
-            n_jobs=2)
+            n_jobs=1)
 
 np.save(beamformer_mvpa + "perm_source_st_cls_v_pln_itc_evk_logreg_%s.npy" %
         (band), perm_res)
