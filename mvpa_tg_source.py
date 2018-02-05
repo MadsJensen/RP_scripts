@@ -22,7 +22,7 @@ for band in bands[1:]:
         SelectPercentile(f_classif,
                          percentile=20),  # select features for speed
         LinearModel(LogisticRegression(C=1)))
-    time_decod = GeneralizingEstimator(clf, n_jobs=2, scoring='roc_auc')
+    time_decod = GeneralizingEstimator(clf, n_jobs=4, scoring='roc_auc')
 
     time_decod.fit(X, y)
     joblib.dump(
