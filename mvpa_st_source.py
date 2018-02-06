@@ -10,7 +10,7 @@ from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
 
 from my_settings import beamformer_mvpa, bands
 
-for band in bands[1:]:
+for band in bands:
     X = np.load(beamformer_mvpa + "X_cls_v_pln_%s.npy" % (band))
     y = np.load(beamformer_mvpa + "y_cls_v_pln.npy")
 
