@@ -23,7 +23,7 @@ def compute_source_itc(stcs):
 
 subject = sys.argv[1]
 
-for band in bands:
+for band in bands[:1]:
     filters = np.load(beamformer_filters + "%s_%s_bf_filters_cor.npy" %
                       (subject[:4], band)).item()
 

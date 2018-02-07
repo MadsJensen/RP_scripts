@@ -14,7 +14,7 @@ subject = sys.argv[1]
 fwd = mne.read_forward_solution(
     beamformer_source + "%s_avg_cor-fwd.fif" % subject[:4])
 
-for band in bands:
+for band in bands[:1]:
     epochs_cls = mne.read_epochs(
         beamformer_raw + "%s_classic_%s_ar_grads-epo.fif" % (subject[:4],
                                                              band))
