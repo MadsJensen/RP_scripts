@@ -22,7 +22,7 @@ rocs = np.load(beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_FS.npy" %
 times = np.arange(-3500, 501, 2) * 1e-3
 
 df_roc = pd.DataFrame(data=rocs.T, index=times, columns=[band])
-threshold = df_roc[df_roc.index < 0].mean() + 2 * df_roc[df_roc.index < 0].std(
+threshold = df_roc[df_roc.index < 0].mean() + 1 * df_roc[df_roc.index < 0].std(
 )
 df_threshold = df_roc > threshold
 
