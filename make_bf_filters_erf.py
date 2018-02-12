@@ -6,12 +6,12 @@ from mne.beamformer import make_lcmv
 from mne.utils import estimate_rank
 from scipy.signal import hilbert
 
-from my_settings import (erf_filters, erf_raw, erf_source)
+from my_settings import (erf_filters, erf_raw, beamformer_source)
 
 subject = sys.argv[1]
 
 fwd = mne.read_forward_solution(
-    erf_source + "%s_avg_cor-fwd.fif" % subject[:4])
+    beamformer_source + "%s_avg_cor-fwd.fif" % subject[:4])
 
 epochs_cls = mne.read_epochs(
     erf_raw + "%s_classic_ar_grads_erf-epo.fif" % (subject[:4]))
