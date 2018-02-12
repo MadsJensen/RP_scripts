@@ -11,7 +11,7 @@ import numpy as np
 import mne  # noqa
 from autoreject import (LocalAutoRejectCV, compute_thresholds)
 from functools import partial  # noqa
-from my_settings import beamformer_raw, conditions
+from my_settings import erf_raw, conditions
 from stormdb.access import Query
 import pickle
 
@@ -92,11 +92,10 @@ for condition in conditions.keys():
         n_interpolates, consensus_percs, thresh_func=thresh_func)
     ar.fit(epochs)
 
-    epochs.save(beamformer_raw + "%s_%s_grads_erf-epo.fif" %
-                (subject[:4], condition))
+    epochs.save(erf_raw + "%s_%s_grads_erf-epo.fif" % (subject[:4], condition))
     epochs_clean = ar.transform(epochs)
-    epochs_clean.save(beamformer_raw + "%s_%s_ar_grads_erf-epo.fif" %
-                      (subject[:4], condition))
+    epochs_clean.save(erf_raw + "%s_%s_ar_grads_erf-epo.fif" % (subject[:4],
+                                                                condition))
     pickle.dump(ar,
-                open(beamformer_raw + "%s_%s_ar_grads_erf.pkl" %
+                open(erf_raw + "%s_%s_ar_grads_erf.pkl" %
                      (subject[:4], condition), "wb"))

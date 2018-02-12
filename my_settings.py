@@ -22,6 +22,13 @@ beamformer_source = data_path + "bf_source/"
 beamformer_results = data_path + "bf_results/"
 beamformer_mvpa = data_path + "bf_mvpa/"
 
+# Erf folders
+erf_raw = data_path + "erf_raw/"
+erf_filters = data_path + "erf_filters/"
+erf_source = data_path + "erf_source/"
+erf_results = data_path + "erf_results/"
+erf_mvpa = data_path + "erf_mvpa/"
+
 
 # Misc
 reject_params = dict(
