@@ -1,8 +1,7 @@
 import mne
 import sys
 import numpy as np
-from scipy.signal import hilbert
-from mne.beamformer import apply_lcmv_epochs
+from mne.beamformer import apply_lcmv
 from my_settings import (erf_filters, erf_raw, erf_results, conditions)
 
 
@@ -22,23 +21,16 @@ def compute_source_itc(stcs):
 
 subject = sys.argv[1]
 
-filters = np.load(erf_filters + "%s_bf_filters_cor.npy" %
-                  (subject[:4])).item()
+filters = np.load(erf_filters + "%s_bf_filters_cor.npy" % (subject[:4])).item()
 
 for condition in conditions:
     epochs = mne.read_epochs(erf_raw + "%s_%s_ar_grads_erf-epo.fif" %
                              (subject[:4], condition))
     epochs.pick_types(meg="grad")
-    epochs_hilb = epochs.copy()
-    epochs_hilb._data = hilbert(epochs.get_data())
+    ave = epochs.average()
 
-    itcs = []  # ITC across freq bands
-    stcs = apply_lcmv_epochs(
-        epochs_hilb, filters=filters, max_ori_out="signed")
+    stc = apply_lcmv(ave, filters=filters, max_ori_out="signed")
 
-    itcs.append(compute_source_itc(stcs))
-    stc_dummy = stcs[0]
-    stc_dummy.data = itcs[0]
-    stc_dummy.save(erf_results + "%s_%s_cor" % (subject[:4], condition))
+    stc.save(erf_results + "%s_%s_cor" % (subject[:4], condition))
 
-del epochs, stcs, stc_dummy
+del epochs, stc
