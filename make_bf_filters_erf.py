@@ -16,7 +16,7 @@ fwd = mne.read_forward_solution(
 epochs_cls = mne.read_epochs(
     erf_raw + "%s_classic_ar_grads_erf-epo.fif" % (subject[:4]))
 epochs_pln = mne.read_epochs(
-    erf_raw + "%s_planning_%s_ar_grads_erf-epo.fif" % (subject[:4]))
+    erf_raw + "%s_planning_ar_grads_erf-epo.fif" % (subject[:4]))
 epochs_pln.info["dev_head_t"] = epochs_cls.info["dev_head_t"]
 
 epochs = mne.concatenate_epochs([epochs_cls, epochs_pln])
