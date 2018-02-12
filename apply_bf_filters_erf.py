@@ -26,7 +26,7 @@ filters = np.load(erf_filters + "%s_bf_filters_cor.npy" %
                   (subject[:4])).item()
 
 for condition in conditions:
-    epochs = mne.read_epochs(erf_raw + "%s_%s_ar_grads-epo.fif" %
+    epochs = mne.read_epochs(erf_raw + "%s_%s_ar_grads_erf-epo.fif" %
                              (subject[:4], condition))
     epochs.pick_types(meg="grad")
     epochs_hilb = epochs.copy()
