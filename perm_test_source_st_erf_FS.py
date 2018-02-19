@@ -10,7 +10,7 @@ from sklearn.model_selection import StratifiedKFold, permutation_test_score
 from tqdm import tqdm
 import pandas as pd
 
-from sla import send_slack
+from slack_test import send_slack
 
 from my_settings import erf_mvpa
 
