@@ -12,10 +12,10 @@ import pandas as pd
 
 from sla import send_slack
 
-from my_settings import beamformer_mvpa
+from my_settings import erf_mvpa
 
 # Make dataframe with threshold
-rocs = np.load(beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_erf_FS.npy",
+rocs = np.load(erf_mvpa + "source_cls_v_pln_itc_evk_logreg_erf_FS.npy",
                ).mean(axis=0)
 times = np.arange(-3500, 501, 2) * 1e-3
 
@@ -24,11 +24,10 @@ threshold = df_roc[df_roc.index < 0].mean() + 2 * df_roc[df_roc.index < 0].std(
 )
 df_threshold = df_roc > threshold
 
-ests = joblib.load(
-    beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_erf_FS.jbl")
+ests = joblib.load(erf_mvpa + "source_cls_v_pln_itc_evk_logreg_erf_FS.jbl")
 
-X = np.load(beamformer_mvpa + "X_cls_v_pln_erf.npy")
-y = np.load(beamformer_mvpa + "y_cls_v_pln_erf.npy")
+X = np.load(erf_mvpa + "X_cls_v_pln_erf.npy")
+y = np.load(erf_mvpa + "y_cls_v_pln_erf.npy")
 
 cv = StratifiedKFold(n_splits=5, shuffle=True)
 
@@ -46,7 +45,6 @@ for jj, status in tqdm(enumerate(df_threshold.values)):
             scoring="roc_auc",
             n_jobs=1)
 
-np.save(beamformer_mvpa + "perm_source_st_cls_v_pln_itc_evk_logreg_erf.npy",
-        perm_res)
+np.save(erf_mvpa + "perm_source_st_cls_v_pln_itc_evk_logreg_erf.npy", perm_res)
 
 send_slack("RP_int: ERF permutation done")
