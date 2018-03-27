@@ -1,10 +1,10 @@
 import numpy as np
 from sklearn.externals import joblib
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LassoCV
 from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import SelectPercentile, f_classif
+from sklearn.feature_selection import SelectFromModel
 
 from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
 
@@ -18,8 +18,8 @@ for band in bands:
 
     clf = make_pipeline(
         StandardScaler(),  # z-score normalization
-        SelectPercentile(f_classif,
-                         percentile=20),  # select features for speed
+        SelectFromModel(LassoCV(normalize=True, cv=cv),
+                        threshold="2*median"),
         LinearModel(LogisticRegression(C=1)))
     time_decod = SlidingEstimator(clf, n_jobs=2, scoring='roc_auc')
 
