@@ -4,7 +4,8 @@ from sklearn.linear_model import LogisticRegression, LassoCV
 from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import SelectFromModel
+from sklearn.feature_selection import (SelectFromModel, SelectPercentile,
+                                       f_classif)
 
 from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
 
@@ -18,17 +19,17 @@ for band in bands:
 
     clf = make_pipeline(
         StandardScaler(),  # z-score normalization
-        SelectFromModel(LassoCV(normalize=True, cv=cv),
-                        threshold="2*median"),
+        SelectPercentile(f_classif, percentile=40),
+        SelectFromModel(LassoCV(normalize=False), threshold="2*mean"),
         LinearModel(LogisticRegression(C=1)))
+
     time_decod = SlidingEstimator(clf, n_jobs=2, scoring='roc_auc')
 
     time_decod.fit(X, y)
-    joblib.dump(
-        time_decod,
-        beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_FS.jbl" %
-        (band))
+    joblib.dump(time_decod,
+                beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_sfm.jbl" %
+                (band))
 
     scores = cross_val_multiscore(time_decod, X, y, cv=cv)
-    np.save(beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_FS.npy" %
+    np.save(beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_sfm.npy" %
             (band), scores)
