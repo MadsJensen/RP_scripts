@@ -19,6 +19,9 @@ n_jobs = int(sys.argv[3])
 X_0 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_0)
 X_1 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_1)
 
+X_0 = np.delete(X_0, 10, 0)
+X_1 = np.delete(X_1, 10, 0)
+
 X = np.concatenate((X_0, X_1), axis=0)
 y = np.concatenate((np.zeros(len(X_0)), np.ones(len(X_1))))
 
