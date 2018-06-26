@@ -10,7 +10,7 @@ for jj, condition in enumerate(conditions):
     for ii, subject in enumerate(subjects):
         epo = mne.read_epochs(erf_raw + "%s_%s_ar_grads_erf-epo.fif" %
                               (subject[:4], condition))
-        data[jj, ii] = len(epo)
+        data[ii, jj] = len(epo)
 
 df = pd.DataFrame(data=data, columns=list(conditions.keys()))
 df.index = subjects
