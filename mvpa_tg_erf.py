@@ -5,7 +5,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
-from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
+from mne.decoding import (GeneralizingEstimator, cross_val_multiscore,
+                          LinearModel)
 
 from my_settings import erf_mvpa
 
@@ -26,15 +27,15 @@ cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
 clf = make_pipeline(
     StandardScaler(),  # z-score normalization
     LinearModel(LogisticRegression(C=1)))
-time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
+time_decod = GeneralizingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
 time_decod.fit(X, y)
 joblib.dump(
     time_decod, erf_mvpa +
-    "st_%s_v_%s_evk_logreg_erf.jbl" % (condition_0, condition_1))
+    "tg_%s_v_%s_evk_logreg_erf.jbl" % (condition_0, condition_1))
 
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
 np.save(
     erf_mvpa +
-    "st_%s_v_%s_evk_logreg_erf.npy" % (condition_0, condition_1),
+    "tg_%s_v_%s_evk_logreg_erf.npy" % (condition_0, condition_1),
     scores)
