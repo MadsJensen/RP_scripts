@@ -9,7 +9,7 @@ from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
 
 from my_settings import erf_mvpa
 
-seed = 23462146345329
+seed = 2346219634
 
 condition_0 = sys.argv[1]
 condition_1 = sys.argv[2]
