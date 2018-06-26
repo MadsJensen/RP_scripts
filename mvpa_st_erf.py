@@ -13,7 +13,7 @@ seed = 23462146345329
 
 condition_0 = sys.argv[1]
 condition_1 = sys.argv[2]
-n_jobs = sys.argv[3]
+n_jobs = int(sys.argv[3])
 
 X_0 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_0)
 X_1 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_1)
