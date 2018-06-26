@@ -1,26 +1,15 @@
 import numpy as np
 import mne
-from my_settings import (erf_results, erf_mvpa, bands, subjects)
+from my_settings import (erf_raw, erf_mvpa, subjects, conditions)
 
-for band in bands[:1]:
+tmp = mne.read_epochs(erf_raw + "0016_classic_ar_grads_erf-epo.fif")
+data_shape = tmp.get_data().shape
+
+for condition in conditions:
+    X = np.zeros((len(subjects), data_shape[1], data_shape[2]))
+
     for j, subject in enumerate(subjects):
-        stc_cls = mne.read_source_estimate(
-            erf_results + "%s_classic_cor_avg" % (subject[:4]))
-        stc_pln = mne.read_source_estimate(
-            erf_results + "%s_planning_cor_avg" % (subject[:4]))
+        epo = mne.read_epochs(erf_raw + "%s_%s_ar_grads_erf-epo.fif" %
+                              (subject[:4], condition))
 
-        X_tmp = np.empty((2, stc_cls.data.shape[0], stc_cls.data.shape[1]))
-        X_tmp[0, :] = stc_cls.data
-        X_tmp[1, :] = stc_pln.data
-
-        if j == 0:
-            X = X_tmp
-            y = np.array((0, 1))
-        else:
-            X = np.vstack((X, X_tmp))
-            y = np.concatenate((y, np.array((0, 1))))
-
-    X_y = dict(X=X, y=y)
-    np.save(erf_mvpa + "X_cls_v_pln_erf.npy", X)
-
-np.save(erf_mvpa + "y_cls_v_pln_erf.npy", y)
+    np.save(erf_mvpa + "X_%s_erf.npy" % condition, X)
