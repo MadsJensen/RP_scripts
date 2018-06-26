@@ -8,8 +8,10 @@ data_shape = tmp.get_data().shape
 for condition in conditions:
     X = np.zeros((len(subjects), data_shape[1], data_shape[2]))
 
-    for j, subject in enumerate(subjects):
+    for jj, subject in enumerate(subjects):
         epo = mne.read_epochs(erf_raw + "%s_%s_ar_grads_erf-epo.fif" %
                               (subject[:4], condition))
+
+        X[jj] = epo.average().data
 
     np.save(erf_mvpa + "X_%s_erf.npy" % condition, X)
