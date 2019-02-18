@@ -40,4 +40,5 @@ joblib.dump(
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
 h5io.write_hdf5(
     erf_mvpa + "st_%s_v_%s_evk_logreg_erf_RM.hd5" % (condition_0, condition_1),
-    scores)
+    scores,
+    overwrite=True)
