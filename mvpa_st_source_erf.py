@@ -16,7 +16,7 @@ n_jobs = int(sys.argv[1])
 
 seed = 352341561
 
-Xy = h5io.read_hdf5(erf_mvpa + "X_cls_v_pln_erf_RM.npy")
+Xy = h5io.read_hdf5(erf_mvpa + "Xy_cls_v_pln_erf_RM.npy")
 X = Xy['X']
 y = Xy['y']
 
