@@ -28,7 +28,7 @@ for condition in conditions:
         stc_cls = mne.read_source_estimate(erf_results + "%s_classic_cor_avg" %
                                            (subject[:4], ))
         stc_pln = mne.read_source_estimate(
-            erf_results + "%s_plannings_cor_avg" % (subject[:4]))
+            erf_results + "%s_planning_cor_avg" % (subject[:4]))
 
         X_tmp = np.empty((2, stc_cls.data.shape[0], stc_cls.data.shape[1]))
         X_tmp[0, :] = make_rolling_mean_stc(stc_cls, windows_size=windows_size)
