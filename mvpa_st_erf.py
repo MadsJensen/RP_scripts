@@ -16,8 +16,8 @@ condition_0 = sys.argv[1]
 condition_1 = sys.argv[2]
 n_jobs = int(sys.argv[3])
 
-X_0 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_0)
-X_1 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_1)
+X_0 = np.load(erf_mvpa + "X_%s_erf_RM.npy" % condition_0)
+X_1 = np.load(erf_mvpa + "X_%s_erf_RM.npy" % condition_1)
 
 X_0 = np.delete(X_0, 10, 0)
 X_1 = np.delete(X_1, 10, 0)
@@ -39,5 +39,5 @@ joblib.dump(
 
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
 h5io.write_hdf5(
-    erf_mvpa + "st_%s_v_%s_evk_logreg_erf_RM.npy" % (condition_0, condition_1),
+    erf_mvpa + "st_%s_v_%s_evk_logreg_erf_RM.hd5" % (condition_0, condition_1),
     scores)
