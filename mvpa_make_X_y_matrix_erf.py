@@ -6,7 +6,7 @@ from my_settings import (erf_raw, erf_mvpa, subjects, conditions,
 tmp = mne.read_epochs(erf_raw + "0016_classic_ar_grads_erf-epo.fif")
 data_shape = tmp.get_data().shape
 
-windows_size = 5
+windows_size = 10
 
 for condition in conditions:
     X = np.zeros((len(subjects), data_shape[1],
