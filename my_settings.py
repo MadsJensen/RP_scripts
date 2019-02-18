@@ -51,3 +51,9 @@ iter_freqs = [('Alpha', 8, 12), ('Beta', 13, 30), ('Gamma_low', 30, 45),
 def make_rolling_mean(evk, windows_size=20):
     df = evk.to_data_frame()
     return df.rolling(window=windows_size, center=True).mean().values.T
+
+
+def make_rolling_mean_stc(stc, windows_size=5):
+    df = stc.to_data_frame()
+    df = df.iloc[:, 1:]
+    return df.rolling(window=windows_size, center=True).mean().values.T
