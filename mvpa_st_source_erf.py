@@ -25,7 +25,7 @@ cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
 
 clf = make_pipeline(
     StandardScaler(),  # z-score normalization
-    SelectKBest(k=500),
+    SelectKBest(k=250),
     LinearModel(LogisticRegression(C=1)))
 time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
