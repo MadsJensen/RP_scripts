@@ -26,7 +26,7 @@ cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
 
 clf = make_pipeline(
     StandardScaler(),  # z-score normalization
-    SelectFromModel(LinearSVC(penalty="l1", loss='hinge')),
+    SelectFromModel(LinearSVC(penalty="l1", dual=False)),
     LinearModel(LogisticRegression(C=1)))
 time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
@@ -34,4 +34,7 @@ time_decod.fit(X, y)
 joblib.dump(time_decod, erf_mvpa + "source_cls_v_pln_evk_logreg_erf_sfm.jbl")
 
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
-h5io.write_hdf5(erf_mvpa + "source_cls_v_pln_evk_logreg_erf_sfm.hd5", scores)
+h5io.write_hdf5(
+    erf_mvpa + "source_cls_v_pln_evk_logreg_erf_sfm.hd5",
+    scores,
+    overwrite=True)
