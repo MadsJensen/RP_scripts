@@ -30,7 +30,8 @@ for j, subject in enumerate(subjects):
     stc_pln = mne.read_source_estimate(erf_results +
                                        "%s_planning_cor_avg" % (subject[:4]))
 
-    X_tmp = np.empty((2, stc_cls.data.shape[0], stc_cls.data.shape[1]))
+    X_tmp = np.empty((2, stc_cls.data.shape[0],
+                      stc_cls.data.shape[1] - (windows_size * 2)))
     X_tmp[0, :] = make_rolling_mean_stc(stc_cls, windows_size=windows_size)
     X_tmp[1, :] = make_rolling_mean_stc(stc_pln, windows_size=windows_size)
 
@@ -42,4 +43,4 @@ for j, subject in enumerate(subjects):
         y = np.concatenate((y, np.array((0, 1))))
 
 X_y = dict(X=X, y=y)
-h5io.write_hdf5(erf_mvpa + "Xy_cls_v_pln_.hd5", X_y)
+h5io.write_hdf5(erf_mvpa + "Xy_cls_v_pln_erf_RM.hd5", X_y)

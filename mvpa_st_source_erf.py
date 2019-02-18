@@ -11,13 +11,14 @@ from sklearn.feature_selection import SelectPercentile, f_classif
 from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
 
 from my_settings import erf_mvpa
+windows_size = 10
 
 n_jobs = int(sys.argv[1])
 
 seed = 352341561
 
 Xy = h5io.read_hdf5(erf_mvpa + "Xy_cls_v_pln_erf_RM.hd5")
-X = Xy['X']
+X = Xy['X'][:, :, windows_size:-windows_size]
 y = Xy['y']
 
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
