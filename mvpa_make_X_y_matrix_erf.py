@@ -16,6 +16,8 @@ for condition in conditions:
         epo = mne.read_epochs(erf_raw + "%s_%s_ar_grads_erf-epo.fif" %
                               (subject[:4], condition))
 
-        X[jj] = make_rolling_mean(epo.average().data)
+        X[jj] = make_rolling_mean(
+            epo.average(),
+            windows_size=windows_size)[:, windows_size:-windows_size]
 
     np.save(erf_mvpa + "X_%s_erf_RM.npy" % condition, X)
