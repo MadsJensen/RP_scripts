@@ -1,4 +1,5 @@
 import sys
+import h5io
 import numpy as np
 from sklearn.externals import joblib
 from sklearn.linear_model import LogisticRegression
@@ -16,8 +17,8 @@ condition_0 = sys.argv[1]
 condition_1 = sys.argv[2]
 n_jobs = int(sys.argv[3])
 
-X_0 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_0)
-X_1 = np.load(erf_mvpa + "X_%s_erf.npy" % condition_1)
+X_0 = np.load(erf_mvpa + "X_%s_erf_RM.npy" % condition_0)
+X_1 = np.load(erf_mvpa + "X_%s_erf_RM.npy" % condition_1)
 
 X_0 = np.delete(X_0, 10, 0)
 X_1 = np.delete(X_1, 10, 0)
@@ -34,11 +35,10 @@ time_decod = GeneralizingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
 time_decod.fit(X, y)
 joblib.dump(
-    time_decod, erf_mvpa +
-    "tg_%s_v_%s_evk_logreg_erf.jbl" % (condition_0, condition_1))
+    time_decod,
+    erf_mvpa + "tg_%s_v_%s_evk_logreg_erf_RM.jbl" % (condition_0, condition_1))
 
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
-np.save(
-    erf_mvpa +
-    "tg_%s_v_%s_evk_logreg_erf.npy" % (condition_0, condition_1),
+h5io.write_hdf5(
+    erf_mvpa + "tg_%s_v_%s_evk_logreg_erf_RM.npy" % (condition_0, condition_1),
     scores)
