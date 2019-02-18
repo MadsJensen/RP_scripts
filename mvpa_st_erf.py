@@ -6,6 +6,7 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
+import h5io
 
 from my_settings import erf_mvpa
 
@@ -33,11 +34,10 @@ time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
 time_decod.fit(X, y)
 joblib.dump(
-    time_decod, erf_mvpa +
-    "st_%s_v_%s_evk_logreg_erf.jbl" % (condition_0, condition_1))
+    time_decod,
+    erf_mvpa + "st_%s_v_%s_evk_logreg_erf_RM.jbl" % (condition_0, condition_1))
 
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
-np.save(
-    erf_mvpa +
-    "st_%s_v_%s_evk_logreg_erf.npy" % (condition_0, condition_1),
+h5io.write_hdf5(
+    erf_mvpa + "st_%s_v_%s_evk_logreg_erf_RM.npy" % (condition_0, condition_1),
     scores)
