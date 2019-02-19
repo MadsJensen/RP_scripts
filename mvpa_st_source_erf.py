@@ -1,6 +1,5 @@
 import sys
 import h5io
-import numpy as np
 from sklearn.externals import joblib
 from sklearn.linear_model import LogisticRegression, LassoCV
 from sklearn.model_selection import StratifiedKFold
@@ -17,6 +16,7 @@ n_jobs = int(sys.argv[1])
 
 seed = 352341561
 seed_cv = 2423423
+tol = 1e-5
 
 Xy = h5io.read_hdf5(erf_mvpa + "Xy_cls_v_pln_erf_RM.hd5")
 X = Xy['X'][:, :, windows_size:-windows_size]
@@ -27,8 +27,9 @@ cv_lss = StratifiedKFold(n_splits=4, shuffle=True, random_state=seed_cv)
 
 clf = make_pipeline(
     StandardScaler(),  # z-score normalization
-    SelectFromModel(LassoCV(cv=cv_lss), threshold=0.25),
-    LinearModel(LogisticRegression(C=1)))
+    SelectFromModel(LassoCV(cv=cv_lss, tol=tol, normalize=False)),
+    LinearModel(LogisticRegression(C=1, tol=tol, solver='lbfgs')))
+
 time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
 time_decod.fit(X, y)
