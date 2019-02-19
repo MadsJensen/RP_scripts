@@ -16,7 +16,8 @@ n_jobs = int(sys.argv[1])
 
 seed = 352341561
 seed_cv = 2423423
-tol = 1e-5
+tol = 0.01418998320866641
+C = 2.1600202241972966
 
 Xy = h5io.read_hdf5(erf_mvpa + "Xy_cls_v_pln_erf_RM.hd5")
 X = Xy['X'][:, :, windows_size:-windows_size]
@@ -27,16 +28,15 @@ cv_lss = StratifiedKFold(n_splits=4, shuffle=True, random_state=seed_cv)
 
 clf = make_pipeline(
     StandardScaler(),  # z-score normalization
-    SelectFromModel(LassoCV(cv=cv_lss, tol=tol, normalize=False)),
     LinearModel(LogisticRegression(C=1, tol=tol, solver='lbfgs')))
 
 time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
 time_decod.fit(X, y)
-joblib.dump(time_decod, erf_mvpa + "source_cls_v_pln_evk_logreg_erf_lss.jbl")
+joblib.dump(time_decod, erf_mvpa + "source_cls_v_pln_evk_logreg_erf_tol.jbl")
 
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
 h5io.write_hdf5(
-    erf_mvpa + "source_cls_v_pln_evk_logreg_erf_lss.hd5",
+    erf_mvpa + "source_cls_v_pln_evk_logreg_erf_tols.hd5",
     scores,
     overwrite=True)
