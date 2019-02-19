@@ -59,12 +59,11 @@ for ii in (range(Xy['X'].shape[-1])):
         # Generate a row of results
         row = pd.DataFrame([{
             'kbest': opt.best_params_['selectkbest__k'],
-            'C': opt.best_params_['logisticregression__C'],
             'best_score': opt.best_score_,
             'time': ii
         }])
         results = pd.concat((results, row))
 
-        results.to_csv(erf_mvpa + 'skopt_results_lr_kbest_C.csv', index=False)
+        results.to_csv(erf_mvpa + 'skopt_results_lr_kbest.csv', index=False)
 
 joblib.dump(opts, erf_mvpa + 'skopt_results_lr_opts.pkl')
