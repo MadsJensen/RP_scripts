@@ -24,7 +24,7 @@ for band in bands:
 
     clf = make_pipeline(
         StandardScaler(),  # z-score normalization
-        LinearModel(LogisticRegression(C=1, tol=tol, solver='lbgfs')))
+        LinearModel(LogisticRegression(C=1, tol=tol, solver='lbfgs')))
 
     time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
