@@ -25,7 +25,7 @@ for condition in conditions:
     np.save(erf_mvpa + "X_%s_erf_RM.npy" % condition, X)
 
 for condition in conditions:
-    X = np.zeros((len(subjects), data_shape[1] / 2.,
+    X = np.zeros((len(subjects), int(data_shape[1] / 2.),
                   data_shape[2] - (windows_size * 2)))
 
     for jj, subject in enumerate(subjects):
