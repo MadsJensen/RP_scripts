@@ -1,6 +1,9 @@
-import numpy as np
+import h5io
 import mne
-from my_settings import (beamformer_results, beamformer_mvpa, bands, subjects)
+import numpy as np
+
+from my_settings import (beamformer_results, beamformer_mvpa, bands,
+                         subjects, make_rolling_mean_stc)
 
 for band in bands[:1]:
     for j, subject in enumerate(subjects):
@@ -16,8 +19,8 @@ for band in bands[:1]:
             ))
 
         X_tmp = np.empty((2, stc_cls.data.shape[0], stc_cls.data.shape[1]))
-        X_tmp[0, :] = stc_cls.data
-        X_tmp[1, :] = stc_pln.data
+        X_tmp[0, :] = make_rolling_mean_stc(stc_cls)
+        X_tmp[1, :] = make_rolling_mean_stc(stc_pln)
 
         if j == 0:
             X = X_tmp
@@ -27,6 +30,4 @@ for band in bands[:1]:
             y = np.concatenate((y, np.array((0, 1))))
 
     X_y = dict(X=X, y=y)
-    np.save(beamformer_mvpa + "X_cls_v_pln_%s.npy" % (band), X)
-
-np.save(beamformer_mvpa + "y_cls_v_pln.npy", y)
+    h5io.write_hdf5(beamformer_mvpa + "Xy_cls_v_pln_%s_RM.hd5" % band, X_y)
