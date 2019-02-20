@@ -13,10 +13,11 @@ from my_settings import beamformer_mvpa, bands
 n_jobs = int(sys.argv[1])
 seed = 234351
 tol = 1e-5
+window_size = 10
 
 for band in bands:
     Xy = h5io.read_hdf5(beamformer_mvpa + "Xy_cls_v_pln_%s_RM.hd5" % band)
-    X = Xy['X']
+    X = Xy['X'][:, :, window_size:-window_size]
     y = Xy['y']
 
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
