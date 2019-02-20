@@ -5,7 +5,7 @@ import numpy as np
 from my_settings import (beamformer_results, beamformer_mvpa, bands,
                          subjects, make_rolling_mean_stc)
 
-for band in bands[:1]:
+for band in bands:
     for j, subject in enumerate(subjects):
         stc_cls = mne.read_source_estimate(
             beamformer_results + "%s_classic_%s_cor_avg" % (
