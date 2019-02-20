@@ -33,7 +33,7 @@ clf = make_pipeline(
     StandardScaler(),  # z-score normalization
     SelectFromModel(
         LogisticRegression(C=1, solver='lbfgs', tol=tol),
-        threshold="2.5*mean"),
+        threshold="1.75*mean"),
     LinearModel(LogisticRegression(C=1, solver='lbfgs', tol=tol)))
 time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
