@@ -33,18 +33,18 @@ clf = make_pipeline(
     StandardScaler(),  # z-score normalization
     SelectFromModel(
         LogisticRegression(C=1, solver='lbfgs', tol=tol),
-        threshold="1*mean"),
+        threshold="2*mean"),
     LinearModel(LogisticRegression(C=1, solver='lbfgs', tol=tol)))
 time_decod = SlidingEstimator(clf, n_jobs=n_jobs, scoring='roc_auc')
 
 time_decod.fit(X, y)
 joblib.dump(
     time_decod, erf_mvpa +
-    "st_%s_v_%s_evk_logreg_erf_RM_sfm.jbl" % (condition_0, condition_1))
+    "st_%s_v_%s_evk_logreg_erf_RM_sfm_2.jbl" % (condition_0, condition_1))
 
 scores = cross_val_multiscore(time_decod, X, y, cv=cv)
 h5io.write_hdf5(
     erf_mvpa +
-    "st_%s_v_%s_evk_logreg_erf_RM_sfm.hd5" % (condition_0, condition_1),
+    "st_%s_v_%s_evk_logreg_erf_RM_sfm_2.hd5" % (condition_0, condition_1),
     scores,
     overwrite=True)
