@@ -15,7 +15,7 @@ seed = 234351
 tol = 1e-5
 
 for band in bands:
-    Xy = h5io.read_hdf5(beamformer_mvpa + "Xy_cls_v_pln_%s_RM.npy" % band)
+    Xy = h5io.read_hdf5(beamformer_mvpa + "Xy_cls_v_pln_%s_RM.hd5" % band)
     X = Xy['X']
     y = Xy['y']
 
