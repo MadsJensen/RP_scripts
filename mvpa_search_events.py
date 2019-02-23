@@ -49,4 +49,4 @@ for band in bands:
                 X[:, :, ii])
         rocs[ii] = roc_auc_score(y, mean_model.predict(X_std))
         h5io.write_hdf5(beamformer_mvpa + 'mean_model_rocs_%s.hd5' % band,
-                        rocs)
+                        rocs, overwrite=True)
