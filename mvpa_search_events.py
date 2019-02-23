@@ -5,7 +5,7 @@ import mne
 import numpy as np
 from mne.decoding import get_coef
 from sklearn.externals import joblib
-from sklearn.metrics import roc_auc_score
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import StratifiedKFold
 
 from my_settings import beamformer_mvpa, beamformer_results, bands
@@ -47,6 +47,8 @@ for band in bands:
         X_std = models.estimators_[
             time_idx_start + 750].named_steps['standardscaler'].transform(
                 X[:, :, ii])
-        rocs[ii] = roc_auc_score(y, mean_model.predict(X_std))
-        h5io.write_hdf5(beamformer_mvpa + 'mean_model_rocs_%s.hd5' % band,
-                        rocs, overwrite=True)
+        rocs[ii] = accuracy_score(y, mean_model.predict(X_std))
+        h5io.write_hdf5(
+            beamformer_mvpa + 'mean_model_rocs_%s_acc.hd5' % band,
+            rocs,
+            overwrite=True)
