@@ -48,4 +48,5 @@ for band in bands:
             time_idx_start + 750].named_steps['standardscaler'].transform(
                 X[:, :, ii])
         rocs[ii] = roc_auc_score(y, mean_model.predict(X_std))
-        h5io.write_hdf5(beamformer_mvpa + 'mean_model_rocs.hd5', rocs)
+        h5io.write_hdf5(beamformer_mvpa + 'mean_model_rocs_%s.hd5' % band,
+                        rocs)
