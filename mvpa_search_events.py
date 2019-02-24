@@ -3,12 +3,10 @@ import sys
 import h5io
 import mne
 import numpy as np
-from mne.decoding import get_coef
-from sklearn.externals import joblib
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
 
 from my_settings import (beamformer_mvpa, beamformer_results, bands,
                          results_folder)
@@ -79,5 +77,7 @@ for jj, band in enumerate(bands):
     if 'scores' in locals():
         scores = np.asarray(scores)
 
-        h5io.write_hdf5(beamformer_mvpa + 'mean_model_rocs_%s_roc.hd5' % band,
-                        scores)
+        h5io.write_hdf5(
+            beamformer_mvpa + 'mean_model_rocs_%s.hd5' % band,
+            scores,
+            overwrite=True)
