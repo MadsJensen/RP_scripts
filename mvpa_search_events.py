@@ -25,18 +25,18 @@ clusters = h5io.read_hdf5(results_folder + 'source_full_clusters.hd5')
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
 
 for jj, band in enumerate(bands):
+    print('Working on band: %s' % band)
     Xy = h5io.read_hdf5(beamformer_mvpa + "Xy_cls_v_pln_%s_RM.hd5" % band)
     X = Xy['X'][:, :, window_size:-window_size]
     y = Xy['y']
 
     # TODO Better time index
-    for cluster in clusters[jj]:
-        if ((times[cluster[0]] > -2.) and (times[cluster[1]] <
-                                                  -2.5)) and\
-                (times[cluster[0]] < -2.5):
-            print('sfd')
+    for cc, cluster in enumerate(clusters[jj]):
+        if (times[cluster[0]] < -2.5) and (times[cluster[1]] < -2.):
             time_idx_start = clusters[jj][0][0]
             time_idx_end = clusters[jj][1][1]
+            print('Working on cluster: %s to %s' % (times[time_idx_start],
+                                                    times[time_idx_end]))
 
             models = []
             std = []
@@ -71,13 +71,15 @@ for jj, band in enumerate(bands):
 
                 for tt in range(X.shape[-1]):
                     X_std = mean_std.transform(X[test, :, tt])
-                    rocs[tt] = roc_auc_score(y[test], mean_model.predict(X_std))
+                    rocs[tt] = roc_auc_score(y[test],
+                                             mean_model.predict(X_std))
 
                 scores.append(rocs)
 
-    scores = np.asarray(scores)
+    if len(scores) > 0:
+        scores = np.asarray(scores)
 
-    h5io.write_hdf5(
-        beamformer_mvpa + 'mean_model_rocs_%s_roc.hd5' % band,
-        scores,
-        overwrite=True)
+        h5io.write_hdf5(
+            beamformer_mvpa + 'mean_model_rocs_%s_roc.hd5' % band,
+            scores,
+            overwrite=True)
