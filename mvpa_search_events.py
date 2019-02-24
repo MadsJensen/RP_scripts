@@ -76,10 +76,8 @@ for jj, band in enumerate(bands):
 
                 scores.append(rocs)
 
-    if len(scores) > 0:
+    if 'scores' in locals():
         scores = np.asarray(scores)
 
-        h5io.write_hdf5(
-            beamformer_mvpa + 'mean_model_rocs_%s_roc.hd5' % band,
-            scores,
-            overwrite=True)
+        h5io.write_hdf5(beamformer_mvpa + 'mean_model_rocs_%s_roc.hd5' % band,
+                        scores)
