@@ -30,7 +30,7 @@ for jj, band in enumerate(bands):
 
     # TODO Better time index
     for cc, cluster in enumerate(clusters[jj]):
-        if (times[cluster[0]] < -2.5) and (times[cluster[1]] < -2.):
+        if (times[cluster[0]] > -2.5) and (times[cluster[1]] < -2.):
             time_idx_start = clusters[jj][0][0]
             time_idx_end = clusters[jj][1][1]
             print('Working on cluster: %s to %s' % (times[time_idx_start],
