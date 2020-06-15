@@ -28,6 +28,7 @@ erf_source = data_path + "erf_source/"
 erf_results = data_path + "erf_results/"
 erf_mvpa = data_path + "erf_mvpa/"
 
+dict_learning = data_path + "dict_learning"
 # Misc
 reject_params = dict(
     grad=4000e-13,  # T / m (gradiometers)
@@ -45,6 +46,9 @@ subjects = [
 # Bands
 iter_freqs = [('Alpha', 8, 12), ('Beta', 13, 30), ('Gamma_low', 30, 45),
               ('Gamma_high_1', 55, 70), ('Gamma_high_2', 70, 90)]
+
+# iter_freqs = [('Alpha', 8, 12), ('Beta', 13, 25), ('Gamma_low', 25, 40),
+#               ('Gamma_high_1', 60, 75), ('Gamma_high_2', 75, 90)]
 
 
 # Functions
