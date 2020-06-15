@@ -12,15 +12,14 @@ subject = sys.argv[1]
 
 condtions = list(conditions.keys())  # only need the keys
 
-# AlphaCSC settings
-# Define the shape of the dictionary
-n_atoms = 15
-n_times_atom = int(round(sfreq * 1.0))  # 1000. ms
-
 for condition in conditions:
     epo = mne.read_epochs(
         erf_raw + "{}_{}_ar_grads_erf-epo.fif".format(subject[:4], condition))
     sfreq = epo.info['sfreq']
+
+    # Define the shape of the dictionary
+    n_atoms = 15
+    n_times_atom = int(round(sfreq * 1.0))  # 1000. ms
 
     cdl = BatchCDL(
         # Shape of the dictionary
