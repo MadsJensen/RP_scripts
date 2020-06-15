@@ -19,7 +19,7 @@ n_times_atom = int(round(sfreq * 1.0))  # 1000. ms
 
 for condition in conditions:
     epo = mne.read_epochs(
-        erf_raw + "{}_{}_ar_grads_erf-epo.fif".format(subject, condition))
+        erf_raw + "{}_{}_ar_grads_erf-epo.fif".format(subject[:4], condition))
     sfreq = epo.info['sfreq']
 
     cdl = BatchCDL(
@@ -56,4 +56,4 @@ for condition in conditions:
     cdl.fit(X)
 
     joblib.dump(dict_learning +
-                '{}_{}_ar_grads_csc.jbl'.format(subject, condition))
+                '{}_{}_ar_grads_csc.jbl'.format(subject[:4], condition))
