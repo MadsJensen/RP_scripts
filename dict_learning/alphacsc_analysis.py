@@ -54,5 +54,6 @@ for condition in conditions:
 
     cdl.fit(X)
 
-    joblib.dump(dict_learning +
-                '{}_{}_ar_grads_csc.jbl'.format(subject[:4], condition))
+    joblib.dump(
+        cdl, dict_learning +
+        '{}_{}_ar_grads_csc.jbl'.format(subject[:4], condition))
