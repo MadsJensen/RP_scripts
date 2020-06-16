@@ -19,7 +19,7 @@ for condition in conditions:
 
     # Define the shape of the dictionary
     n_atoms = 20
-    n_times_atom = epo.times[::2]
+    n_times_atom = len(epo.times[::2])
 
     cdl = BatchCDL(
         # Shape of the dictionary
