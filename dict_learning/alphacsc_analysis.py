@@ -45,6 +45,7 @@ for condition in conditions:
         # solver for the d-step
         solver_d='alternate_adaptive',
         solver_d_kwargs={'max_iter': 300},
+        sort_atoms=True,
         # Technical parameters
         verbose=1,
         random_state=random_nr,
