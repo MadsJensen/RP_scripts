@@ -1,10 +1,10 @@
 import sys
-
+import numpy as np
 import h5io
 from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
 from sklearn.externals import joblib
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import LeaveOneGroupOut
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -20,7 +20,8 @@ for band in bands:
     X = Xy['X'][:, :, window_size:-window_size]
     y = Xy['y']
 
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
+    groups_cv = np.repeat(np.arange(0, (len(y) / 2), 1), 2)
+    cv = LeaveOneGroupOut()
 
     clf = make_pipeline(
         StandardScaler(),  # z-score normalization
@@ -33,7 +34,7 @@ for band in bands:
         time_decod,
         beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_RM.jbl" % band)
 
-    scores = cross_val_multiscore(time_decod, X, y, cv=cv)
+    scores = cross_val_multiscore(time_decod, X, y, cv=cv, groups=groups_cv)
     h5io.write_hdf5(
         beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_RM.hd5" % band,
         scores)
