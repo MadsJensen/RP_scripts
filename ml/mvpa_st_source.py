@@ -2,7 +2,7 @@ import sys
 import numpy as np
 import h5io
 from mne.decoding import (SlidingEstimator, cross_val_multiscore, LinearModel)
-from sklearn.externals import joblib
+import joblib
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import LeaveOneGroupOut
 from sklearn.pipeline import make_pipeline
