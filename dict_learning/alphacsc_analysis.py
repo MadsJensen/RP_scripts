@@ -18,8 +18,8 @@ for condition in conditions:
     sfreq = epo.info['sfreq']
 
     # Define the shape of the dictionary
-    n_atoms = 15
-    n_times_atom = int(round(sfreq * 1.0))  # 1000. ms
+    n_atoms = 20
+    n_times_atom = epo.times[::2]
 
     cdl = BatchCDL(
         # Shape of the dictionary
