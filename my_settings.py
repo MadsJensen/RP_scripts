@@ -28,7 +28,7 @@ erf_source = data_path + "erf_source/"
 erf_results = data_path + "erf_results/"
 erf_mvpa = data_path + "erf_mvpa/"
 
-dict_learning = data_path + "dict_learning"
+dict_learning = data_path + "dict_learning/"
 # Misc
 reject_params = dict(
     grad=4000e-13,  # T / m (gradiometers)
