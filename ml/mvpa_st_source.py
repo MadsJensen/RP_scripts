@@ -32,9 +32,9 @@ for band in bands:
     time_decod.fit(X, y)
     joblib.dump(
         time_decod,
-        beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_RM.jbl" % band)
+        beamformer_mvpa + "source_cls_v_pln_itc_logreg_%s_RM.jbl" % band)
 
     scores = cross_val_multiscore(time_decod, X, y, cv=cv, groups=groups_cv)
     h5io.write_hdf5(
-        beamformer_mvpa + "source_cls_v_pln_itc_evk_logreg_%s_RM.hd5" % band,
+        beamformer_mvpa + "source_cls_v_pln_itc_logreg_%s_RM.hd5" % band,
         scores)
