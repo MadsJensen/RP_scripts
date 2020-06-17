@@ -21,11 +21,12 @@ for condition in conditions:
     fig = plot_atoms(cdl, plotted_atoms=[0, 1, 2, 3, 4])
 
     plt.title("subject: {}; condition: {}".format(subject, condition))
+    fig.tight_layout()
     plt.savefig(dict_learning +
                 'plots/{}_{}_atoms_0.png'.format(subject[:4], condition))
 
     fig = plot_atoms(cdl, plotted_atoms=[5, 6, 7, 8, 9])
-
     plt.title("subject: {}; condition: {}".format(subject, condition))
+    fig.tight_layout()
     plt.savefig(dict_learning +
                 'plots/{}_{}_atoms_1.png'.format(subject[:4], condition))

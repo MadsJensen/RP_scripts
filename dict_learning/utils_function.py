@@ -52,8 +52,6 @@ def plot_atoms(cdl, plotted_atoms, show=False):
         ax.legend()
     print("\rDisplayed {} atoms".format(len(plotted_atoms)).rjust(40))
 
-    fig.tight_layout()
-
     if show:
         plt.show()
 
