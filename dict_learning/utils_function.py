@@ -3,7 +3,7 @@ import numpy as np
 import mne
 
 
-def plot_atoms(cdl, plotted_atoms, show=False):
+def plot_atoms(cdl, plotted_atoms, show=False, info=info, t=t):
 
     # preselected atoms of interest
     n_plots = 3  # number of plots by atom
