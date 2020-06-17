@@ -2,6 +2,7 @@ import sys
 
 import joblib
 import mne
+from mne.decoding import Scaler
 from alphacsc import BatchCDL
 
 from my_settings import erf_raw, dict_learning, conditions
@@ -52,9 +53,10 @@ for condition in conditions:
         n_jobs=1)
 
     X = epo.get_data()
+    X = Scaler().fit_transform(X, scaling='mean')
 
     cdl.fit(X)
 
     joblib.dump(
         cdl, dict_learning +
-        '{}_{}_ar_grads_csc.jbl'.format(subject[:4], condition))
+        '{}_{}_ar_grads_std_csc.jbl'.format(subject[:4], condition))
