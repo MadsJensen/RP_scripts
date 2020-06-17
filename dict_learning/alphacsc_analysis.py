@@ -52,8 +52,9 @@ for condition in conditions:
         random_state=random_nr,
         n_jobs=1)
 
+    std_scl = Scaler(scalings="mean")
     X = epo.get_data()
-    X = Scaler().fit_transform(X, scaling='mean')
+    X = std_scl.fit_transform(X)
 
     cdl.fit(X)
 
