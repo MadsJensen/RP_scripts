@@ -5,7 +5,7 @@ from my_settings import erf_raw
 
 epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf-epo.fif")
 info = epo.info
-sfreq = inof['sfreq']
+sfreq = info['sfreq']
 t = epo.times[::2]
 
 
