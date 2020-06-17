@@ -16,9 +16,9 @@ conditions = list(conditions.keys())  # only need the keys
 
 for condition in conditions:
     cdl = joblib.load(dict_learning +
-                      '{}_{}_ar_grads_csc.jbl'.format(subject, condition))
+                      '{}_{}_ar_grads_csc.jbl'.format(subject[:4], condition))
 
     fig = plot_atoms(cdl, plotted_atoms=[0, 1, 2, 3, 4])
 
     plt.savefig(dict_learning +
-                'plots/{}_{}_atoms.png'.format(subject, condition))
+                'plots/{}_{}_atoms.png'.format(subject[:4], condition))
