@@ -1,9 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import mne
+from my_settings import erf_raw
+
+epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf-epo.fif")
+info = epo.info
+t = epo.times[::2]
 
 
-def plot_atoms(cdl, plotted_atoms, show=False, info=info, t=t):
+def plot_atoms(cdl, plotted_atoms, show=False):
 
     # preselected atoms of interest
     n_plots = 3  # number of plots by atom
