@@ -20,4 +20,5 @@ for condition in conditions:
 
     fig = plot_atoms(cdl, plotted_atoms=[0, 1, 2, 3, 4])
 
-    plt.savefig(dict_learning + '{}_{}_atoms.png'.format(subject, condition))
+    plt.savefig(dict_learning +
+                'plots/{}_{}_atoms.png'.format(subject, condition))
