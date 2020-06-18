@@ -1,8 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
 """
-Created on Thu Dec  7 14:40:18 2017
-
 @author: mje
 """
 
@@ -77,15 +73,24 @@ for condition in conditions.keys():
                         verbose=False,
                         detrend=0,
                         preload=True)
+
     # Setup AutoReject
-    ar = AutoReject(
-        n_interpolates,
-        consensus=consensus,
-        picks=picks,
-        thresh_method="bayesian_optimization",
-        random_state=random_state,
-        n_jobs=n_jobs,
+    picks_ar = mne.pick_types(
+        epochs.info,
+        meg='grad',
+        eeg=False,
+        eog=False,
+        include=[],
+        exclude=[],
     )
+
+    ar = AutoReject(n_interpolates,
+                    consensus=consensus,
+                    picks=picks_ar,
+                    thresh_method="bayesian_optimization",
+                    random_state=random_state,
+                    n_jobs=n_jobs,
+                    verbose='tqdm')
     ar.fit(epochs)
 
     epochs.save(erf_raw + "%s_%s_grads_erf_hg-epo.fif" %
