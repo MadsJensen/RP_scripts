@@ -27,7 +27,7 @@ for condition in conditions:
                 'plots/{}_{}_std_atoms_0.png'.format(subject[:4], condition))
 
     fig = plot_atoms(cdl, plotted_atoms=[5, 6, 7, 8, 9])
-    plt.title("subject: {}; condition: {}".format(subject, condition))
+    plt.title("subject: {}; condition: {}".format(subject[:4], condition))
     fig.tight_layout()
     plt.savefig(dict_learning +
                 'plots/{}_{}_std_atoms_1.png'.format(subject[:4], condition))
