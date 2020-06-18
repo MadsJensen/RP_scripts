@@ -9,7 +9,7 @@ Created on Thu Dec  7 14:40:18 2017
 import sys
 import numpy as np
 import mne  # noqa
-from autoreject import (LocalAutoRejectCV, compute_thresholds)
+from autoreject import AutoReject
 from functools import partial  # noqa
 from my_settings import erf_raw, conditions
 from stormdb.access import Query
@@ -77,13 +77,15 @@ for condition in conditions.keys():
                         verbose=False,
                         detrend=0,
                         preload=True)
-
-    thresh_func = partial(compute_thresholds,
-                          picks=picks,
-                          method='random_search',
-                          random_state=random_state)
-
-    ar = LocalAutoRejectCV(n_interpolates, consensus, thresh_func=thresh_func)
+    # Setup AutoReject
+    ar = AutoReject(
+        n_interpolates,
+        consensus=consensus,
+        picks=picks,
+        thresh_method="bayesian_optimization",
+        random_state=random_state,
+        n_jobs=n_jobs,
+    )
     ar.fit(epochs)
 
     epochs.save(erf_raw + "%s_%s_grads_erf_hg-epo.fif" %
