@@ -15,7 +15,8 @@ condtions = list(conditions.keys())  # only need the keys
 
 for condition in conditions:
     epo = mne.read_epochs(
-        erf_raw + "{}_{}_ar_grads_erf-epo.fif".format(subject[:4], condition))
+        erf_raw +
+        "{}_{}_ar_grads_erf_hg-epo.fif".format(subject[:4], condition))
     sfreq = epo.info['sfreq']
 
     # Define the shape of the dictionary
@@ -60,4 +61,4 @@ for condition in conditions:
 
     joblib.dump(
         cdl, dict_learning +
-        '{}_{}_ar_grads_std_csc.jbl'.format(subject[:4], condition))
+        '{}_{}_ar_grads_hg_std_csc.jbl'.format(subject[:4], condition))
