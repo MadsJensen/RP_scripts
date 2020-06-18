@@ -34,7 +34,7 @@ decim = 4  # decim value
 
 event_id = {"press": 1}
 tmin, tmax = -3.5, 0.5
-baseline = (None, 3.2)
+baseline = (None, -3.2)
 
 for condition in conditions.keys():
     series = qr.get_files(subj_id=subject,
