@@ -3,7 +3,7 @@ import numpy as np
 import mne
 from my_settings import erf_raw
 
-epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf-epo.fif")
+epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf_hg-epo.fif")
 info = epo.info
 sfreq = info['sfreq']
 t = epo.times[::2]
@@ -47,7 +47,7 @@ def plot_atoms(cdl, plotted_atoms, show=False):
         ax.set(xlabel='Frequencies (Hz)',
                title="Power spectral density %d" % kk)
         ax.grid(True)
-        ax.set_xlim(0, 30)
+        ax.set_xlim(info['highpass'], info['lowpass'])
         ax.set_ylim(1e-4, 1e2)
         ax.legend()
     print("\rDisplayed {} atoms".format(len(plotted_atoms)).rjust(40))

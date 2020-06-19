@@ -8,7 +8,7 @@ import mne
 import joblib
 
 subject = sys.argv[1]
-epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf-epo.fif")
+epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf_hg-epo.fif")
 info = epo.info
 t = epo.times[::2]
 
@@ -29,3 +29,4 @@ for condition in conditions:
         plt.savefig(
             dict_learning +
             'plots/{}_{}_std_atoms_{}.png'.format(subject[:4], condition, jj))
+        plt.close('all')
