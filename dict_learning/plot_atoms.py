@@ -14,20 +14,18 @@ t = epo.times[::2]
 
 conditions = list(conditions.keys())  # only need the keys
 
+atom_sets = [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14],
+             [15, 16, 17, 18, 19]]
+
 for condition in conditions:
     cdl = joblib.load(
         dict_learning +
         '{}_{}_ar_grads_std_csc.jbl'.format(subject[:4], condition))
 
-    fig = plot_atoms(cdl, plotted_atoms=[0, 1, 2, 3, 4])
-
-    plt.title("subject: {}; condition: {}".format(subject, condition))
-    fig.tight_layout()
-    plt.savefig(dict_learning +
-                'plots/{}_{}_std_atoms_0.png'.format(subject[:4], condition))
-
-    fig = plot_atoms(cdl, plotted_atoms=[5, 6, 7, 8, 9])
-    plt.title("subject: {}; condition: {}".format(subject[:4], condition))
-    fig.tight_layout()
-    plt.savefig(dict_learning +
-                'plots/{}_{}_std_atoms_1.png'.format(subject[:4], condition))
+    for jj, atom_set in enumerate(atom_sets):
+        fig = plot_atoms(cdl, plotted_atoms=atom_set)
+        plt.title("subject: {}; condition: {}".format(subject, condition))
+        fig.tight_layout()
+        plt.savefig(
+            dict_learning +
+            'plots/{}_{}_std_atoms_{}.png'.format(subject[:4], condition, jj))
