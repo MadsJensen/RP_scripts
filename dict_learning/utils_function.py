@@ -47,8 +47,8 @@ def plot_atoms(cdl, plotted_atoms, show=False):
         ax.set(xlabel='Frequencies (Hz)',
                title="Power spectral density %d" % kk)
         ax.grid(True)
-        ax.set_xlim(info['highpass'], info['lowpass'])
-        ax.set_ylim(1e-4, 1e2)
+        ax.set_xlim(0, info['lowpass'])
+        # ax.set_ylim(1e-4, 1e2)
         ax.legend()
     print("\rDisplayed {} atoms".format(len(plotted_atoms)).rjust(40))
 
