@@ -10,7 +10,7 @@ import joblib
 subject = sys.argv[1]
 epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf_hg-epo.fif")
 info = epo.info
-t = epo.times[::2]
+t = epo.times[::4]
 
 conditions = list(conditions.keys())  # only need the keys
 

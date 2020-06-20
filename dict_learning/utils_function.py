@@ -6,7 +6,7 @@ from my_settings import erf_raw
 epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf_hg-epo.fif")
 info = epo.info
 sfreq = info['sfreq']
-t = epo.times[::2]
+t = epo.times[::4]
 
 
 def plot_atoms(cdl, plotted_atoms, show=False):
