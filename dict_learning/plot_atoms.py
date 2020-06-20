@@ -10,8 +10,6 @@ import joblib
 subject = sys.argv[1]
 epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf_hg-epo.fif")
 info = epo.info
-t = epo.times[::4]
-
 conditions = list(conditions.keys())  # only need the keys
 
 atom_sets = [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14],
@@ -20,7 +18,8 @@ atom_sets = [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14],
 for condition in conditions:
     cdl = joblib.load(
         dict_learning +
-        '{}_{}_ar_grads_std_csc.jbl'.format(subject[:4], condition))
+        '{}_{}_ar_grads_hg_std_csc.jbl'.format(subject[:4], condition))
+    t = epo.times[np.linspace(0, 2000, cdl.v_hat_.shape[-1]).astype('int')]
 
     for jj, atom_set in enumerate(atom_sets):
         fig = plot_atoms(cdl, plotted_atoms=atom_set)

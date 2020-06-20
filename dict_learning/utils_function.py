@@ -6,8 +6,6 @@ from my_settings import erf_raw
 epo = mne.read_epochs(erf_raw + "0008_classic_ar_grads_erf_hg-epo.fif")
 info = epo.info
 sfreq = info['sfreq']
-t = epo.times[::4]
-
 
 def plot_atoms(cdl, plotted_atoms, show=False):
 
@@ -15,6 +13,7 @@ def plot_atoms(cdl, plotted_atoms, show=False):
     n_plots = 3  # number of plots by atom
     n_columns = min(6, len(plotted_atoms))
     split = int(np.ceil(len(plotted_atoms) / n_columns))
+    t = epo.times[np.linspace(0, 2000, cdl.v_hat_.shape[-1]).astype('int')]
     figsize = (4 * n_columns, 3 * n_plots * split)
     fig, axes = plt.subplots(n_plots * split, n_columns, figsize=figsize)
     for ii, kk in enumerate(plotted_atoms):
