@@ -20,8 +20,8 @@ for condition in conditions:
     sfreq = epo.info['sfreq']
 
     # Define the shape of the dictionary
-    n_atoms = 20
-    n_times_atom = len(epo.times[::5])
+    n_atoms = 40
+    n_times_atom = len(epo.times[::4])
 
     cdl = BatchCDL(
         # Shape of the dictionary
@@ -36,17 +36,17 @@ for condition in conditions:
         lmbd_max="scaled",
         reg=.2,
         # Number of iteration for the alternate minimization and cvg threshold
-        n_iter=500,
+        n_iter=100,
         eps=1e-4,
         # solver for the z-step
         solver_z="lgcd",
         solver_z_kwargs={
             'tol': 1e-2,
-            'max_iter': 5000
+            'max_iter': 1000
         },
         # solver for the d-step
         solver_d='alternate_adaptive',
-        solver_d_kwargs={'max_iter': 500},
+        solver_d_kwargs={'max_iter': 300},
         sort_atoms=True,
         # Technical parameters
         verbose=1,
